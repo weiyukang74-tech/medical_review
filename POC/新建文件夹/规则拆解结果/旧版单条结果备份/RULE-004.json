@@ -1,0 +1,15 @@
+{
+  "status": "READY",
+  "appeal_goal": "证明患者本次就诊的主要诊断为原发性高血压。",
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者本次就诊的主要诊断或有效诊断为原发性高血压。",
+      "verification_mode": "EVIDENCE"
+    }
+  ],
+  "logical_expression": "F01",
+  "time_requirements": "本次疑点费用对应的就诊周期",
+  "calculations": [],
+  "unresolved": []
+}

@@ -1,0 +1,181 @@
+{
+  "rule_id": "RULE-005",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 AND P02",
+    "basis_quotes": [
+      "艾拉莫德片限活动性类风湿关节炎患者的二线治疗。",
+      "证明患者符合‘活动性类风湿关节炎’诊断，且本次使用艾拉莫德片是基于既往一线治疗无效或不适宜的‘二线治疗’决策。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "确认本次就诊的主要诊断是否为类风湿关节炎。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "类风湿性关节炎"
+        }
+      ],
+      "reason": "结构化诊断数据中明确包含“类风湿性关节炎”，支持该事实。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "活动进展",
+      "target_fact": "确认类风湿关节炎是否处于活动期（如关节肿胀数、压痛数、炎症指标升高等表现）。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119124777-01",
+          "location": "诊断",
+          "quote": "类风湿性关节炎(活动期)"
+        }
+      ],
+      "reason": "门诊病历诊断字段明确记录为“类风湿性关节炎(活动期)”，直接支持疾病处于活动期的事实。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "检验",
+      "二级证据标签": "检验结果",
+      "target_fact": "获取血沉(ESR)、C反应蛋白(CRP)等反映疾病活动度的实验室检查结果。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，未获取到相关检验报告。由于主要事实已由诊断名称支持，此补充事实缺失不影响命题结论。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "评估",
+      "二级证据标签": "量表评分",
+      "target_fact": "获取DAS28等类风湿关节炎疾病活动度评分结果。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，未获取到相关量表评分。此补充事实缺失不影响命题结论。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "既往治疗",
+      "target_fact": "查明患者在本次处方艾拉莫德片之前，是否使用过其他改善病情抗风湿药(DMARDs)，如甲氨蝶呤、来氟米特等。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119124777-01",
+          "location": "内容",
+          "quote": "干燥综合征伴肺间质病变复诊，坚持服药，病情稳定，继续前方案治疗。"
+        }
+      ],
+      "reason": "病历仅提及“继续前方案治疗”和“坚持服药”，并列出了当前处方（硫酸羟氯喹、艾拉莫德、吗替麦考酚酯），但未明确说明在启用艾拉莫德之前是否曾单独或联合使用过其他DMARDs（如甲氨蝶呤）并因何原因调整。无法从现有文本确证存在明确的“既往一线药物治疗史”。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗反应",
+      "target_fact": "查明既往一线药物治疗的效果评价，是否存在疗效不佳的情况。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119124777-01",
+          "location": "内容",
+          "quote": "干燥综合征伴肺间质病变复诊，坚持服药，病情稳定，继续前方案治疗。"
+        }
+      ],
+      "reason": "病历描述为“病情稳定，继续前方案治疗”，未提及既往治疗失败、疗效不佳或需要升级治疗的理由。缺乏支持“二线治疗”必要性的关键证据。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗不适宜",
+      "target_fact": "查明是否存在因禁忌症、严重不良反应等原因导致无法继续使用一线药物的情况。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，且门诊病历中未记载任何关于禁忌症或严重不良反应导致停药的信息。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "从病程记录中提取关于调整治疗方案原因的医生叙述。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119124777-01",
+          "location": "内容",
+          "quote": "干燥综合征伴肺间质病变复诊，坚持服药，病情稳定，继续前方案治疗。"
+        }
+      ],
+      "reason": "病历未提供调整方案的具体原因叙述，仅表示继续前方案。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "用药",
+      "二级证据标签": "用药反应",
+      "target_fact": "查找既往用药期间出现的不良事件记录。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，未获取到相关记录。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "所有REQUIRED事实均被支持：诊断明确为类风湿性关节炎，且病历明确标注为活动期。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "UNKNOWN",
+      "reason": "多个REQUIRED事实状态为UNKNOWN。病历仅显示“继续前方案治疗”，未提供既往使用其他DMARDs作为一线治疗的历史，也未提供一线治疗失败、不耐受或不适宜的证据。无法证明艾拉莫德是作为“二线治疗”使用的。"
+    }
+  ],
+  "overall_logic_status": "UNKNOWN",
+  "review_status": "OPEN",
+  "case_status": "待补充证据",
+  "final_conclusion": {
+    "result": "暂无法判定",
+    "is_final": false,
+    "reason": "P01已证实患者符合活动性类风湿关节炎诊断，但P02关于“二线治疗”的关键证据缺失。现有病历未体现既往一线治疗史及其失败/不适宜原因，无法判断是否符合支付限制中的“二线治疗”要求。需补充既往治疗记录以闭合逻辑。"
+  },
+  "supplemental_evidence_requests": [
+    {
+      "proposition_id": "P02",
+      "target_fact": "查明患者在本次处方艾拉莫德片之前，是否使用过其他改善病情抗风湿药(DMARDs)，如甲氨蝶呤、来氟米特等。",
+      "requested_data": "既往门诊或住院病历中关于使用甲氨蝶呤、来氟米特等其他DMARDs的记录，以及停用或换用艾拉莫德的原因说明。",
+      "requested_source": "DS-M-OP-001 门诊病历 (历史版本), DS-M-IP-003 首次病程记录, DS-M-IP-004 日常病程记录",
+      "reason": "当前病历仅提及“继续前方案”，未明确前方案具体药物及为何引入艾拉莫德。需确认是否存在一线治疗失败或不适宜的情况，以支持“二线治疗”的合规性。"
+    },
+    {
+      "proposition_id": "P02",
+      "target_fact": "查明既往一线药物治疗的效果评价，是否存在疗效不佳的情况。",
+      "requested_data": "既往治疗期间的疗效评估记录，或医生关于调整治疗方案至艾拉莫德的临床理由记录。",
+      "requested_source": "DS-M-OP-001 门诊病历 (历史版本), DS-M-IP-021 出院记录或出院小结",
+      "reason": "缺乏疗效不佳或需要升级治疗的证据，无法排除违规使用二线药物的嫌疑。"
+    }
+  ],
+  "manual_review_reason": null
+}

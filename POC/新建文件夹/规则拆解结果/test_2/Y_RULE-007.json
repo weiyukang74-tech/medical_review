@@ -1,0 +1,44 @@
+{
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者是否为成人"
+    },
+    {
+      "fact_id": "F02",
+      "description": "患者是否为6岁及以上儿童"
+    },
+    {
+      "fact_id": "F03",
+      "description": "患者是否患有慢性免疫性(特发性)血小板减少症(ITP)"
+    },
+    {
+      "fact_id": "F04",
+      "description": "患者既往是否接受过糖皮质激素治疗"
+    },
+    {
+      "fact_id": "F05",
+      "description": "患者既往是否接受过免疫球蛋白等治疗"
+    },
+    {
+      "fact_id": "F06",
+      "description": "患者对糖皮质激素、免疫球蛋白等治疗反应是否不佳"
+    },
+    {
+      "fact_id": "F07",
+      "description": "患者是否患重型再生障碍性贫血(SAA)"
+    },
+    {
+      "fact_id": "F08",
+      "description": "患者既往是否接受过免疫抑制治疗"
+    },
+    {
+      "fact_id": "F09",
+      "description": "患者对免疫抑制治疗的缓解是否不充分"
+    }
+  ],
+  "logical_expression": "((F01 OR F02) AND F03 AND (F04 OR F05) AND F06) OR (F07 AND F08 AND F09)",
+  "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+  "time_requirements": "按该规则及疑点费用发生时间核实",
+  "unresolved": []
+}

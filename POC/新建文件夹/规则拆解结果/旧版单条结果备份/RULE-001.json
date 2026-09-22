@@ -1,0 +1,22 @@
+{
+  "status": "READY",
+  "appeal_goal": "证明患者本次就诊的诊断符合胰岛素治疗指征，且该针头实际用于胰岛素注射。",
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者本次就诊的诊断明确为需使用胰岛素治疗的疾病。",
+      "verification_mode": "EVIDENCE"
+    },
+    {
+      "fact_id": "F02",
+      "description": "病历记录或医嘱明确记载该注射笔针头实际用于胰岛素注射。",
+      "verification_mode": "EVIDENCE"
+    }
+  ],
+  "logical_expression": "F01 AND F02",
+  "time_requirements": "本次疑点费用对应的就诊周期",
+  "calculations": [],
+  "unresolved": [
+    "原始描述未明确限定具体的诊断编码范围或胰岛素支付的临床判定标准。"
+  ]
+}

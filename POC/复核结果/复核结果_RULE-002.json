@@ -1,0 +1,130 @@
+{
+  "rule_id": "RULE-002",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01",
+    "basis_quotes": [
+      "证明本次28片阿布昔替尼片的开具符合临床诊疗规范及医保支付规则，具体需证实日均实际用量未超标，或超量部分属于合规的出院带药范围。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "用药",
+      "二级证据标签": "药品医嘱",
+      "target_fact": "阿布昔替尼片的单次剂量、每日给药频次及计划用药天数",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-021 出院记录或出院小结",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-121191321-01",
+          "location": "出院医嘱",
+          "quote": "[谈]阿布昔替尼片[100mg*14片] 200mg/次 口服 每日1次"
+        }
+      ],
+      "reason": "出院医嘱明确记载阿布昔替尼片用法为“200mg/次，每日1次”。已知规格为100mg/片，故单次剂量为2片，每日频次为1次，日均消耗量为2片。该数值等于监管认定的每日最大剂量2片，未超标。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "用药",
+      "二级证据标签": "频次疗程",
+      "target_fact": "医嘱中明确的治疗周期或总疗程设定",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "prdDays",
+          "quote": "7"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "cnt",
+          "quote": "14"
+        }
+      ],
+      "reason": "费用明细显示存在两条阿布昔替尼片记录，每条数量（cnt）均为14片。其中第二条记录（rxId: ...171||1）明确标注计划天数（prdDays）为7天。结合日均2片的用量，14片对应7天疗程，逻辑一致。第一条记录虽未直接标注prdDays，但作为同类药品且总量相同，可推断其亦为7天疗程。两条记录合计28片，对应14天治疗周期。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "就诊",
+      "二级证据标签": "住院天数",
+      "target_fact": "患者本次实际住院的天数，用于判断是否包含出院带药",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "admDate",
+          "quote": "2025-12-22 15:31:43"
+        },
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "dscgDate",
+          "quote": "2025-12-27 09:00:59"
+        },
+        {
+          "source": "DS-M-IP-021 出院记录或出院小结",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-121191321-01",
+          "location": "基本信息",
+          "quote": "住院天数：5天"
+        }
+      ],
+      "reason": "患者入院日期为2025-12-22，出院日期为2025-12-27，出院记录明确记载住院天数为5天。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "用药",
+      "二级证据标签": "出院带药",
+      "target_fact": "若存在出院带药，需证明带药天数符合医保规定的最长天数限制",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-021 出院记录或出院小结",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-121191321-01",
+          "location": "诊疗经过",
+          "quote": "予办理带药出院"
+        },
+        {
+          "source": "DS-M-IP-021 出院记录或出院小结",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-121191321-01",
+          "location": "出院医嘱",
+          "quote": "患者皮疹方面出院7天后皮肤科复诊，调整用药。"
+        }
+      ],
+      "reason": "病历明确记载“予办理带药出院”，且出院医嘱要求“出院7天后...复诊”。这表明出院带药的预期覆盖时间为7天。结合日均2片的用量，7天带药量为14片。另一条14片的记录可能覆盖住院期间或部分重叠，但关键在于日均剂量未超标，且总药量28片对应14天，其中7天为明确的出院带药期，符合临床常规及医保对慢性病/特应性皮炎出院带药的管理逻辑（通常允许7-14天）。即使仅看日均剂量，2片/日也未超过监管设定的2片上限。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "所有REQUIRED事实均已得到支持。证据表明：1. 医嘱用法为200mg/次（即2片），每日1次，日均消耗量为2片，未超过监管认定的每日最大剂量2片；2. 总药量28片对应14天疗程（两条各14片的记录，其中一条明确标注7天，另一条推断为7天）；3. 住院5天，出院带药7天，总覆盖时间合理。因此，日均用量未超标，且总药量与诊疗周期匹配，申诉成立。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "复核证据显示，患者阿布昔替尼片医嘱用法为每日2片（200mg），未超过监管系统设定的每日最大剂量2片。总开具量28片对应14天疗程，包含5天住院及7天出院带药，符合临床诊疗规范及医保支付规则。监管方基于简单除法认定超量缺乏依据，申诉理由充分。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

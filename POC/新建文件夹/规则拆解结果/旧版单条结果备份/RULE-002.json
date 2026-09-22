@@ -1,0 +1,25 @@
+{
+  "status": "READY",
+  "appeal_goal": "证明本次开具的28片药量未超出基于实际用药天数与规定日最大剂量计算出的合理限额。",
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "本次处方实际用药天数与每日最大允许剂量（2片）的乘积大于或等于28片。",
+      "verification_mode": "CALCULATION"
+    }
+  ],
+  "logical_expression": "F01",
+  "time_requirements": "本次疑点费用对应的就诊周期",
+  "calculations": [
+    {
+      "fact_id": "F01",
+      "question": "计算实际用药天数与每日最大允许剂量（2片）的乘积，并验证结果是否大于或等于28片。",
+      "required_inputs": [
+        "本次处方实际用药天数"
+      ]
+    }
+  ],
+  "unresolved": [
+    "系统判定超出药量16片所依据的默认用药天数或计算基准未明确"
+  ]
+}

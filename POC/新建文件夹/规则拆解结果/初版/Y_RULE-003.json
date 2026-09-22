@@ -1,0 +1,52 @@
+{
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者是否接受过激素治疗"
+    },
+    {
+      "fact_id": "F02",
+      "description": "患者是否接受过生物制剂治疗"
+    },
+    {
+      "fact_id": "F03",
+      "description": "患者是否对激素治疗应答不佳"
+    },
+    {
+      "fact_id": "F04",
+      "description": "患者是否对生物制剂治疗应答不佳"
+    },
+    {
+      "fact_id": "F05",
+      "description": "患者是否不适宜接受激素治疗"
+    },
+    {
+      "fact_id": "F06",
+      "description": "患者是否不适宜接受生物制剂治疗"
+    },
+    {
+      "fact_id": "F07",
+      "description": "患者是否患有特应性皮炎"
+    },
+    {
+      "fact_id": "F08",
+      "description": "患者是否为难治性特应性皮炎"
+    },
+    {
+      "fact_id": "F09",
+      "description": "患者是否为中重度特应性皮炎"
+    },
+    {
+      "fact_id": "F10",
+      "description": "患者是否为成人"
+    },
+    {
+      "fact_id": "F11",
+      "description": "患者是否为12岁及以上青少年"
+    }
+  ],
+  "logical_expression": "((F01 AND (F03 OR F05)) OR (F02 AND (F04 OR F06))) AND F07 AND F08 AND F09 AND (F10 OR F11)",
+  "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+  "time_requirements": "按该规则及疑点费用发生时间核实",
+  "unresolved": []
+}

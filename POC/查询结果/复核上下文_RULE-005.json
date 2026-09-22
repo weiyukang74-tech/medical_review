@@ -1,0 +1,176 @@
+{
+  "rule_id": "RULE-005",
+  "review_basis": {
+    "violation_item": "艾拉莫德片",
+    "violation_description": "艾拉莫德片限活动性类风湿关节炎患者的二线治疗。",
+    "regulatory_claim": "监管方认为本次就诊中使用的艾拉莫德片不符合‘限活动性类风湿关节炎患者的二线治疗’的支付限制条件，疑似患者诊断非活动性类风湿关节炎，或该药物并非作为二线治疗方案使用（即可能为首线治疗，或未证明一线治疗失败/不适宜）。",
+    "appeal_objective": "证明患者符合‘活动性类风湿关节炎’诊断，且本次使用艾拉莫德片是基于既往一线治疗无效或不适宜的‘二线治疗’决策。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "患者当前诊断为类风湿关节炎，且病情处于活动期。",
+      "logic_notes": "这是核心路径。原始规则要求‘活动性类风湿关节炎’。需要证明诊断名称正确且疾病状态为活动性。若仅诊断为‘类风湿关节炎’而未注明活动性，需通过检验指标或病程描述佐证活动状态。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "确认本次就诊的主要诊断是否为类风湿关节炎。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data": [
+              {
+                "diseName": "干燥综合征伴肺病变"
+              },
+              {
+                "diseName": "肺肾两虚证"
+              },
+              {
+                "diseName": "慢性支气管炎"
+              },
+              {
+                "diseName": "类风湿性关节炎"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "病情",
+          "二级证据标签": "活动进展",
+          "target_fact": "确认类风湿关节炎是否处于活动期（如关节肿胀数、压痛数、炎症指标升高等表现）。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-119124777-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "检验",
+          "二级证据标签": "检验结果",
+          "target_fact": "获取血沉(ESR)、C反应蛋白(CRP)等反映疾病活动度的实验室检查结果。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-S-004 检验报告、DS-M-OP-002 检验报告单、DS-M-IP-017 检验报告单、DS-M-IP-014 输血记录",
+            "structured_data": []
+          }
+        },
+        {
+          "一级证据域": "评估",
+          "二级证据标签": "量表评分",
+          "target_fact": "获取DAS28等类风湿关节炎疾病活动度评分结果。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-OP-005 测评量表",
+            "document_refs": []
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "患者在本次使用艾拉莫德片之前，已经接受过其他抗风湿药物的治疗，且存在治疗反应不佳、不良反应或不适宜继续使用的情况。",
+      "logic_notes": "这是核心路径。原始规则要求‘二线治疗’。必须证明存在‘一线治疗’的历史及其失败/不适宜的原因。若无此证据，则可能被认定为首线违规使用。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "既往治疗",
+          "target_fact": "查明患者在本次处方艾拉莫德片之前，是否使用过其他改善病情抗风湿药(DMARDs)，如甲氨蝶呤、来氟米特等。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-119124777-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗反应",
+          "target_fact": "查明既往一线药物治疗的效果评价，是否存在疗效不佳的情况。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-119124777-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗不适宜",
+          "target_fact": "查明是否存在因禁忌症、严重不良反应等原因导致无法继续使用一线药物的情况。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-004 日常病程记录、DS-M-IP-021 出院记录或出院小结、DS-M-IP-007 会诊记录",
+            "document_refs": []
+          }
+        },
+        {
+          "一级证据域": "病史",
+          "二级证据标签": "现病史",
+          "target_fact": "从病程记录中提取关于调整治疗方案原因的医生叙述。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-119124777-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "用药",
+          "二级证据标签": "用药反应",
+          "target_fact": "查找既往用药期间出现的不良事件记录。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-004 日常病程记录",
+            "document_refs": []
+          }
+        }
+      ]
+    }
+  ],
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-119124777-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "复诊病历记录",
+      "recordType": "复诊病历记录",
+      "updateTime": "2025-11-14 09:30:43",
+      "recordContent": {
+        "基本信息": "就诊时间：2025-09-04 08:32是否外伤：",
+        "内容": "干燥综合征伴肺间质病变复诊，坚持服药，病情稳定，继续前方案治疗。既往史、过敏史同前。",
+        "辅助检查": "-",
+        "诊断": "干燥综合征伴肺病变肺肾两虚证慢性支气管炎类风湿性关节炎(活动期)",
+        "处理": "1. (集)硫酸羟氯喹片(国产)[0.2g*24片] X 3.00盒   用法：每次0.2g  每日2次  口服  30天2. 艾拉莫德片[25mg*14片] X 5.00盒   用法：每次25mg  每日2次  口服  30天3. 左甲状腺素钠片[50μg*100片] X 1.00盒   用法：每次50μg  每日1次  口服  1天4. (集)吗替麦考酚酯胶囊[0.25g*96粒] X 2.00盒   用法：每次0.5g  每日2次  口服  30天",
+        "治疗处理意见": "观察病情变化：如有不适，随诊。",
+        "病人去向": "回家",
+        "医师签名": "李婧婷日期:2025年09月04日"
+      }
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "验证既往治疗时间线与本次用药时间的逻辑关系",
+      "inputs_required": [
+        "既往抗风湿药物最后一次使用时间",
+        "本次艾拉莫德片首次使用时间"
+      ],
+      "reason": "确保‘二线治疗’的时间逻辑成立，即先有一线治疗，后有二线治疗，排除同时启动多种DMARDs作为初始联合治疗却被误判为二线的情况（需结合临床指南判断联合治疗是否视为一线，此处主要排查明显的时间倒置或无既往史）。"
+    }
+  ]
+}

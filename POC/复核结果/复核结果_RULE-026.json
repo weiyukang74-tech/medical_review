@@ -1,0 +1,275 @@
+{
+  "rule_id": "RULE-026",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 OR P02",
+    "basis_quotes": [
+      "证明本次“甲苯胺红梅毒血清学试验定性(TRUST)”检查具有明确的临床必要性，符合诊疗规范或入院常规筛查要求，并非无指征的过度检查。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "患者本次就诊的主诉及现病史中是否描述有梅毒疑似症状（如硬下疳、皮疹等）或相关不适。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122487623-01",
+          "location": "现病史",
+          "quote": "患者今日11点散步时突然出现右侧肢体无力，表现右侧上肢抬举乏力，行走容易向右侧歪斜 ，无头痛、头晕、肢体麻木、口角歪斜、言语不清、饮水呛咳、视物重影"
+        },
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122487623-01",
+          "location": "全身皮肤、粘膜",
+          "quote": "无黄染、皮疹、皮下出血，无粘膜溃疡"
+        }
+      ],
+      "reason": "现病史主诉为右侧肢体乏力，无梅毒相关症状。查体明确记录无皮疹、无粘膜溃疡。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病史",
+      "二级证据标签": "既往史",
+      "target_fact": "患者既往是否有梅毒感染史、治疗史或高危暴露史。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122487623-01",
+          "location": "平素健康状况",
+          "quote": "否认“病毒性肝炎、结核”等传染病史。"
+        },
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122487623-01",
+          "location": "个人史",
+          "quote": "否认性病和冶游史。"
+        }
+      ],
+      "reason": "既往史明确否认传染病史，个人史明确否认性病和冶游史，无梅毒高危因素或既往史。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "入院查体或病程记录中是否记载了支持梅毒疑似诊断的阳性体征。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122487623-01",
+          "location": "全身皮肤、粘膜",
+          "quote": "无黄染、皮疹、皮下出血，无粘膜溃疡"
+        },
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122487623-01",
+          "location": "全身浅表淋巴结",
+          "quote": "无肿大。"
+        }
+      ],
+      "reason": "查体未见梅毒相关阳性体征（如皮疹、淋巴结肿大等）。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "入院诊断或初步诊断中是否包含梅毒、疑似梅毒或相关鉴别诊断。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "短暂性脑缺血发作"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "高血压病3级（极高危）"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "2型糖尿病"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "大脑中动脉狭窄"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "高尿酸血症"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "糖尿病肾病III期"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "前列腺增生"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "脑动脉粥样硬化"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "中枢性睡眠呼吸暂停低通气综合征"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "高同型半胱氨酸血症"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "阻塞性睡眠呼吸暂停综合征"
+        }
+      ],
+      "reason": "所有诊断均为脑血管病、代谢性疾病及相关并发症，无梅毒或疑似梅毒诊断。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "就诊",
+      "二级证据标签": "就诊类型",
+      "target_fact": "本次就诊是门诊、急诊还是住院，以及具体的医疗类别（如手术、非手术）。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息、DS-S-007 病案首页",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "medMdtrtType",
+          "quote": "2"
+        },
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122487623-01",
+          "location": "患者基本信息",
+          "quote": "入院时间：2026年03月09日 13时06分"
+        }
+      ],
+      "reason": "medMdtrtType为2（住院），且有明确入院记录，确认为住院就诊。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "手术操作",
+      "二级证据标签": "手术记录",
+      "target_fact": "患者是否进行了手术、介入操作或有创检查，这些操作通常要求术前传染病筛查。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "setName",
+          "quote": "颅脑动脉CTA+颈动脉CTA"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "hilistName",
+          "quote": "计算机体层（CT）造影成像（血管）"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "setName",
+          "quote": "一次性使用高压造影注射器及附件(A03105CM-200/200/迈威)"
+        }
+      ],
+      "reason": "费用明细显示患者进行了“颅脑动脉CTA+颈动脉CTA”检查，并使用了“一次性使用高压造影注射器”。CTA属于有创性介入检查（需注射造影剂），临床常规要求在术前进行传染病筛查（包括梅毒、乙肝、丙肝、HIV），以保障医疗安全及防止交叉感染。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "输血",
+      "二级证据标签": "输血指征",
+      "target_fact": "患者是否有输血指征或实际输血记录，输血前必须进行传染病筛查。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "输血相关记录查询结果为NOT_RETRIEVED，且入院记录中“输血史”为“无输血史”。虽无输血记录，但不影响P02中通过“有创操作”路径的证明。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗方案",
+      "target_fact": "治疗方案中是否包含需要免疫抑制、血液透析或器官移植等高风险治疗，这些治疗前通常需筛查梅毒。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "首次病程记录中诊疗计划主要为抗板、调脂、降压降糖等常规治疗，未明确提及免疫抑制或器官移植。但此事实为SUPPLEMENTARY，且P02已通过有创操作路径支持，故不影响整体结论。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "NOT_SUPPORTED",
+      "reason": "患者无梅毒疑似症状、无高危既往史、无阳性体征，且诊断中无梅毒相关疾病。P01路径不成立。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "患者为住院就诊，并进行了颅脑动脉CTA+颈动脉CTA有创检查（使用高压造影注射器）。根据临床诊疗规范，有创操作前需进行传染病筛查，TRUST检查符合该常规筛查要求。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "虽然患者无梅毒特异性临床指征（P01不成立），但患者接受了颅脑动脉CTA+颈动脉CTA有创检查。根据临床规范，有创操作前需进行包括梅毒在内的传染病筛查。因此，TRUST检查属于必要的术前/操作前常规筛查，具有临床必要性，符合合规要求。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

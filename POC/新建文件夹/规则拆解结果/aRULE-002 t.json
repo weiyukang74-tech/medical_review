@@ -1,0 +1,46 @@
+{
+  "status": "PARTIAL",
+  "appeal_goal": "证明阿布昔替尼片的实际开具药量符合每日最大剂量限制，或监管系统计算的超出药量有误。",
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "本次就诊中阿布昔替尼片的医嘱总数量等于28片。",
+      "verification_mode": "EVIDENCE"
+    },
+    {
+      "fact_id": "F02",
+      "description": "本次就诊中阿布昔替尼片的单次给药剂量与给药频次之积（即每日计划剂量）不超过2片。",
+      "verification_mode": "MIXED"
+    },
+    {
+      "fact_id": "F03",
+      "description": "本次就诊中阿布昔替尼片的处方天数乘以每日计划剂量所得的总药量等于28片。",
+      "verification_mode": "CALCULATION"
+    }
+  ],
+  "logical_expression": "(NOT F01) OR (F02 AND F03)",
+  "time_requirements": "本次疑点费用对应的就诊周期",
+  "calculations": [
+    {
+      "fact_id": "F02",
+      "question": "计算每日计划剂量是否超过2片？",
+      "required_inputs": [
+        "单次给药剂量",
+        "每日给药频次"
+      ]
+    },
+    {
+      "fact_id": "F03",
+      "question": "计算理论总药量是否与医嘱总量一致？",
+      "required_inputs": [
+        "处方天数",
+        "每日计划剂量",
+        "医嘱总数量"
+      ]
+    }
+  ],
+  "unresolved": [
+    "原始描述未明确‘每日最大剂量为2’是指2片、2mg还是其他单位，需结合药品规格确认计量单位一致性。",
+    "原始描述未说明‘超出药量为16’的具体计算逻辑（例如：是(28-12)=16，暗示默认开了14天？还是其他算法），导致无法直接判断监管计算基准是否正确。"
+  ]
+}

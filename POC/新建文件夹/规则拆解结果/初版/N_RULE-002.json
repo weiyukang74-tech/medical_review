@@ -1,0 +1,22 @@
+{
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "阿布昔替尼片本次开具药量为28片"
+    },
+    {
+      "fact_id": "F02",
+      "description": "阿布昔替尼片每日最大剂量为2"
+    },
+    {
+      "fact_id": "F03",
+      "description": "阿布昔替尼片超出药量为16"
+    }
+  ],
+  "logical_expression": "F01 AND F02 AND F03",
+  "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+  "time_requirements": "按该规则及疑点费用发生时间核实",
+  "unresolved": [
+    "规则原文未明确“每日最大剂量为2”的具体计量单位（如片、mg、g等）"
+  ]
+}

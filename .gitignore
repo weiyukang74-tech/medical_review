@@ -1,0 +1,21 @@
+# Local credentials and environment overrides
+.env
+!.env.example
+
+# Python caches and local tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+
+# Temporary and generated runtime files
+*.tmp
+*.log
+*.bak
+*.swp
+
+# OS/editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

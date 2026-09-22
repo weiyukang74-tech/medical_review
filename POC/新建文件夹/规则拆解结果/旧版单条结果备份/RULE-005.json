@@ -1,0 +1,20 @@
+{
+  "status": "READY",
+  "appeal_goal": "证明该次癌胚抗原测定(CEA)不属于生育产检支付范围，或属于医保允许支付的例外情形。",
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "本次就诊的主要诊断或临床场景不属于生育、妊娠或产前检查范畴。",
+      "verification_mode": "EVIDENCE"
+    },
+    {
+      "fact_id": "F02",
+      "description": "患者存在恶性肿瘤筛查、随访或其他非产科相关的明确医学适应证。",
+      "verification_mode": "EVIDENCE"
+    }
+  ],
+  "logical_expression": "F01 OR F02",
+  "time_requirements": "本次疑点费用对应的就诊周期",
+  "calculations": [],
+  "unresolved": []
+}

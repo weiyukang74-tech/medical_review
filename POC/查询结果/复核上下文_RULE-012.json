@@ -1,0 +1,994 @@
+{
+  "rule_id": "RULE-012",
+  "review_basis": {
+    "violation_item": "001-支架类",
+    "violation_description": "本次就诊使用了001-支架类，而未检测到支架置入术等相关的手术",
+    "regulatory_claim": "监管系统在本次就诊记录中识别到了‘001-支架类’耗材的使用或收费，但在同一就诊周期内未检索到对应的‘支架置入术’或其他相关手术项目的记录。",
+    "appeal_objective": "证明本次就诊中‘001-支架类’耗材的使用具有真实的临床操作基础，即患者确实接受了支架置入或相关的介入手术治疗，并提供相应的操作记录以消除‘无手术仅有耗材’的违规疑点。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "本次就诊期间，患者实际实施了支架置入术或包含支架植入的介入治疗操作。",
+      "logic_notes": "这是核心路径。原始描述指出‘未检测到手术’，因此必须通过客观病历证据证明手术确实发生。如果手术确实发生但未被系统正确抓取，则属于数据问题，但仍需先证明手术事实。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "手术操作",
+          "二级证据标签": "手术记录",
+          "target_fact": "获取本次就诊的手术记录，确认其中记载了支架置入或相关介入操作的具体过程、时间及使用的器械名称。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-002 费用明细",
+            "matched_by": {
+              "query_id": "QP-P01-01",
+              "supports_facts": [
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "手术记录",
+                  "target_fact": "获取本次就诊的手术记录，确认其中记载了支架置入或相关介入操作的具体过程、时间及使用的器械名称。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "操作记录",
+                  "target_fact": "若为非全麻或非手术室进行的介入操作，获取操作记录以证实支架植入行为的发生。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "麻醉记录",
+                  "target_fact": "获取麻醉记录，佐证手术/操作的时间段和类型，增强手术真实性的可信度。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "核对费用清单中是否存在与支架置入相关的手术费、介入治疗费或导管室使用费等配套收费项目。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P02",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "提取本次就诊中所有涉及手术、操作类的收费项目名称及编码，用于与规则库进行比对。",
+                  "necessity": "SUPPLEMENTARY"
+                }
+              ],
+              "plan_origin": "TAG_MAPPED",
+              "supplement_reason": null,
+              "entity_results": [
+                {
+                  "entity_id": "E01",
+                  "source_exact": "001-支架类",
+                  "stage": "ALL_CHRG_TYPE_SOURCE_EXACT",
+                  "matched_terms": [
+                    "001-支架类"
+                  ],
+                  "record_count": 2
+                }
+              ],
+              "search_terms": [
+                "001-支架类",
+                "支架"
+              ],
+              "record_count": 2,
+              "deduplicated": false,
+              "fields_trimmed": false
+            },
+            "structured_data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||135||1",
+                "rxxId": null,
+                "rxno": "52887316||130",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:46",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:39",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              },
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||136||1",
+                "rxxId": null,
+                "rxno": "52887316||131",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:49",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:44",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "手术操作",
+          "二级证据标签": "操作记录",
+          "target_fact": "若为非全麻或非手术室进行的介入操作，获取操作记录以证实支架植入行为的发生。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-002 费用明细、DS-M-IP-009 术前小结",
+            "matched_by": {
+              "query_id": "QP-P01-01",
+              "supports_facts": [
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "手术记录",
+                  "target_fact": "获取本次就诊的手术记录，确认其中记载了支架置入或相关介入操作的具体过程、时间及使用的器械名称。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "操作记录",
+                  "target_fact": "若为非全麻或非手术室进行的介入操作，获取操作记录以证实支架植入行为的发生。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "麻醉记录",
+                  "target_fact": "获取麻醉记录，佐证手术/操作的时间段和类型，增强手术真实性的可信度。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "核对费用清单中是否存在与支架置入相关的手术费、介入治疗费或导管室使用费等配套收费项目。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P02",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "提取本次就诊中所有涉及手术、操作类的收费项目名称及编码，用于与规则库进行比对。",
+                  "necessity": "SUPPLEMENTARY"
+                }
+              ],
+              "plan_origin": "TAG_MAPPED",
+              "supplement_reason": null,
+              "entity_results": [
+                {
+                  "entity_id": "E01",
+                  "source_exact": "001-支架类",
+                  "stage": "ALL_CHRG_TYPE_SOURCE_EXACT",
+                  "matched_terms": [
+                    "001-支架类"
+                  ],
+                  "record_count": 2
+                }
+              ],
+              "search_terms": [
+                "001-支架类",
+                "支架"
+              ],
+              "record_count": 2,
+              "deduplicated": false,
+              "fields_trimmed": false
+            },
+            "document_refs": [
+              "DOC-DS-M-IP-009-123069349-01"
+            ],
+            "structured_data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||135||1",
+                "rxxId": null,
+                "rxno": "52887316||130",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:46",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:39",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              },
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||136||1",
+                "rxxId": null,
+                "rxno": "52887316||131",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:49",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:44",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "手术操作",
+          "二级证据标签": "麻醉记录",
+          "target_fact": "获取麻醉记录，佐证手术/操作的时间段和类型，增强手术真实性的可信度。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-002 费用明细",
+            "matched_by": {
+              "query_id": "QP-P01-01",
+              "supports_facts": [
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "手术记录",
+                  "target_fact": "获取本次就诊的手术记录，确认其中记载了支架置入或相关介入操作的具体过程、时间及使用的器械名称。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "操作记录",
+                  "target_fact": "若为非全麻或非手术室进行的介入操作，获取操作记录以证实支架植入行为的发生。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "麻醉记录",
+                  "target_fact": "获取麻醉记录，佐证手术/操作的时间段和类型，增强手术真实性的可信度。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "核对费用清单中是否存在与支架置入相关的手术费、介入治疗费或导管室使用费等配套收费项目。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P02",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "提取本次就诊中所有涉及手术、操作类的收费项目名称及编码，用于与规则库进行比对。",
+                  "necessity": "SUPPLEMENTARY"
+                }
+              ],
+              "plan_origin": "TAG_MAPPED",
+              "supplement_reason": null,
+              "entity_results": [
+                {
+                  "entity_id": "E01",
+                  "source_exact": "001-支架类",
+                  "stage": "ALL_CHRG_TYPE_SOURCE_EXACT",
+                  "matched_terms": [
+                    "001-支架类"
+                  ],
+                  "record_count": 2
+                }
+              ],
+              "search_terms": [
+                "001-支架类",
+                "支架"
+              ],
+              "record_count": 2,
+              "deduplicated": false,
+              "fields_trimmed": false
+            },
+            "structured_data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||135||1",
+                "rxxId": null,
+                "rxno": "52887316||130",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:46",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:39",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              },
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||136||1",
+                "rxxId": null,
+                "rxno": "52887316||131",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:49",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:44",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "检查",
+          "二级证据标签": "影像结果",
+          "target_fact": "获取术后造影或影像学报告，显示支架在体内的位置及形态，作为手术成功的间接客观证据。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-S-005 检查报告、DS-M-OP-003 医学影像检查报告、DS-M-IP-018 影像检查报告",
+            "structured_data": []
+          }
+        },
+        {
+          "一级证据域": "费用",
+          "二级证据标签": "收费明细",
+          "target_fact": "核对费用清单中是否存在与支架置入相关的手术费、介入治疗费或导管室使用费等配套收费项目。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-002 费用明细",
+            "matched_by": {
+              "query_id": "QP-P01-01",
+              "supports_facts": [
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "手术记录",
+                  "target_fact": "获取本次就诊的手术记录，确认其中记载了支架置入或相关介入操作的具体过程、时间及使用的器械名称。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "操作记录",
+                  "target_fact": "若为非全麻或非手术室进行的介入操作，获取操作记录以证实支架植入行为的发生。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "麻醉记录",
+                  "target_fact": "获取麻醉记录，佐证手术/操作的时间段和类型，增强手术真实性的可信度。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "核对费用清单中是否存在与支架置入相关的手术费、介入治疗费或导管室使用费等配套收费项目。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P02",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "提取本次就诊中所有涉及手术、操作类的收费项目名称及编码，用于与规则库进行比对。",
+                  "necessity": "SUPPLEMENTARY"
+                }
+              ],
+              "plan_origin": "TAG_MAPPED",
+              "supplement_reason": null,
+              "entity_results": [
+                {
+                  "entity_id": "E01",
+                  "source_exact": "001-支架类",
+                  "stage": "ALL_CHRG_TYPE_SOURCE_EXACT",
+                  "matched_terms": [
+                    "001-支架类"
+                  ],
+                  "record_count": 2
+                }
+              ],
+              "search_terms": [
+                "001-支架类",
+                "支架"
+              ],
+              "record_count": 2,
+              "deduplicated": false,
+              "fields_trimmed": false
+            },
+            "structured_data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||135||1",
+                "rxxId": null,
+                "rxno": "52887316||130",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:46",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:39",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              },
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||136||1",
+                "rxxId": null,
+                "rxno": "52887316||131",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:49",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:44",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "若实际发生了手术，但监管系统未识别，是因为手术收费项目名称与规则库中的‘支架置入术’标准名称不一致，或存在编码映射错误。",
+      "logic_notes": "这是备选核验路径。当P01成立（有手术记录）但系统仍报错时，需证明是系统识别逻辑或数据对接问题，而非临床违规。这需要对比院内实际收费项目与医保规则库的定义。",
+      "missing_required_facts": [
+        "医保规则库中定义的‘支架置入术’及相关手术的标准名称列表或编码映射表（外部规则依据，非患者侧事实）"
+      ],
+      "evidence": [
+        {
+          "一级证据域": "费用",
+          "二级证据标签": "收费明细",
+          "target_fact": "提取本次就诊中所有涉及手术、操作类的收费项目名称及编码，用于与规则库进行比对。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-002 费用明细",
+            "matched_by": {
+              "query_id": "QP-P01-01",
+              "supports_facts": [
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "手术记录",
+                  "target_fact": "获取本次就诊的手术记录，确认其中记载了支架置入或相关介入操作的具体过程、时间及使用的器械名称。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "操作记录",
+                  "target_fact": "若为非全麻或非手术室进行的介入操作，获取操作记录以证实支架植入行为的发生。",
+                  "necessity": "REQUIRED"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "手术操作",
+                  "二级证据标签": "麻醉记录",
+                  "target_fact": "获取麻醉记录，佐证手术/操作的时间段和类型，增强手术真实性的可信度。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "核对费用清单中是否存在与支架置入相关的手术费、介入治疗费或导管室使用费等配套收费项目。",
+                  "necessity": "SUPPLEMENTARY"
+                },
+                {
+                  "proposition_id": "P02",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "提取本次就诊中所有涉及手术、操作类的收费项目名称及编码，用于与规则库进行比对。",
+                  "necessity": "SUPPLEMENTARY"
+                }
+              ],
+              "plan_origin": "TAG_MAPPED",
+              "supplement_reason": null,
+              "entity_results": [
+                {
+                  "entity_id": "E01",
+                  "source_exact": "001-支架类",
+                  "stage": "ALL_CHRG_TYPE_SOURCE_EXACT",
+                  "matched_terms": [
+                    "001-支架类"
+                  ],
+                  "record_count": 2
+                }
+              ],
+              "search_terms": [
+                "001-支架类",
+                "支架"
+              ],
+              "record_count": 2,
+              "deduplicated": false,
+              "fields_trimmed": false
+            },
+            "structured_data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||135||1",
+                "rxxId": null,
+                "rxno": "52887316||130",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:46",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:39",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              },
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123069349",
+                "rxId": "107993907||136||1",
+                "rxxId": null,
+                "rxno": "52887316||131",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "08",
+                "drordBhvr": null,
+                "setCode": "38009511826",
+                "setName": "输尿管支架(ST-200528/uroVision)",
+                "hilistCode": "C0103010011508309154",
+                "hilistName": "001-支架类",
+                "hosplistCode": "38009511826",
+                "hosplistName": "输尿管支架(ST-200528/uroVision)",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "1",
+                "pric": "690",
+                "sumamt": "690",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "套",
+                "drordBegnDate": "2026-04-07 07:50:49",
+                "drordStopDate": null,
+                "billingDate": "2026-04-07 07:51:44",
+                "drordDeptCodg": "NS6900.0060",
+                "drordDeptName": "中央手术室",
+                "executeDeptCodg": "NS6900.0060",
+                "executeDeptName": "中央手术室",
+                "drordDrCodg": "101612",
+                "drordDrName": "叶军",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": null,
+                "sinDosUnt": null,
+                "usedFrquDscr": "ONCE",
+                "prdDays": null,
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-07 13:00:00",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-IP-009-123069349-01",
+      "source": "DS-M-IP-009 术前小结",
+      "recordName": "术前小结",
+      "recordType": "病程记录",
+      "updateTime": "2026-04-06 21:09:08",
+      "recordContent": {
+        "查房内容": "简要病情：患者因“右侧腰痛5天，左侧腰痛1天 ”收入院。专科检查：双肾区对称无隆起，双肾肋下未触及，左侧肋脊角区压痛（-） ，右侧肋脊角区压痛（-） ，左侧输尿管行程压痛（-） ，右侧输尿管行程压痛（-） ，左肾区叩击痛（+） ，右肾区叩击痛（-） ，膀胱区无隆起，无压痛，叩诊浊音。阴毛男性分布，尿道外口无畸形，无异常分泌物。阴囊无红肿，双侧睾丸大小正常，精索无增粗。 辅助检查：2026-04-06 泌尿系CT平扫 1.左输尿管中段结石伴轻度梗阻性积水、肾周渗出，左侧腹腔少许积液。2.右侧输尿管上段结石伴轻度梗阻性积水。3.右肾结石。4.中度脂肪肝。 。术前诊断：1、肾积水伴输尿管结石(双侧),2、肾功能不全(急性),3、高尿酸血症,4、肾周围炎(左侧),5、肾结石(右侧),6、高血压,7、痛风,8、单纯性脂肪肝手术指征：双侧输尿管结石伴积水感染、急性肾功能不全诊断明确，结石较大，自行排出可能性小，双侧梗阻导致急性肾损伤。需尽快解除梗阻，保护肾功能。拟施行手术名称和方式：经尿道双侧输尿管镜（备软镜）钬激光碎石取石术+双侧输尿管支架置入术+导尿术拟用麻醉方式：全麻是否需要分次完成手术： 否潜在风险及防范措施：术中：⑴麻醉及心脑血管意外，危及生命。⑵先行输尿管镜检，根据输尿管镜检结果进一步明确诊断，再作碎石、狭窄扩张等治疗。⑶术中出现迷走神经反射、呼吸心跳骤停，危及生命可能。⑷输尿管口狭窄或输尿管口异常，输尿管腔狭窄或扭曲等解剖异常，导致入镜困难，更改手术方式或放弃手术（如留置DJ管，二期返院再行手术处理）。 ⑸肾脏、输尿管、膀胱和尿道损伤，输尿管穿孔，必要时需开放性手术修复。⑹结石游走、找不到结石或者碎结石残留于输尿管及肾脏,术后需行体外碎石术。⑺术中必须留置D-J管。 ⑻每位患者具体病情不同，有不可预测的意外可能。术后：⑴术后出血。⑵术后需导尿。⑶术后尿路感染，甚至败血症。⑷术后输尿管内支架管滑落位置改变，根据病情，需提前手术更换输尿管内支架管或拔除。⑸结石残留需排石治疗可能；结石复发可能。⑹术后肾功能改善不明显甚至加重可能，或出现输尿管狭窄、返流。⑺择期拔出D-J管。⑻术后尿外渗、尿漏。⑼术后需行体外冲击波碎石术可能。⑽其他不可预测意外。术者术前查看患者情况：患者生命体征稳定，反复腰痛，准备等待急诊手术。",
+        "医师签名": "吴泽深"
+      }
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "校验手术时间与耗材使用时间的逻辑一致性",
+      "inputs_required": [
+        "手术记录中的开始和结束时间",
+        "耗材计费时间或医嘱执行时间"
+      ],
+      "reason": "确保支架是在手术/操作过程中使用的，排除术前准备或术后其他无关环节误用的可能性。"
+    },
+    {
+      "check": "比对院内手术收费项目与医保规则库的映射关系",
+      "inputs_required": [
+        "院内实际收取的手术/操作项目名称及编码",
+        "医保规则库中定义的‘支架置入术’及相关手术的标准名称及编码"
+      ],
+      "reason": "如果院内收费项目与规则库定义不完全一致但实质相同，可证明为数据映射问题而非临床违规。"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "status": "READY",
+  "appeal_goal": "证明患者符合阿布昔替尼片的限定支付条件，即诊断为中重度特应性皮炎且年龄达标，并存在其他系统治疗应答不佳或不适宜的情况。",
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者临床诊断为中重度特应性皮炎",
+      "verification_mode": "EVIDENCE"
+    },
+    {
+      "fact_id": "F02",
+      "description": "患者年龄为成人或12岁及以上青少年",
+      "verification_mode": "EVIDENCE"
+    },
+    {
+      "fact_id": "F03",
+      "description": "患者既往接受过激素或生物制剂等其他系统治疗，且出现应答不佳或不适宜继续使用的情况",
+      "verification_mode": "MIXED"
+    }
+  ],
+  "logical_expression": "F01 AND F02 AND F03",
+  "time_requirements": "本次疑点费用对应的就诊周期及既往相关治疗记录",
+  "calculations": [],
+  "unresolved": []
+}

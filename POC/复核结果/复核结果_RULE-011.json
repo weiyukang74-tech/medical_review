@@ -1,0 +1,166 @@
+{
+  "rule_id": "RULE-011",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 OR P02 OR P03",
+    "basis_quotes": [
+      "证明本次就诊中‘胸腹水常规检查’所检样本的来源合法且合理，具体需证明实际实施了胸腹水抽取操作，或证明样本来源无需本次实施抽取操作（如适用），或证明相关操作费用已以其他合规方式体现。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "操作记录",
+      "target_fact": "确认是否存在胸腹水穿刺或抽取的操作记录，包括操作时间、部位、引流量及操作者签名。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果状态为NOT_RETRIEVED，未返回任何操作记录结构化数据，无法确认是否存在胸腹水穿刺或抽取操作。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "护理",
+      "二级证据标签": "护理记录",
+      "target_fact": "确认护理记录中是否有关于协助进行胸腹水抽取、引流管护理或标本送检的记录。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果状态为NOT_RETRIEVED，未返回任何护理记录结构化数据，无法确认是否存在相关护理记录。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病史",
+      "二级证据标签": "病程时间",
+      "target_fact": "确认操作发生的具体时间点，以便与检查申请时间和报告出具时间进行逻辑比对。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "入院记录中未提及本次住院期间具体的胸腹水抽取操作时间点，仅描述了既往腹膜透析方案及入院原因，无法提供操作时间证据。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "确认患者当时是否存在胸腔积液或腹腔积液的体征（如移动性浊音阳性、呼吸音减弱等），以佐证操作的临床必要性。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-121486029-01",
+          "location": "腹部",
+          "quote": "叩诊：腹部叩诊呈鼓音，肝浊音界存在，肝肾区无叩击痛，移动性浊音（＋）。"
+        }
+      ],
+      "reason": "入院记录体格检查中明确记载“移动性浊音（＋）”，提示存在腹腔积液，佐证了进行腹水检查的临床必要性。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "费用",
+      "二级证据标签": "收费明细",
+      "target_fact": "核查本次就诊的所有收费明细，确认是否有名称相似的操作项目，或包含胸腹水抽取的综合治疗包项目。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "hilistName",
+          "quote": "胸腹水常规检查"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "hilistName",
+          "quote": "胸腹水常规检查"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "hilistName",
+          "quote": "胸腹水常规检查"
+        }
+      ],
+      "reason": "结构化费用明细中仅包含“胸腹水常规检查”项目，未检索到任何名称包含“穿刺”、“抽取”、“引流”或类似含义的操作类收费项目，也未发现包含该操作的综合治疗包项目。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "结算",
+      "二级证据标签": "结算单据",
+      "target_fact": "确认最终结算清单中关于操作类费用的构成，判断是否存在归类差异。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "hilistName",
+          "quote": "胸腹水常规检查"
+        }
+      ],
+      "reason": "基于已返回的费用明细数据，未发现操作类费用归类差异或隐含的抽取操作费用。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "检验",
+      "二级证据标签": "检验结果",
+      "target_fact": "查看检验申请单或报告单备注栏，是否注明样本来源为‘外院’、‘留存’或其他非本次采集的情况。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果状态为NOT_RETRIEVED，未返回检验报告结构化数据，无法查看备注栏信息。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "确认病历中是否提及患者携带外院标本入院或之前已留取标本待查的情况。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-121486029-01",
+          "location": "现病史",
+          "quote": "患者7年余前发现血压升高，自测血压180/100mmHg，当时有眼睑水肿，到香港大学深圳医院查肾功能血肌酐747umol/L，泌尿系彩超示双肾稍小，呈弥漫性病变，予控制血压、输血纠正贫血等治疗后出院。出院后定期复查肾功能血肌酐进行性升高。2019-6-21查肾功能血肌酐1241.8umol/L，遂至我科住院，诊断“1.慢性肾脏病5期 肾性贫血 肾性高血压 继发性甲状旁腺功能亢进 2.慢性肾小球肾炎 3.高尿酸血症”，予控制血压、纠正贫血、补钙、纠正酸中毒等治疗，因患者要求行腹膜透析，遂出院往北大深圳医院行腹膜透析置管术，术后开始持续非卧床腹膜透析治疗，目前腹透方案为：1.5%低钙腹透液2L*1袋、2.5%低钙腹透液2L*3袋 CAPD，每日透析超滤量约为1000ml。期间多次于我科住院，末次住院为2025-5-20，诊断“1.慢性肾脏病5期 肾性贫血 肾性高血压 继发性甲状旁腺功能亢进 持续非卧床腹膜透析 2.慢性肾小球肾炎 3.高尿酸血症 4.不安腿综合征 5.肺结节 6.甲状腺囊肿 7.肝囊肿 8.左肾囊肿 9.右肾透明细胞癌术后 10.高同型半胱氨酸血症 11.左肾结石 12.腰1椎体压缩性骨折”。半年前患者无明显诱因双下肢水肿，进行性加重，伴活动后稍气促，无胸闷、胸痛，无咳嗽、咳痰，无夜间阵发性呼吸困难等不适，今来我科门诊就诊，为行肾移植术前评估拟“慢性肾脏病5期”收入我科。"
+        }
+      ],
+      "reason": "入院记录现病史中详细描述了既往诊疗经过及本次入院原因，未提及携带外院标本或留存标本待查的情况，描述为本次入院后进行的诊疗活动。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "UNKNOWN",
+      "reason": "核心REQUIRED事实（操作记录、护理记录）查询结果为NOT_RETRIEVED，无法确认是否实施了抽取操作。虽然体征支持临床必要性，但缺乏操作执行的直接证据。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "NOT_SUPPORTED",
+      "reason": "费用明细中未发现任何胸腹水抽取相关的操作收费项目或打包项目，所有REQUIRED事实均指向未找到相关费用记录。"
+    },
+    {
+      "proposition_id": "P03",
+      "status": "NOT_SUPPORTED",
+      "reason": "病历中未提及外院或留存样本，且检验报告未返回，无法支持样本非本次采集的说法。"
+    }
+  ],
+  "overall_logic_status": "UNKNOWN",
+  "review_status": "BLOCKED",
+  "case_status": "数据阻断",
+  "final_conclusion": {
+    "result": "暂无法判定",
+    "is_final": false,
+    "reason": "P01（实际实施操作）是证明合规的最主要路径，但其关键证据（操作记录、护理记录）查询失败（NOT_RETRIEVED），导致无法确认医疗行为是否发生。P02和P03已被现有证据否定。由于关键数据缺失且无法通过现有上下文补全，复核被阻断。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

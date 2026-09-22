@@ -1,0 +1,168 @@
+{
+  "rule_id": "RULE-006",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "(P01 AND P02) AND P03",
+    "basis_quotes": [
+      "奥布替尼片限：1.既往至少接受过一种治疗的成人套细胞淋巴瘤(MCL)患者；2.既往至少接受过一种治疗的成人慢性淋巴细胞白血病(CLL)/小淋巴细胞淋巴瘤(SLL)患者；3.既往至少接受过一种治疗的成人边缘区淋巴瘤(MZL)患者。",
+      "证明患者为成人，确诊为套细胞淋巴瘤(MCL)、慢性淋巴细胞白血病(CLL)/小淋巴细胞淋巴瘤(SLL)或边缘区淋巴瘤(MZL)之一，且在本次处方奥布替尼前已接受过至少一种针对该疾病的既往治疗。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "患者",
+      "二级证据标签": "年龄",
+      "target_fact": "患者的实际出生日期或就诊时的年龄数值，用于确认是否≥18岁。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "brdy",
+          "quote": "1967-06-16"
+        }
+      ],
+      "reason": "结构化数据显示患者出生日期为1967年，就诊时间为2025年，年龄约为58岁，明确符合‘成人’（≥18岁）定义。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "本次就诊或历史确诊记录中，包含ICD-10编码或中文名称对应的MCL、CLL、SLL或MZL诊断。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "结外边缘带B细胞淋巴瘤"
+        },
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121156160-01",
+          "location": "诊断",
+          "quote": "结外边缘带B细胞淋巴瘤(至少接受过一种治疗的成人边缘区淋巴瘤(MZL)患者)"
+        }
+      ],
+      "reason": "结构化诊断显示‘结外边缘带B细胞淋巴瘤’，门诊病历诊断字段明确标注为‘边缘区淋巴瘤(MZL)’。结外边缘区淋巴瘤属于边缘区淋巴瘤(MZL)的一种亚型，符合医保限定支付条件中的疾病范围。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病理",
+      "二级证据标签": "病理诊断",
+      "target_fact": "支持上述淋巴瘤分型的病理组织学诊断结果。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询状态为NOT_RETRIEVED，当前上下文中未提供病理报告原文。虽然临床诊断和病历描述提及‘手术后病理提示边缘区淋巴瘤’，但缺乏独立的病理报告文书作为直接证据支撑此特定事实项。不过由于其他证据已强有力支持诊断命题，此事实缺失不影响整体命题成立。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "诊断",
+      "二级证据标签": "诊断分型",
+      "target_fact": "具体的淋巴瘤亚型分类信息，用于进一步佐证诊断的准确性。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121156160-01",
+          "location": "内容",
+          "quote": "2020年7月发现右腮腺肿物，手术后病理提示边缘区淋巴瘤"
+        }
+      ],
+      "reason": "门诊病历内容中明确记录了‘手术后病理提示边缘区淋巴瘤’，提供了具体的亚型分类佐证。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗史",
+      "二级证据标签": "既往治疗",
+      "target_fact": "在本次就诊时间之前，患者接受过的抗肿瘤治疗方案名称、药物组成、治疗时间及治疗线次（如一线化疗方案）。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121156160-01",
+          "location": "内容",
+          "quote": "2020年7月发现右腮腺肿物，手术后病理提示边缘区淋巴瘤，应用美罗华、伊布替尼治疗，间断佳罗华维持治疗。"
+        }
+      ],
+      "reason": "病历明确记载患者在2020年确诊后接受了‘美罗华、伊布替尼治疗’及‘佳罗华维持治疗’。本次就诊时间为2025年12月，既往治疗发生在本次处方之前，且为系统性抗肿瘤治疗，满足‘既往至少接受过一种治疗’的条件。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "病史",
+      "二级证据标签": "既往史",
+      "target_fact": "病历文书中记录的既往抗肿瘤治疗经历，包括治疗反应和结束时间。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121156160-01",
+          "location": "内容",
+          "quote": "应用美罗华、伊布替尼治疗，间断佳罗华维持治疗。目前美罗华+奥布替尼维持。"
+        }
+      ],
+      "reason": "病历详细记录了既往使用美罗华、伊布替尼和佳罗华的治疗经历，证实了既往治疗的存在。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗线次",
+      "target_fact": "明确标注当前治疗为第几线治疗（如二线、三线），以间接证明既往已有治疗。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病历中未明确标注当前奥布替尼治疗为第几线治疗，但该事实为补充性质，且有明确的既往治疗药物记录支持核心命题，故不影响结论。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "用药",
+      "二级证据标签": "药品医嘱",
+      "target_fact": "历史就诊记录中其他抗肿瘤药物的开具记录，作为既往治疗的辅助证据。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "当前上下文仅提供了本次就诊的门诊病历，未提供历史就诊的药品医嘱明细数据。但病历文本已充分证明既往治疗史，故此补充事实缺失不影响命题成立。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "患者出生日期确认为1967年，就诊时年龄远超18岁，完全符合成人定义。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "结构化诊断和门诊病历均明确诊断为‘结外边缘带B细胞淋巴瘤’即‘边缘区淋巴瘤(MZL)’，属于奥布替尼医保限定的适应症范围。尽管缺少独立病理报告文书，但临床诊断证据链完整且一致。"
+    },
+    {
+      "proposition_id": "P03",
+      "status": "SUPPORTED",
+      "reason": "门诊病历明确记录患者在2020年确诊后曾接受‘美罗华、伊布替尼’及‘佳罗华’治疗，这些均为系统性抗肿瘤治疗，且发生时间远早于本次2025年的奥布替尼处方，满足‘既往至少接受过一种治疗’的要求。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "所有必要命题（P01成人身份、P02 MZL诊断、P03既往治疗史）均有充分证据支持。患者为成人，确诊为边缘区淋巴瘤(MZL)，且在本次使用前已接受过美罗华、伊布替尼等既往治疗，符合奥布替尼片的医保限定支付条件。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

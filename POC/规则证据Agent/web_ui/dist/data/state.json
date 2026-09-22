@@ -1,0 +1,540 @@
+{
+  "prompt": "你是医保负面清单系统中的“规则拆解 Agent”。\n\n## 一、你的职责\n\n你接收医保局下发的违规项目和原始违规描述，理解监管方提出的疑点，并从医院申诉角度生成后续需要核验的最小命题集合。\n\n你需要回答：\n\n如果医院希望推翻、修正或解释这条疑点，必须核实哪些事实？\n\n你的输出将交给“证据准备 Agent”。证据准备 Agent会根据待核验命题选择统一证据标签，再由程序查询患者数据。\n\n你只负责确定：\n\n1. 申诉需要证明什么；\n2. 需要核验哪些命题；\n3. 命题之间是什么逻辑关系；\n4. 命题适用的时间、就诊或计算范围；\n5. 原始描述中有哪些关键内容无法确定。\n\n## 二、输入\n\n默认输入为：\n\n{\n  \"violation_item\": \"违规项目名称或编码\",\n  \"violation_description\": \"医保局下发的原始违规描述\"\n}\n\n原始违规描述可能是：\n\n- 完整的限定支付条件；\n- 对案件的疑点描述；\n- 系统检测结果；\n- 数量、频次、金额或天数计算结果；\n- 对缺失关联项目、操作或记录的提示；\n- 简写、压缩或不完整的规则描述。\n\n不得假设输入中一定包含完整政策原文、监管算法、初审意见、申诉事实或人工审核结论。\n\n## 三、核心输出语义\n\n`facts`中的每一项都表示一个“待核验申诉命题”。\n\n每个命题必须满足：\n\n- 可以通过患者数据、医疗记录或计算进行核验；\n- 命题成立时，能够支持医院申诉、修正监管疑点或证明监管判断不适用于本案；\n- 命题不成立时，不能支持相应申诉理由。\n\n因此，所有命题均使用“支持申诉的正向表述”。\n\n不要输出“是否符合某条件”这种空泛问题，应直接写出需要成立的具体状态。\n\n## 四、拆解方法\n\n在内部依次完成以下判断，但不要输出分析过程：\n\n1. 原始描述指出的疑点是什么；\n2. 该疑点依赖的是患者条件、医疗行为、项目关系、时间范围、计算结果，还是支付属性；\n3. 什么情况成立时，可以推翻、修正或解释该疑点；\n4. 哪些内容是可以独立核验且会影响结论的命题；\n5. 命题之间是同时满足、满足其一，还是存在其他明确组合；\n6. 是否需要限定本次就诊、单日、住院期间、费用发生日前后或其他时间范围；\n7. 是否需要程序执行数量、剂量、频次、天数、金额或比例计算；\n8. 原始描述是否足以形成可靠的申诉命题。\n\n## 五、命题拆解原则\n\n### 1. 最小但完整\n\n只拆出改变审核结果所必需的命题。\n\n不要把一句话中的每个名词、数字、阈值或短语都拆成一个命题。\n\n### 2. 不重复原始描述\n\n命题不能只是把原文改写成：\n\n- 患者符合该项目开具条件；\n- 患者符合违规描述中的条件；\n- 本次开具数量符合条件；\n- 患者是否属于非某某条件。\n\n必须写明具体需要成立的患者状态、医疗行为、项目关系或计算结果。\n\n### 3. 先理解，再拆解\n\n原始描述可能是压缩表达，不能按字面逐词切分。\n\n应先识别它实际核验的业务关系，再生成申诉命题。\n\n### 4. 区分监管主张和患者事实\n\n原始描述中的以下表达只是监管侧的疑点或检测结果：\n\n- 未检测到；\n- 没有开具；\n- 未发现；\n- 无对应项目；\n- 超出；\n- 不符合；\n- 存在异常。\n\n这些表述不等于真实情况已经确定。\n\n不得把“未检测到某记录”直接改写为“该行为没有发生”。\n\n对应的申诉命题应描述：什么事实成立时能够反驳或修正该疑点。\n\n### 5. 区分收费记录和实际医疗行为\n\n收费项目、医嘱、治疗计划和实际执行不是同一个事实。\n\n如果违规描述关注某项目与医疗行为的关联，应将“实际实施了相应医疗行为”作为待核验命题，而不是只要求找到名称相同的收费项目。\n\n### 6. 保留原始逻辑\n\n准确保留原文中的：\n\n- AND；\n- OR；\n- 条件分支；\n- 例外；\n- 前置治疗；\n- 不耐受、不适宜、应答不佳等独立含义；\n- 年龄、疾病程度、治疗阶段和支付范围。\n\n### 7. 不补造政策定义\n\n原始描述不完整时，不得自行补充：\n\n- 地方医保政策；\n- 诊断编码范围；\n- 项目映射表；\n- 医保支付例外；\n- 医学适应证；\n- 监管系统内部算法。\n\n能够可靠理解的部分正常输出；影响核心含义但无法确定的内容写入`unresolved`。\n\n### 8. 计算型疑点\n\n对于数量、剂量、频次、天数、金额和比例等描述：\n\n- 不要把实际值、阈值和监管计算结果分别拆成事实；\n- 不要自行完成复杂计算并认定监管结果正确；\n- 应生成一个需要通过受控计算核验的申诉命题；\n- 在`calculations`中说明计算问题和必要输入。\n\n计算命题应表达计算完成后什么结果能够支持申诉。\n\n\n\n\n六、输出格式\n只输出合法JSON，不输出Markdown、解释或分析过程。\n{\n  \"status\": \"READY | PARTIAL | NEEDS_CONFIRMATION | NO_CLEAR_APPEAL_PATH\",\n  \"appeal_goal\": \"\",\n  \"facts\": [\n    {\n      \"fact_id\": \"F01\",\n      \"description\": \"\",\n      \"verification_mode\": \"EVIDENCE | CALCULATION | MIXED\"\n    }\n  ],\n  \"logical_expression\": \"\",\n  \"time_requirements\": \"\",\n  \"calculations\": [\n    {\n      \"fact_id\": \"F01\",\n      \"question\": \"\",\n      \"required_inputs\": []\n    }\n  ],\n  \"unresolved\": []\n}\n\n七、字段要求\nstatus\n- READY：原始描述足以形成可靠的申诉命题；\n- PARTIAL：部分命题明确，但仍有影响范围或逻辑的内容无法确定；\n- NEEDS_CONFIRMATION：核心含义不明确，无法可靠生成申诉命题；\n- NO_CLEAR_APPEAL_PATH：当前描述下没有可以合理生成的事实申诉路径。\nappeal_goal\n用一句话概括医院需要证明什么。\n不得超过一个完整句子，不得复述全部命题。\nfacts\n只输出改变审核结果所必需的待核验命题。\n每个命题：\n- 使用陈述句；\n- 表意具体；\n- 可以独立核验；\n- 成立时能够支持申诉；\n- 不包含证据来源和查询方式；\n- 不包含模型尚未获得的患者事实。\nlogical_expression\n只使用：\n- fact_id\n- AND\n- OR\n- NOT\n- 圆括号\n只有一个命题时直接输出其fact_id。\n不得因为原始描述中出现否定词就机械使用NOT。只有当逻辑本身明确要求某个独立命题不成立时才能使用。\ntime_requirements\n只记录核验所需的业务时间范围。\n如果原文没有特殊时间要求，输出：\n本次疑点费用对应的就诊周期\n不得擅自扩大到患者全部历史病历。\ncalculations\n仅在确实需要程序计算时填写，否则输出空数组。\nrequired_inputs只描述计算所需的业务数据，不写具体系统、Tool或查询方法。\nunresolved\n只记录会影响规则理解、逻辑关系或核验范围的关键缺失。",
+  "rules": [
+    {
+      "rule_id": "RULE-001",
+      "rule_text": "01-一次性使用注射笔用针头限胰岛素专用针头，请提供含诊断的相关病历材料进行申诉。",
+      "state": "done",
+      "filename": "RULE-001.json",
+      "result": {
+        "status": "READY",
+        "appeal_goal": "证明患者存在胰岛素治疗适应证，且使用一次性注射笔用针头符合临床诊疗规范。",
+        "facts": [
+          {
+            "fact_id": "F01",
+            "description": "患者在本次就诊周期内被确诊为糖尿病或存在其他需使用胰岛素治疗的疾病诊断。",
+            "verification_mode": "EVIDENCE"
+          },
+          {
+            "fact_id": "F02",
+            "description": "病历记录中明确记载了针对该诊断的胰岛素治疗方案（如医嘱、处方或护理记录）。",
+            "verification_mode": "EVIDENCE"
+          }
+        ],
+        "logical_expression": "F01 AND F02",
+        "time_requirements": "本次疑点费用对应的就诊周期",
+        "calculations": [],
+        "unresolved": []
+      }
+    },
+    {
+      "rule_id": "RULE-002",
+      "rule_text": "阿布昔替尼片本次开具药量为【28片】，每日最大剂量为2，超出药量为16。",
+      "state": "done",
+      "filename": "RULE-002.json",
+      "result": {
+        "facts": [
+          {
+            "fact_id": "F01",
+            "description": "阿布昔替尼片本次开具药量为28片"
+          },
+          {
+            "fact_id": "F02",
+            "description": "阿布昔替尼片每日最大剂量为2"
+          }
+        ],
+        "logical_expression": "F01 AND F02",
+        "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+        "time_requirements": "按该规则及疑点费用发生时间核实",
+        "unresolved": []
+      }
+    },
+    {
+      "rule_id": "RULE-003",
+      "rule_text": "阿布昔替尼片限其他系统治疗(如激素或生物制剂)应答不佳或不适宜上述治疗的难治性、中重度特应性皮炎成人和12岁及以上青少年患者。",
+      "state": "done",
+      "filename": "RULE-003.json",
+      "result": {
+        "facts": [
+          {
+            "fact_id": "F01",
+            "description": "患者是否符合特应性皮炎诊断条件"
+          },
+          {
+            "fact_id": "F02",
+            "description": "患者是否符合中重度疾病程度条件"
+          },
+          {
+            "fact_id": "F03",
+            "description": "患者是否为成人"
+          },
+          {
+            "fact_id": "F04",
+            "description": "患者是否为12岁及以上青少年"
+          },
+          {
+            "fact_id": "F05",
+            "description": "患者是否接受过其他系统治疗（如激素或生物制剂）"
+          },
+          {
+            "fact_id": "F06",
+            "description": "患者是否对上述其他系统治疗应答不佳"
+          },
+          {
+            "fact_id": "F07",
+            "description": "患者是否不适宜上述其他系统治疗"
+          }
+        ],
+        "logical_expression": "F01 AND F02 AND (F03 OR F04) AND F05 AND (F06 OR F07)",
+        "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+        "time_requirements": "按该规则及疑点费用发生时间核实",
+        "unresolved": []
+      }
+    },
+    {
+      "rule_id": "RULE-004",
+      "rule_text": "阿利沙坦酯氨氯地平片限原发性高血压。",
+      "state": "done",
+      "filename": "RULE-004.json",
+      "result": {
+        "facts": [
+          {
+            "fact_id": "F01",
+            "description": "患者是否符合原发性高血压诊断条件"
+          }
+        ],
+        "logical_expression": "F01",
+        "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+        "time_requirements": "按该规则及疑点费用发生时间核实",
+        "unresolved": []
+      }
+    },
+    {
+      "rule_id": "RULE-005",
+      "rule_text": "癌胚抗原测定(CEA)-化学发光法非生育产检支付范围",
+      "state": "done",
+      "filename": "RULE-005.json",
+      "result": {
+        "facts": [
+          {
+            "fact_id": "F01",
+            "description": "患者是否处于生育期"
+          },
+          {
+            "fact_id": "F02",
+            "description": "本次CEA检测是否属于产检项目"
+          }
+        ],
+        "logical_expression": "NOT (F01 AND F02)",
+        "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+        "time_requirements": "按该规则及疑点费用发生时间核实",
+        "unresolved": []
+      }
+    },
+    {
+      "rule_id": "RULE-006",
+      "rule_text": "艾拉莫德片限活动性类风湿关节炎患者的二线治疗。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-007",
+      "rule_text": "艾曲泊帕乙醇胺片限:1.既往对糖皮质激素、免疫球蛋白等治疗反应不佳的成人和6岁及以上儿童慢性免疫性(特发性)血小板减少症(ITP)患者;2.既往对免疫抑制治疗缓解不充分的重型再生障碍性贫血(SAA)患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-008",
+      "rule_text": "奥布替尼片限：1.既往至少接受过一种治疗的成人套细胞淋巴瘤(MCL)患者；2.既往至少接受过一种治疗的成人慢性淋巴细胞白血病(CLL)/小淋巴细胞淋巴瘤(SLL)患者；3.既往至少接受过一种治疗的成人边缘区淋巴瘤(MZL)患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-009",
+      "rule_text": "奥马珠单抗注射液限:1.经吸入型糖皮质激素和长效吸入型β2-肾上腺素受体激动剂治疗后,仍不能有效控制症状的中至重度持续性过敏性哮喘的6岁及以上患者,并需IgE(免疫球蛋白E)介导确诊证据;2.H1抗组胺药治疗后仍有症状的成人和青少年(12岁及以上)慢性自发性荨麻疹患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-010",
+      "rule_text": "拔牙创面搔刮术含干槽症、拔牙后出血、拔牙创面愈合不良（根据《广东省基本医疗服务价格项目目录（2023年版）》项目内涵或说明规定），拔牙创面搔刮术不能与口腔局部止血同时收费。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-011",
+      "rule_text": "贝前列素钠片限有慢性动脉闭塞的诊断且有明确的溃疡、间歇性跛行及严重疼痛体征的患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-012",
+      "rule_text": "本次就诊开具了大关节松动训练，可支付天数90天，实际开具110天，超出医保限定天数。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-013",
+      "rule_text": "本次就诊开具了加收项目计算机体层成像（CT）增强-薄层扫描（加收），而无对应的主项目",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-014",
+      "rule_text": "本次就诊开具了食管腔内支架置入术，而没有开具与之匹配的的麻醉项目",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-015",
+      "rule_text": "本次就诊开具了胸腹水常规检查，而没有开具与之匹配的的胸腹水抽取操作项目",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-016",
+      "rule_text": "本次就诊使用了001-支架类，而未检测到支架置入术等相关的手术",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-017",
+      "rule_text": "本次住院多项费用总和为【7241.09元】，占总费用【7464.15元】比例为97.01%，超过规定上限97%",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-018",
+      "rule_text": "苯磺酸克利加巴林胶囊限：1.治疗成人糖尿病性周围神经病理性疼痛；2.带状疱疹后神经痛。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-019",
+      "rule_text": "比克恩丙诺片限艾滋病病毒感染。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-020",
+      "rule_text": "吡美莫司乳膏限轻中度特应性皮炎患者的二线用药。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-021",
+      "rule_text": "参葛补肾胶囊益气、养阴、补肾。适用于轻、中度抑郁症中医辨证属气阴两虚、肾气不足证，症见情绪低落、多思善虑、言语动作减少、目光迟滞、健忘、食少、心悸胆怯、少寐多梦、心烦，舌质淡红或偏红、舌苔白或花剥，脉细弱等。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-022",
+      "rule_text": "肠内营养混悬液(SP)需经营养风险筛查，明确具有营养风险，且应为不能经饮食补充足够营养的患者方予支付。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-023",
+      "rule_text": "单次就诊诊疗项目【中医熏洗】实际开具10次，超出7次治疗使用量。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-024",
+      "rule_text": "单次就诊诊疗项目按次或人次收费，机构收取次数异常。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-025",
+      "rule_text": "单次就诊中，诊疗项目【Ⅲ级护理,Ⅰ级护理,Ⅱ级护理】实际开具49次，住院天数39，其上限为39，超出限定频次",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-026",
+      "rule_text": "地屈孕酮片用于治疗可用于治疗内源性孕酮不足引起的疾病，及辅助生殖技术中的黄体支持。，患者开具此药属于超适应症用药",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-027",
+      "rule_text": "富马酸伏诺拉生片限:1.反流性食管炎;2.与适当的抗生素联用以根除幽门螺杆菌。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-028",
+      "rule_text": "该就诊中鼻饲管置管为诊断禁忌项目",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-029",
+      "rule_text": "该就诊中吸痰护理为诊断禁忌项目",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-030",
+      "rule_text": "该就诊中装有起搏器、除颤器的患者禁用",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-031",
+      "rule_text": "戈利昔替尼胶囊限既往至少接受过一线系统性治疗的复发或难治的外周T细胞淋巴瘤(r/rPTCL)成人患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-032",
+      "rule_text": "患者本次住院【2025-07-02】同时开具【经腹子宫肌瘤剔除术,卵巢囊肿剔除术/经腹子宫肌瘤剔除术,卵巢囊肿剔除术】属同切口手术，同台进行应折价收费",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-033",
+      "rule_text": "患者本次住院【2025-08-01】同时开具【腹式全子宫切除术,卵巢切除术/腹式全子宫切除术,卵巢切除术】属同切口手术，同台进行应折价收费",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-034",
+      "rule_text": "患者在同一医疗机构出院0天内重新入院，上次出院日期2025-11-13，本次出院日期2025-11-03存在分解住院可能。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-035",
+      "rule_text": "甲苯胺红梅毒血清学试验定性(TRUST)审核未发现病情相关或有明显指征支持为必要检查，请提供相关病历材料进行申诉。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-036",
+      "rule_text": "金花清感颗粒疏风宣肺，清热解毒。用于单纯型流行性感冒轻症，中医辨证属风热犯肺证者，症见发热，头痛，全身酸痛，咽痛，咳嗽，恶风或恶寒，鼻塞流涕，舌质红，舌苔薄黄，脉数。在新型冠状病毒肺炎的常规治疗中，可用于轻型、普通型引起的发热、咳嗽、乏力。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-037",
+      "rule_text": "金水宝片限慢性支气管炎、慢性肾功能不全的患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-038",
+      "rule_text": "梅毒螺旋体特异抗体测定（化学发光法）☆审核未发现病情相关或有明显指征支持为必要检查，请提供相关病历材料进行申诉。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-039",
+      "rule_text": "人免疫缺陷病毒抗体测定(Anti-HIV)（化学发光法）☆审核未发现病情相关或有明显指征支持为必要检查，请提供相关病历材料进行申诉。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-040",
+      "rule_text": "塞利尼索片限：1.既往接受过治疗且对至少一种蛋白酶体抑制剂，一种免疫调节剂以及一种抗CD38单抗难治的复发或难治性多发性骨髓瘤成人患者；2.既往接受过至少两线系统性治疗的复发或难治性弥漫性大B细胞淋巴瘤(DLBCL)成人患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-041",
+      "rule_text": "沙库巴曲缬沙坦钠片限:1.射血分数降低的慢性心力衰竭(NYHAⅡ-Ⅳ级,LVEF≤40%)成人患者;2.原发性高血压。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-042",
+      "rule_text": "收取甲状腺癌根治术时，无恶性肿瘤的相关诊断，患者开具此项目属于超适应症范围。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-043",
+      "rule_text": "输卵管修复整形术含输卵管吻合、再通、整形。（根据《广东省基本医疗服务价格项目目录（2021年版）》项目内涵或说明规定），与子宫输卵管通液术不能同时收费",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-044",
+      "rule_text": "司库奇尤单抗注射液限：1.符合系统治疗或光疗指征的中度至重度斑块状银屑病的6岁及以上患者；2.常规治疗疗效欠佳的强直性脊柱炎的成年患者；3.既往传统的改善病情抗风湿药(cDMARDs)疗效不佳或不耐受的活动性银屑病关节炎成人患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-045",
+      "rule_text": "索磷布韦维帕他韦片限成人慢性丙型肝炎病毒(HCV)感染。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-046",
+      "rule_text": "他克莫司软膏限中重度特应性皮炎患者的二线用药。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-047",
+      "rule_text": "替戈拉生片限：1.反流性食管炎；2.十二指肠溃疡。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-048",
+      "rule_text": "替戈拉生片限：1.反流性食管炎；2.十二指肠溃疡；3.与适当的抗生素联用以根除幽门螺杆菌。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-049",
+      "rule_text": "同一参保人，单日内有1个就诊单据1207291110，且单据处方号一致，结算金额一致，项目名称一致，项目数量一致。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-050",
+      "rule_text": "维立西呱片限心力衰竭失代偿经静脉治疗后病情稳定的射血分数降低(射血分数<45%)的症状性慢性心力衰竭成人患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-051",
+      "rule_text": "乌帕替尼缓释片限：1.12岁及以上患者难治性、中重度特应性皮炎的二线治疗；2.活动性银屑病关节炎成人患者的二线治疗；3.中重度活动性类风湿关节炎成人患者的二线治疗；4.对一种或多种TNF抑制剂应答不佳或不耐受或禁忌的中度至重度活动性溃疡性结肠炎成人患者；5.对一种或多种TNF抑制剂应答不佳或不耐受或禁忌的中度至重度活动性克罗恩病成人患者；6.对非甾体抗炎药(NSAID)应答不佳且存在客观炎症征象(表现为C反应蛋白[CRP]升高和/或磁共振成像[MRI]异常)的活动性放射学阴性中轴型脊柱关节炎(nr-axSpA)成人患者；7.对一种或多种TNF抑制剂应答不佳或不耐受的活动性强直性脊柱炎(AS，放射学阳性中轴型脊柱关节炎)成人患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-052",
+      "rule_text": "胸(腹)腔穿刺置管术仅独立开展时方可收费",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-053",
+      "rule_text": "胸腹水常规检查含细胞计数、细胞分类，白细胞分类计数(DC)不能与胸腹水常规检查同时收费。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-054",
+      "rule_text": "依洛尤单抗注射液限:1.降低心血管事件的风险:在已有动脉粥样硬化性心血管疾病的成人患者中,降低心肌梗死、卒中以及冠脉血运重建的风险。通过:与最大耐受剂量的他汀类药物联合用药,伴随或不伴随其他降脂疗法,或者在他汀类药物不耐受或禁忌使用的患者中,单独用药或与其他降脂疗法联合用药;2.原发性高胆固醇血症(包括杂合子型家族性高胆固醇血症)和混合型血脂异常:可作为饮食的辅助疗法,用于成人原发性高胆固醇血症(杂合子家族性和非家族性)或混合型血脂异常患者的治疗,以降低低密度脂蛋白胆固醇(LDL-C)水平:在接受最大耐受剂量的他汀类药物治疗仍无法达到LDL-C目标的患者中,与他汀类药物、或者与他汀类药物及其他降脂疗法联合用药,或者在他汀类药物不耐受或禁忌使用的患者中,单独用药或与其他降脂疗法联合用药;3.纯合子型家族性高胆固醇血症:用于成人或12岁以上青少年的纯合子型家族性高胆固醇血症。可与饮食疗法和其他降低密度脂蛋白胆固醇(LDL-C)治疗(例如他汀类药物、依折麦布、LDL分离术)合用,用于患有纯合子型家族性高胆固醇血症(HoFH)且需要进一步降低LDL-C的患者。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-055",
+      "rule_text": "依那普利叶酸限有明确同型半胱氨酸水平升高证据的原发性高血压。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-056",
+      "rule_text": "依西美坦片用于治疗1、经他莫昔芬辅助治疗2－3年后，绝经后雌激素受体阳性的妇女的早期浸润性乳腺癌的辅助治疗，直至完成总共5年的辅助内分泌治疗。2、经他莫昔芬治疗后，其病情仍有进展的自然或人工绝经后妇女的晚期乳腺癌。，患者开具此药属于超适应症用药",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-057",
+      "rule_text": "乙型肝炎e抗体测定(Anti-HBe)-化学发光法,乙型肝炎e抗体测定(Anti-HBe)-酶标法根据地方医保政策及专家共识调整，建议单次住院30日内不超过1次。现超出数量1.0。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-058",
+      "rule_text": "因为【乳腺癌保乳手术+腋窝淋巴结清扫术】的手术/操作中已涵盖【乳腺癌保乳手术,腋窝淋巴结清扫术】，将已涵盖内容进行单独计费，存在分解项目收费。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-059",
+      "rule_text": "正电子发射计算机断层显像/计算机断层扫描（PET/CT）（躯干）-全身加收（加收）限恶性肿瘤---深圳市地方补充医疗保险诊疗项目",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    },
+    {
+      "rule_id": "RULE-060",
+      "rule_text": "置管护理（深静脉/动脉）是1.深静脉置管包括中心静脉导管(CVC)、经外周静脉置入的中心静脉导管(PICC)、输液港(PORT）等。2.外周静脉置管护理含在注射费价格构成中，不单独计费。",
+      "state": "pending",
+      "filename": null,
+      "result": null
+    }
+  ],
+  "counts": {
+    "total": 60,
+    "done": 5,
+    "pending": 55,
+    "error": 0
+  },
+  "run": {
+    "status": "idle",
+    "message": "云端审阅模式",
+    "started_at": null,
+    "finished_at": null,
+    "elapsed_seconds": null,
+    "summary": null
+  },
+  "defaults": {
+    "thinking": false,
+    "write_mode": "append"
+  },
+  "mode": "static",
+  "generated_at": "2026-09-16T15:46:01+08:00"
+}

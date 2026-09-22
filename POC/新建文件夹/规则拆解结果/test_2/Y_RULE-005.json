@@ -1,0 +1,16 @@
+{
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者是否处于生育期"
+    },
+    {
+      "fact_id": "F02",
+      "description": "患者是否处于产检阶段"
+    }
+  ],
+  "logical_expression": "NOT (F01 AND F02)",
+  "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+  "time_requirements": "按该规则及疑点费用发生时间核实",
+  "unresolved": []
+}

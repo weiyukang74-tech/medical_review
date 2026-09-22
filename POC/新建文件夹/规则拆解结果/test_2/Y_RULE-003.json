@@ -1,0 +1,36 @@
+{
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者是否接受过其他系统治疗（如激素或生物制剂）"
+    },
+    {
+      "fact_id": "F02",
+      "description": "患者对其他系统治疗（如激素或生物制剂）是否应答不佳"
+    },
+    {
+      "fact_id": "F03",
+      "description": "患者是否不适宜上述其他系统治疗（如激素或生物制剂）"
+    },
+    {
+      "fact_id": "F04",
+      "description": "患者是否符合难治性特应性皮炎诊断条件"
+    },
+    {
+      "fact_id": "F05",
+      "description": "患者是否符合中重度特应性皮炎诊断条件"
+    },
+    {
+      "fact_id": "F06",
+      "description": "患者是否为成人"
+    },
+    {
+      "fact_id": "F07",
+      "description": "患者是否为12岁及以上青少年"
+    }
+  ],
+  "logical_expression": "(F01 AND (F02 OR F03)) AND F04 AND F05 AND (F06 OR F07)",
+  "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+  "time_requirements": "按该规则及疑点费用发生时间核实",
+  "unresolved": []
+}

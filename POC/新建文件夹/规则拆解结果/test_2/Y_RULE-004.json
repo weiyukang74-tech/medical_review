@@ -1,0 +1,12 @@
+{
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者是否符合原发性高血压诊断条件"
+    }
+  ],
+  "logical_expression": "F01",
+  "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+  "time_requirements": "按该规则及疑点费用发生时间核实",
+  "unresolved": []
+}

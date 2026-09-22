@@ -1,0 +1,116 @@
+{
+  "rule_id": "RULE-010",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 AND P02",
+    "basis_quotes": [
+      "证明本次食管腔内支架置入术在实际执行过程中实施了相应的麻醉或镇静措施，并查明为何监管系统中未检测到匹配的麻醉项目（是计费归类差异、打包收费还是漏记），以消除‘无麻醉实施手术’的违规疑点。",
+      "如果P01证实有麻醉，则需解释为何无麻醉收费。此命题旨在通过费用明细核对，找出麻醉成本的实际去向，证明并非‘无麻醉’，而是‘计费归类不同’。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "麻醉记录",
+      "target_fact": "获取本次手术的麻醉记录单，确认是否实施了麻醉、麻醉方式（全麻/局麻/镇静）、麻醉药物及剂量。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果状态为NOT_RETRIEVED，未获取到麻醉记录单或相关结构化数据，无法确认麻醉实施情况。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "手术记录",
+      "target_fact": "获取手术记录，确认术中是否提及使用麻醉或镇静药物，以及患者的意识状态。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果状态为NOT_RETRIEVED，未获取到手术记录。出院记录中仅提及“行内镜下食管狭窄扩张+食管支架置入术，术程顺利”，未描述麻醉方式或药物使用，无法佐证麻醉实施细节。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "护理",
+      "二级证据标签": "护理记录",
+      "target_fact": "查看术前准备和术中护理记录，确认是否有麻醉配合、生命体征监测及镇静药物给药记录。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果状态为NOT_RETRIEVED，未获取到护理记录，无法确认麻醉配合情况。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "费用",
+      "二级证据标签": "收费明细",
+      "target_fact": "列出本次就诊所有与麻醉、镇静相关的药品和治疗费用明细，检查其编码是否被归类为非麻醉类项目。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果状态为NOT_RETRIEVED，未获取到费用明细，无法核对麻醉相关费用的归类情况。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "用药",
+      "二级证据标签": "药品医嘱",
+      "target_fact": "核查术中使用的镇静、镇痛或麻醉药品的医嘱及执行记录。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-IP-021 出院记录或出院小结",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-122642551-01",
+          "location": "诊疗经过",
+          "quote": "治疗上予以抗感染、抑酸、止痛、补钾、补液、肠外营养等对症支持治疗。"
+        }
+      ],
+      "reason": "出院记录中仅提及术后“止痛”等对症支持治疗，未明确列出术中使用的具体镇静、镇痛或麻醉药品名称及剂量，无法确认术中麻醉用药情况。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "UNKNOWN",
+      "reason": "所有REQUIRED事实（麻醉记录、手术记录）均因数据未检索到或病历原文缺失关键细节而判定为UNKNOWN，无法证明是否实施了麻醉或镇静。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "UNKNOWN",
+      "reason": "REQUIRED事实（费用明细、药品医嘱）均无法提供确凿证据。费用明细未获取，药品医嘱仅在出院记录中提及术后止痛，未涉及术中麻醉用药，无法证明麻醉费用的去向或归类。"
+    }
+  ],
+  "overall_logic_status": "UNKNOWN",
+  "review_status": "OPEN",
+  "case_status": "待补充证据",
+  "final_conclusion": {
+    "result": "暂无法判定",
+    "is_final": false,
+    "reason": "关键证据（麻醉记录、手术记录、费用明细）缺失，无法确认是否实施麻醉及费用归类情况，需补充证据以判断合规性。"
+  },
+  "supplemental_evidence_requests": [
+    {
+      "proposition_id": "P01",
+      "target_fact": "获取本次手术的麻醉记录单，确认是否实施了麻醉、麻醉方式（全麻/局麻/镇静）、麻醉药物及剂量。",
+      "requested_data": "麻醉记录单或麻醉评估记录",
+      "requested_source": "DS-M-IP-011 麻醉评估与麻醉记录",
+      "reason": "直接证明是否实施麻醉及麻醉方式，是反驳‘无麻醉实施手术’的核心证据。"
+    },
+    {
+      "proposition_id": "P01",
+      "target_fact": "获取手术记录，确认术中是否提及使用麻醉或镇静药物，以及患者的意识状态。",
+      "requested_data": "手术记录",
+      "requested_source": "DS-M-IP-012 手术记录",
+      "reason": "手术记录通常包含麻醉方式和术中用药描述，可佐证麻醉实施情况。"
+    },
+    {
+      "proposition_id": "P02",
+      "target_fact": "列出本次就诊所有与麻醉、镇静相关的药品和治疗费用明细，检查其编码是否被归类为非麻醉类项目。",
+      "requested_data": "本次就诊的费用明细清单",
+      "requested_source": "DS-S-002 费用明细",
+      "reason": "用于核对是否存在麻醉相关费用被归类为其他项目，或是否存在漏记，以解释监管系统未检测到麻醉项目的原因。"
+    }
+  ],
+  "manual_review_reason": null
+}

@@ -1,0 +1,57 @@
+{
+  "rule_evidence": "D:\\AI\\AI_S2\\项目汇聚\\POC\\规则证据结果\\规则证据结果.json",
+  "count": 5,
+  "completed": 5,
+  "entries": [
+    {
+      "rule_id": "RULE-001",
+      "status": "COMPLETED",
+      "medins_id": "H44030500096",
+      "mdtrt_id": "119008017",
+      "proposition_count": 3,
+      "evidence_count": 7,
+      "query_result": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\查询结果_RULE-001.json",
+      "review_context": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\复核上下文_RULE-001.json"
+    },
+    {
+      "rule_id": "RULE-002",
+      "status": "COMPLETED",
+      "medins_id": "H44030500096",
+      "mdtrt_id": "121191321",
+      "proposition_count": 1,
+      "evidence_count": 4,
+      "query_result": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\查询结果_RULE-002.json",
+      "review_context": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\复核上下文_RULE-002.json"
+    },
+    {
+      "rule_id": "RULE-003",
+      "status": "COMPLETED",
+      "medins_id": "H44030500096",
+      "mdtrt_id": "120754300",
+      "proposition_count": 4,
+      "evidence_count": 8,
+      "query_result": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\查询结果_RULE-003.json",
+      "review_context": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\复核上下文_RULE-003.json"
+    },
+    {
+      "rule_id": "RULE-004",
+      "status": "COMPLETED",
+      "medins_id": "H44030500096",
+      "mdtrt_id": "120907776",
+      "proposition_count": 1,
+      "evidence_count": 3,
+      "query_result": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\查询结果_RULE-004.json",
+      "review_context": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\复核上下文_RULE-004.json"
+    },
+    {
+      "rule_id": "RULE-005",
+      "status": "COMPLETED",
+      "medins_id": "H44030500096",
+      "mdtrt_id": "119124777",
+      "proposition_count": 2,
+      "evidence_count": 9,
+      "query_result": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\查询结果_RULE-005.json",
+      "review_context": "D:\\AI\\AI_S2\\项目汇聚\\POC\\查询结果\\复核上下文_RULE-005.json"
+    }
+  ]
+}

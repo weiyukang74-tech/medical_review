@@ -1,0 +1,23 @@
+{
+  "status": "PARTIAL",
+  "appeal_goal": "证明患者存在使用胰岛素治疗的临床指征，且该针头为配合胰岛素注射所必需。",
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者在本次就诊期间被诊断为糖尿病或具有其他需要使用胰岛素治疗的明确临床指征。",
+      "verification_mode": "EVIDENCE"
+    },
+    {
+      "fact_id": "F02",
+      "description": "患者在本次就诊期间实际开具并使用了胰岛素制剂进行治疗。",
+      "verification_mode": "EVIDENCE"
+    }
+  ],
+  "logical_expression": "F01 AND F02",
+  "time_requirements": "本次疑点费用对应的就诊周期",
+  "calculations": [],
+  "unresolved": [
+    "规则中'限胰岛素专用针头'的具体定义范围不明确：是指仅限用于注射胰岛素的场景，还是指特定编码的针头产品？此处假设申诉核心在于证明'使用场景符合胰岛素治疗需求'。",
+    "未明确是否必须同时提供诊断和用药记录，还是仅需其一即可证明合理性。基于医疗常规，通常需两者结合以证明必要性，故设定为AND关系。"
+  ]
+}

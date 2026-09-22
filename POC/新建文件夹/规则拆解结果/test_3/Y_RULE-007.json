@@ -1,0 +1,36 @@
+{
+  "facts": [
+    {
+      "fact_id": "F01",
+      "description": "患者是否符合成人年龄条件"
+    },
+    {
+      "fact_id": "F02",
+      "description": "患者是否符合6岁及以上儿童年龄条件"
+    },
+    {
+      "fact_id": "F03",
+      "description": "患者是否符合慢性免疫性(特发性)血小板减少症(ITP)诊断条件"
+    },
+    {
+      "fact_id": "F04",
+      "description": "患者是否符合既往对糖皮质激素治疗反应不佳条件"
+    },
+    {
+      "fact_id": "F05",
+      "description": "患者是否符合既往对免疫球蛋白治疗反应不佳条件"
+    },
+    {
+      "fact_id": "F06",
+      "description": "患者是否符合重型再生障碍性贫血(SAA)诊断条件"
+    },
+    {
+      "fact_id": "F07",
+      "description": "患者是否符合既往对免疫抑制治疗缓解不充分条件"
+    }
+  ],
+  "logical_expression": "((F01 OR F02) AND F03 AND (F04 OR F05)) OR (F06 AND F07)",
+  "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+  "time_requirements": "按该规则及疑点费用发生时间核实",
+  "unresolved": []
+}

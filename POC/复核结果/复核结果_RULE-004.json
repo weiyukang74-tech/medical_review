@@ -1,0 +1,77 @@
+{
+  "rule_id": "RULE-004",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01",
+    "basis_quotes": [
+      "阿利沙坦酯氨氯地平片限原发性高血压。",
+      "证明本次就诊中开具‘阿利沙坦酯氨氯地平片’时，患者具有符合医保支付条件的‘原发性高血压’诊断。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "本次就诊病案首页或诊断列表中是否存在‘原发性高血压’的标准诊断记录。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "原发性高血压"
+        }
+      ],
+      "reason": "结构化查询结果明确返回了诊断名称为‘原发性高血压’的记录，且ICD编码为ICD007337，直接支持该事实。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病史",
+      "二级证据标签": "既往史",
+      "target_fact": "患者既往是否有原发性高血压病史记录，以佐证本次诊断的连续性。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "提供的门诊病历（DOC-DS-M-OP-001-120907776-01）中未包含明确的既往史章节或关于原发性高血压既往史的连续描述。病历内容主要记录本次复诊情况，诊断为‘慢性肾炎综合征高尿酸血症肾性高血压’，未提及既往原发性高血压病史。由于该事实为SUPPLEMENTARY，不影响核心命题判断，故标记为UNKNOWN。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "本次就诊是否有血压升高的客观测量值或相关症状记录，支持高血压诊断的临床依据。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-120907776-01",
+          "location": "基本信息",
+          "quote": "BP:96/67mmHg"
+        }
+      ],
+      "reason": "病历记录显示本次就诊血压为96/67mmHg，属于正常范围，并未出现血压升高的客观测量值。但这属于辅助性事实，且核心诊断已成立，不影响最终合规性判定。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "核心REQUIRED事实‘本次就诊病案首页或诊断列表中是否存在‘原发性高血压’的标准诊断记录’已被结构化数据明确支持。尽管门诊病历中的临床诊断写为‘肾性高血压’，但结构化诊断列表中存在独立的‘原发性高血压’诊断记录，满足医保限定条件中对诊断名称的要求。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "监管方违规认定基于患者可能未被诊断为‘原发性高血压’。经复核，结构化诊断数据中明确存在‘原发性高血压’的诊断记录，满足药品‘阿利沙坦酯氨氯地平片’限‘原发性高血压’使用的医保支付条件。因此，申诉成立，判定为合规。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

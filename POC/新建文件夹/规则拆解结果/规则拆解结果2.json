@@ -1,0 +1,68 @@
+[
+  {
+    "_comment": "----------------- RULE-001 -----------------",
+    "rule_id": "RULE-001",
+    "result": {
+      "rule_id": "RULE-001",
+      "status": "evidence_insufficient",
+      "proposition_tag_mappings": [
+        {
+          "proposition_id": "P01",
+          "proposition_statement": "患者使用一次性使用注射笔用针头符合‘限胰岛素专用’的医保支付限定条件。",
+          "mapping_status": "evidence_insufficient",
+          "required_tags": [
+            {
+              "一级证据域": "诊断",
+              "二级证据标签": "出院诊断",
+              "target_fact": "患者是否患有糖尿病或需要使用胰岛素治疗的明确诊断记录",
+              "necessity": "REQUIRED"
+            },
+            {
+              "一级证据域": "用药",
+              "二级证据标签": "药品医嘱",
+              "target_fact": "患者是否有胰岛素类药物的开具医嘱，以证明针头用于胰岛素注射",
+              "necessity": "REQUIRED"
+            }
+          ],
+          "supplementary_tags": [],
+          "missing_required_facts": [
+            "一次性使用注射笔用针头的具体计费项目与对应使用的药物（胰岛素）之间的直接关联证据（如护理记录中注明使用该针头注射胰岛素，或费用明细中针头与胰岛素同时发生且逻辑一致），现有标签目录缺乏专门针对‘耗材与特定药物绑定使用关系’的标准化事实标签"
+          ]
+        }
+      ]
+    }
+  },
+  {
+    "_comment": "----------------- RULE-002 -----------------",
+    "rule_id": "RULE-002",
+    "result": {
+      "rule_id": "RULE-002",
+      "status": "evidence_insufficient",
+      "proposition_tag_mappings": [
+        {
+          "proposition_id": "P01",
+          "proposition_statement": "阿布昔替尼片本次开具药量为【28片】，每日最大剂量为2，超出药量为16。",
+          "mapping_status": "evidence_insufficient",
+          "required_tags": [
+            {
+              "一级证据域": "用药",
+              "二级证据标签": "药品医嘱",
+              "target_fact": "阿布昔替尼片的单次处方剂量、每日给药频次及具体用法",
+              "necessity": "REQUIRED"
+            },
+            {
+              "一级证据域": "用药",
+              "二级证据标签": "剂量与开药天数",
+              "target_fact": "本次处方的总数量（28片）以及基于医嘱计算的理论使用天数或总剂量",
+              "necessity": "REQUIRED"
+            }
+          ],
+          "supplementary_tags": [],
+          "missing_required_facts": [
+            "医保规则中定义的阿布昔替尼片每日最大允许剂量标准值（用于比对‘每日最大剂量为2’这一监管判定依据）"
+          ]
+        }
+      ]
+    }
+  }
+]

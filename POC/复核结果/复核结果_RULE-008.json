@@ -1,0 +1,91 @@
+{
+  "rule_id": "RULE-008",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 AND P02",
+    "basis_quotes": [
+      "贝前列素钠片限有慢性动脉闭塞的诊断且有明确的溃疡、间歇性跛行及严重疼痛体征的患者。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "本次就诊记录中是否存在‘慢性动脉闭塞症’或其同义标准诊断名称/编码。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "下肢动脉闭塞"
+        }
+      ],
+      "reason": "结构化诊断数据中存在‘下肢动脉闭塞’，在临床语境下与‘慢性动脉闭塞症’为同义或包含关系，且门诊病历原文诊断列表中也明确列出‘下肢动脉闭塞’，满足‘有慢性动脉闭塞的诊断’这一核心条件。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "病历中关于肢体溃疡、行走后下肢疼痛（间歇性跛行）或静息痛/严重疼痛的具体文字描述。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121750883-01",
+          "location": "内容",
+          "quote": "病史同前，患者仍有间歇性跛行及下肢疼痛"
+        }
+      ],
+      "reason": "门诊病历‘内容’字段明确记录患者存在‘间歇性跛行’及‘下肢疼痛’，直接满足规则要求的‘溃疡、间歇性跛行及严重疼痛’中的至少一项体征。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "现病史中对上述症状发生时间、性质和程度的详细描述。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病历中仅简述‘病史同前’，未提供详细的现病史描述，但该事实为补充性质，不影响核心命题成立。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "检查",
+      "二级证据标签": "专科检查",
+      "target_fact": "血管外科或相关科室查体记录中关于足背动脉搏动、皮肤颜色、温度及溃疡情况的客观检查结果。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，无相关专科检查报告，但该事实为补充性质，不影响核心命题成立。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "所有REQUIRED事实均为SUPPORTED。诊断数据支持患者具有慢性动脉闭塞相关诊断。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "所有REQUIRED事实均为SUPPORTED。病历原文明确记录了间歇性跛行和下肢疼痛，满足体征要求。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "命题逻辑为P01 AND P02。P01（具备慢性动脉闭塞诊断）被证据支持；P02（具备间歇性跛行等体征）被证据支持。整体逻辑结果为SUPPORTED，符合医保支付限定条件。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

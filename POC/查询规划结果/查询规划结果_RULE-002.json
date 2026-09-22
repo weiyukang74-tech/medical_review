@@ -1,0 +1,106 @@
+{
+  "rule_id": "RULE-002",
+  "case_parameters": {
+    "mdtrt_id": "121191321",
+    "medins_id": "",
+    "visit_no": "51222083117121191321"
+  },
+  "plans": [
+    {
+      "query_id": "QP-P01-1",
+      "proposition_id": "P01",
+      "一级证据域": "用药",
+      "二级证据标签": "频次疗程",
+      "target_fact": "医嘱中明确的治疗周期或总疗程设定",
+      "necessity": "REQUIRED",
+      "source": "DS-S-002 费用明细",
+      "view_name": "费用明细",
+      "query_type": "STRUCTURED",
+      "entity": {
+        "original_name": "阿布昔替尼片",
+        "source_path": "result.source.violation_item"
+      },
+      "charge_type": {
+        "primary": [
+          "09"
+        ],
+        "fallback": [
+          "19",
+          "20"
+        ]
+      },
+      "search_fields": [
+        "hilist_name",
+        "hosplist_name"
+      ],
+      "fallback_search_fields": [
+        "set_name"
+      ],
+      "search_terms": [
+        {
+          "value": "阿布昔替尼片",
+          "type": "SOURCE_EXACT",
+          "priority": 1
+        },
+        {
+          "value": "阿布昔替尼",
+          "type": "NORMALIZED",
+          "priority": 2
+        }
+      ],
+      "fallback_strategy": [
+        "PRIMARY_CHRG_TYPE_NAME_MATCH",
+        "FALLBACK_CHRG_TYPE_NAME_MATCH",
+        "ALL_CHRG_TYPE_NAME_MATCH"
+      ]
+    },
+    {
+      "query_id": "QP-P01-2",
+      "proposition_id": "P01",
+      "一级证据域": "用药",
+      "二级证据标签": "出院带药",
+      "target_fact": "若存在出院带药，需证明带药天数符合医保规定的最长天数限制",
+      "necessity": "SUPPLEMENTARY",
+      "source": "DS-S-002 费用明细",
+      "view_name": "费用明细",
+      "query_type": "STRUCTURED",
+      "entity": {
+        "original_name": "阿布昔替尼片",
+        "source_path": "result.source.violation_item"
+      },
+      "charge_type": {
+        "primary": [
+          "09"
+        ],
+        "fallback": [
+          "19",
+          "20"
+        ]
+      },
+      "search_fields": [
+        "hilist_name",
+        "hosplist_name"
+      ],
+      "fallback_search_fields": [
+        "set_name"
+      ],
+      "search_terms": [
+        {
+          "value": "阿布昔替尼片",
+          "type": "SOURCE_EXACT",
+          "priority": 1
+        },
+        {
+          "value": "阿布昔替尼",
+          "type": "NORMALIZED",
+          "priority": 2
+        }
+      ],
+      "fallback_strategy": [
+        "PRIMARY_CHRG_TYPE_NAME_MATCH",
+        "FALLBACK_CHRG_TYPE_NAME_MATCH",
+        "ALL_CHRG_TYPE_NAME_MATCH"
+      ]
+    }
+  ]
+}

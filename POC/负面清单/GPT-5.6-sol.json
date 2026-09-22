@@ -1,0 +1,578 @@
+[
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "本次收费的一次性使用注射笔用针头属于胰岛素专用针头"
+      },
+      {
+        "fact_id": "F02",
+        "description": "病历中的诊断及诊疗记录能够支持患者使用胰岛素专用针头"
+      }
+    ],
+    "logical_expression": "F01 AND F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未列明可支持胰岛素专用针头支付的具体诊断范围"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "阿布昔替尼片的实际每日用量不超过每日最大剂量2片"
+      },
+      {
+        "fact_id": "F02",
+        "description": "本次开具28片对应的处方用药天数不少于14天"
+      }
+    ],
+    "logical_expression": "F01 AND F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按本次处方覆盖的用药天数及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则仅给出开具28片、每日最大剂量2片及超量16片，未明确用于计算允许总量的实际用药天数"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者诊断为难治性中重度特应性皮炎"
+      },
+      {
+        "fact_id": "F02",
+        "description": "患者为成人或年龄已满12岁"
+      },
+      {
+        "fact_id": "F03",
+        "description": "患者对激素或生物制剂等其他系统治疗应答不佳"
+      },
+      {
+        "fact_id": "F04",
+        "description": "患者不适宜接受激素或生物制剂等其他系统治疗"
+      }
+    ],
+    "logical_expression": "F01 AND F02 AND (F03 OR F04)",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者诊断为原发性高血压"
+      }
+    ],
+    "logical_expression": "F01",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "本次癌胚抗原测定不是用于生育检查或产前检查"
+      }
+    ],
+    "logical_expression": "F01",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则仅说明非生育产检支付范围，未列明其他可支付场景及其证据要求"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者诊断为活动性类风湿关节炎"
+      },
+      {
+        "fact_id": "F02",
+        "description": "艾拉莫德片用于患者的二线治疗"
+      }
+    ],
+    "logical_expression": "F01 AND F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实既往及当前治疗情况",
+    "unresolved": [
+      "原规则未明确认定二线治疗所需的既往一线治疗种类、疗程及失败或不耐受标准"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者患有慢性免疫性（特发性）血小板减少症（ITP）"
+      },
+      {
+        "fact_id": "F02",
+        "description": "ITP患者为成人或年龄已满6岁"
+      },
+      {
+        "fact_id": "F03",
+        "description": "ITP患者既往对糖皮质激素、免疫球蛋白等治疗反应不佳"
+      },
+      {
+        "fact_id": "F04",
+        "description": "患者患有重型再生障碍性贫血（SAA）"
+      },
+      {
+        "fact_id": "F05",
+        "description": "SAA患者既往接受免疫抑制治疗后缓解不充分"
+      }
+    ],
+    "logical_expression": "(F01 AND F02 AND F03) OR (F04 AND F05)",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实既往治疗反应",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者为成人"
+      },
+      {
+        "fact_id": "F02",
+        "description": "患者既往至少接受过一种治疗"
+      },
+      {
+        "fact_id": "F03",
+        "description": "患者患有套细胞淋巴瘤（MCL）"
+      },
+      {
+        "fact_id": "F04",
+        "description": "患者患有慢性淋巴细胞白血病（CLL）"
+      },
+      {
+        "fact_id": "F05",
+        "description": "患者患有小淋巴细胞淋巴瘤（SLL）"
+      },
+      {
+        "fact_id": "F06",
+        "description": "患者患有边缘区淋巴瘤（MZL）"
+      }
+    ],
+    "logical_expression": "F01 AND F02 AND (F03 OR F04 OR F05 OR F06)",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实既往治疗情况",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者年龄已满6岁且患有中至重度持续性过敏性哮喘"
+      },
+      {
+        "fact_id": "F02",
+        "description": "患者经吸入型糖皮质激素和长效吸入型β2-肾上腺素受体激动剂治疗后仍不能有效控制症状"
+      },
+      {
+        "fact_id": "F03",
+        "description": "患者具有IgE介导的过敏性哮喘确诊证据"
+      },
+      {
+        "fact_id": "F04",
+        "description": "患者为成人或年龄已满12岁的青少年且患有慢性自发性荨麻疹"
+      },
+      {
+        "fact_id": "F05",
+        "description": "患者经H1抗组胺药治疗后仍有症状"
+      }
+    ],
+    "logical_expression": "(F01 AND F02 AND F03) OR (F04 AND F05)",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实既往治疗与确诊证据",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "同次诊疗收取了拔牙创面搔刮术费用"
+      },
+      {
+        "fact_id": "F02",
+        "description": "同次诊疗同时收取了口腔局部止血费用"
+      }
+    ],
+    "logical_expression": "NOT (F01 AND F02)",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按同次诊疗及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者诊断为慢性动脉闭塞"
+      },
+      {
+        "fact_id": "F02",
+        "description": "患者有明确的溃疡体征"
+      },
+      {
+        "fact_id": "F03",
+        "description": "患者有明确的间歇性跛行体征"
+      },
+      {
+        "fact_id": "F04",
+        "description": "患者有明确的严重疼痛体征"
+      }
+    ],
+    "logical_expression": "F01 AND (F02 OR F03 OR F04)",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "本次就诊开具的大关节松动训练可支付天数不超过90天"
+      }
+    ],
+    "logical_expression": "F01",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按本次就诊开具的治疗起止日期及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "本次就诊收取了计算机体层成像（CT）增强薄层扫描加收项目"
+      },
+      {
+        "fact_id": "F02",
+        "description": "本次就诊同时收取了与该加收项目对应的主项目"
+      }
+    ],
+    "logical_expression": "(NOT F01) OR F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按同次就诊及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未给出可与该加收项目匹配的主项目编码清单"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "本次就诊开具了食管腔内支架置入术"
+      },
+      {
+        "fact_id": "F02",
+        "description": "本次就诊开具了与食管腔内支架置入术匹配的麻醉项目"
+      }
+    ],
+    "logical_expression": "(NOT F01) OR F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按同次手术及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未给出可匹配的麻醉项目编码清单"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "本次就诊开具了胸腹水常规检查"
+      },
+      {
+        "fact_id": "F02",
+        "description": "本次就诊开具了与胸腹水常规检查匹配的胸腹水抽取操作项目"
+      }
+    ],
+    "logical_expression": "(NOT F01) OR F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按同次就诊及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未给出可匹配的胸腹水抽取操作项目编码清单"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "本次就诊使用并收费了001-支架类医用材料"
+      },
+      {
+        "fact_id": "F02",
+        "description": "本次就诊存在与该支架材料匹配的支架置入术等相关手术"
+      }
+    ],
+    "logical_expression": "(NOT F01) OR F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按同次就诊或同次手术及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未给出001-支架类材料与相关手术的具体匹配编码清单"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "多项费用总和除以住院总费用所得比例计算无误"
+      },
+      {
+        "fact_id": "F02",
+        "description": "该费用比例不超过97%"
+      }
+    ],
+    "logical_expression": "F01 AND F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按本次住院费用结算周期及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未说明纳入“多项费用总和”的具体费用项目范围"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者为成人且患有糖尿病性周围神经病理性疼痛"
+      },
+      {
+        "fact_id": "F02",
+        "description": "患者患有带状疱疹后神经痛"
+      }
+    ],
+    "logical_expression": "F01 OR F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者确诊为艾滋病病毒感染"
+      }
+    ],
+    "logical_expression": "F01",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者患有轻度或中度特应性皮炎"
+      },
+      {
+        "fact_id": "F02",
+        "description": "吡美莫司乳膏用于患者的二线治疗"
+      }
+    ],
+    "logical_expression": "F01 AND F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实既往及当前治疗情况",
+    "unresolved": [
+      "原规则未明确认定二线用药所需的既往一线治疗种类、疗程及失败或不耐受标准"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者诊断为轻度或中度抑郁症"
+      },
+      {
+        "fact_id": "F02",
+        "description": "中医辨证为气阴两虚、肾气不足证"
+      },
+      {
+        "fact_id": "F03",
+        "description": "患者的症状、舌象和脉象与规则列示的证候表现相符"
+      }
+    ],
+    "logical_expression": "F01 AND F02 AND F03",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实当时的诊断与中医辨证记录",
+    "unresolved": [
+      "原规则未明确列示症状、舌象和脉象需全部满足、满足部分即可，还是由医师综合辨证"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者已接受营养风险筛查"
+      },
+      {
+        "fact_id": "F02",
+        "description": "营养风险筛查明确患者具有营养风险"
+      },
+      {
+        "fact_id": "F03",
+        "description": "患者不能通过日常饮食补充足够营养"
+      }
+    ],
+    "logical_expression": "F01 AND F02 AND F03",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按使用肠内营养混悬液前或使用当期的筛查及病历记录核实",
+    "unresolved": [
+      "原规则未明确认可的营养风险筛查工具及判定阈值"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "单次就诊开具的中医熏洗次数不超过7次"
+      }
+    ],
+    "logical_expression": "F01",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按单次就诊及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "该诊疗项目按次或人次计费"
+      },
+      {
+        "fact_id": "F02",
+        "description": "机构收取的次数与实际完成并有记录支持的服务次数一致，且不存在重复收费"
+      }
+    ],
+    "logical_expression": "(NOT F01) OR F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按单次就诊、实际服务记录及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未给出判定收费次数异常的具体阈值、对照字段或例外情形"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "同次住院中Ⅰ级护理、Ⅱ级护理和Ⅲ级护理的合计收费次数不超过住院天数"
+      }
+    ],
+    "logical_expression": "F01",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按本次住院起止日期、实际住院天数及每日护理记录核实",
+    "unresolved": [
+      "原规则未说明同日护理级别变更时是否允许按多个护理级别分别计费"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "地屈孕酮片用于治疗内源性孕酮不足引起的疾病"
+      },
+      {
+        "fact_id": "F02",
+        "description": "地屈孕酮片用于辅助生殖技术中的黄体支持"
+      }
+    ],
+    "logical_expression": "F01 OR F02",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未列明内源性孕酮不足所致疾病的具体诊断范围"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者诊断为反流性食管炎"
+      },
+      {
+        "fact_id": "F02",
+        "description": "患者需要根除幽门螺杆菌治疗"
+      },
+      {
+        "fact_id": "F03",
+        "description": "富马酸伏诺拉生片与适当的抗生素联合使用"
+      }
+    ],
+    "logical_expression": "F01 OR (F02 AND F03)",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实同一疗程的联合用药",
+    "unresolved": [
+      "原规则未列明“适当的抗生素”的具体药品或治疗方案"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者存在鼻饲管置管的禁忌诊断"
+      }
+    ],
+    "logical_expression": "NOT F01",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按鼻饲管置管当次就诊及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未给出鼻饲管置管对应的禁忌诊断清单或编码范围"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者存在吸痰护理的禁忌诊断"
+      }
+    ],
+    "logical_expression": "NOT F01",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按吸痰护理当次就诊及疑点费用发生时间核实",
+    "unresolved": [
+      "原规则未给出吸痰护理对应的禁忌诊断清单或编码范围"
+    ]
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者是否符合装有起搏器条件"
+      },
+      {
+        "fact_id": "F02",
+        "description": "患者是否符合装有除颤器条件"
+      }
+    ],
+    "logical_expression": "NOT (F01 OR F02)",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实",
+    "unresolved": []
+  },
+  {
+    "facts": [
+      {
+        "fact_id": "F01",
+        "description": "患者为成人"
+      },
+      {
+        "fact_id": "F02",
+        "description": "患者患有外周T细胞淋巴瘤（PTCL）"
+      },
+      {
+        "fact_id": "F03",
+        "description": "患者的外周T细胞淋巴瘤为复发或难治"
+      },
+      {
+        "fact_id": "F04",
+        "description": "患者既往至少接受过一线系统性治疗"
+      }
+    ],
+    "logical_expression": "F01 AND F02 AND F03 AND F04",
+    "decision_semantics": "SUPPORT_APPEAL_IF_TRUE",
+    "time_requirements": "按该规则及疑点费用发生时间核实既往治疗情况",
+    "unresolved": []
+  }
+]
