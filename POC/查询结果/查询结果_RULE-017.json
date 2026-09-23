@@ -1,0 +1,207 @@
+{
+  "rule_id": "RULE-017",
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "evidence": [
+        {
+          "一级证据域": "治疗",
+          "二级证据标签": "治疗过程",
+          "target_fact": "本次就诊中‘电子生物反馈疗法’的具体执行次数、每次治疗的起止时间及治疗部位/参数设置。",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123306038",
+                "recordId": null,
+                "recordType": "初诊病历记录",
+                "recordName": "初诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026年04月17日 11时21分是否外伤：",
+                  "主诉": "腰酸背痛半年 咳嗽、漏尿",
+                  "过敏史": "否认过敏史。",
+                  "体格检查": "腹直肌分离3指，外阴：无明显异常；阴道：松弛；宫颈：光滑；子宫：无明显异常；左附件：无明显异常；右附件：无明显异常；分泌物：少、稀；其他补充：无。宫颈癌筛查：已查正常。",
+                  "月经史": "P3。2026年04月10日",
+                  "辅助检查": "2026-04-17 (产后)腹直肌彩超 腹直肌间距测量：平卧位静息状态下：双侧腹直肌基本居中，无偏移。脐上3cm处腹直肌分离宽约：[25]↑mm（宽度正常参考值范围：≤14mm）。脐部腹直肌分离宽约：[35]↑mm（宽度正常参考值范围：≤20mm）。脐下3cm处腹直肌分离宽约：[7]↑mm（宽度正常参考值范围：≤2mm）。CDFI：未见异常彩色血流信号。 腹直肌分离（全分离型）。",
+                  "诊断": "产伤性腹直肌分离",
+                  "处理": "1. (产后)腹直肌彩超2.电诊断  每日1次  20天  20每块肌肉或每条神经3.低频脉冲电治疗  每日1次  20天  20每部位4.表面肌电测定  每日1次  10天  10小时5.神经肌肉电刺激治疗  每日1次  20天  20每部位6.电子生物反馈疗法  每日1次  20天  20次7.阴部/盆底肌刺激治疗  每日1次  1天  1次",
+                  "建议": "观察病情变化：如有不适，随诊。",
+                  "病人去向": "回家",
+                  "医师签名": "李江日期：2026年04月17日",
+                  "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+                },
+                "updateTime": "2026-04-17 16:18:29"
+              },
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123306038",
+                "recordId": null,
+                "recordType": "复诊病历记录",
+                "recordName": "复诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026-04-17 13:25是否外伤：",
+                  "内容": "产后腹直肌分离G3P3",
+                  "辅助检查": "2026-04-17 (产后)腹直肌彩超 腹直肌间距测量：平卧位静息状态下：双侧腹直肌基本居中，无偏移。脐上3cm处腹直肌分离宽约：[25]↑mm（宽度正常参考值范围：≤14mm）。脐部腹直肌分离宽约：[35]↑mm（宽度正常参考值范围：≤20mm）。脐下3cm处腹直肌分离宽约：[7]↑mm（宽度正常参考值范围：≤2mm）。CDFI：未见异常彩色血流信号。 腹直肌分离（全分离型）。",
+                  "诊断": "产伤性腹直肌分离",
+                  "处理": "1. (产后)腹直肌彩超2.电诊断  每日1次  20天  20每块肌肉或每条神经3.低频脉冲电治疗  每日1次  20天  20每部位4.表面肌电测定  每日1次  10天  10小时5.神经肌肉电刺激治疗  每日1次  20天  20每部位6.电子生物反馈疗法  每日1次  20天  20次7.阴部/盆底肌刺激治疗  每日1次  1天  1次",
+                  "病人去向": "回家",
+                  "医师签名": "李江日期:2026年04月17日"
+                },
+                "updateTime": "2026-04-17 13:26:38"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "费用",
+          "二级证据标签": "收费明细",
+          "target_fact": "‘电子生物反馈疗法’的收费项目编码、名称、单价及总收费次数。",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-002 费用明细",
+            "matched_by": {
+              "query_id": "QP-P01-01",
+              "supports_facts": [
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "费用",
+                  "二级证据标签": "收费明细",
+                  "target_fact": "‘电子生物反馈疗法’的收费项目编码、名称、单价及总收费次数。",
+                  "necessity": "REQUIRED"
+                }
+              ],
+              "plan_origin": "TAG_MAPPED",
+              "supplement_reason": null,
+              "entity_results": [
+                {
+                  "entity_id": "E01",
+                  "source_exact": "电子生物反馈疗法",
+                  "stage": "ALL_CHRG_TYPE_SOURCE_EXACT",
+                  "matched_terms": [
+                    "电子生物反馈疗法"
+                  ],
+                  "record_count": 1
+                },
+                {
+                  "entity_id": "E02",
+                  "source_exact": "340100018",
+                  "stage": "NO_MATCH",
+                  "matched_terms": [],
+                  "record_count": 0
+                }
+              ],
+              "search_terms": [
+                "电子生物反馈疗法",
+                "生物反馈疗法",
+                "电子生物反馈",
+                "340100018"
+              ],
+              "record_count": 1,
+              "deduplicated": false,
+              "fields_trimmed": false
+            },
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "123306038",
+                "rxId": "108546880||15||1",
+                "rxxId": null,
+                "rxno": "53123090||7",
+                "grpno": null,
+                "longDrordFlag": "0",
+                "hilistType": null,
+                "chrgType": "05",
+                "drordBhvr": null,
+                "setCode": "LL00027",
+                "setName": "电子生物反馈疗法",
+                "hilistCode": "003401000180000-340100018",
+                "hilistName": "电子生物反馈疗法",
+                "hosplistCode": "340100018",
+                "hosplistName": "电子生物反馈疗法",
+                "payType": "1",
+                "hilistDosform": null,
+                "hosplistDosform": null,
+                "hilistLv": null,
+                "hilistPric": null,
+                "lv1HospItemPric": null,
+                "lv2HospItemPric": null,
+                "lv3HospItemPric": null,
+                "hilistMemo": null,
+                "cnt": "20",
+                "pric": "35",
+                "sumamt": "700",
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "spec": null,
+                "specUnt": "次",
+                "drordBegnDate": "2026-04-17 11:22:52",
+                "drordStopDate": null,
+                "billingDate": "2026-04-17 11:22:52",
+                "drordDeptCodg": "NS0501.0110",
+                "drordDeptName": "妇科门诊",
+                "executeDeptCodg": "NS0501.0174",
+                "executeDeptName": "妇产科门诊理疗室",
+                "drordDrCodg": "100536",
+                "drordDrName": "李江",
+                "drordDrProfttl": null,
+                "currDrordFlag": null,
+                "refundFlag": null,
+                "setType": null,
+                "sinDosDscr": "1",
+                "sinDosUnt": "次",
+                "usedFrquDscr": "Qd",
+                "prdDays": "20",
+                "rxNeedIpt": null,
+                "executeDate": "2026-04-17 11:22:52",
+                "chargeTime": null,
+                "chargeTimeField": null,
+                "chargeType": null
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "护理",
+          "二级证据标签": "护理记录",
+          "target_fact": "护士执行治疗时的签名记录或执行时间戳，用于交叉验证治疗发生的真实性。",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-015 护理记录单、DS-S-009 重症监护信息、DS-M-IP-008 抢救记录、DS-M-IP-016 体温单与生命体征监测记录",
+            "data": []
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "患者当前的主要诊断及伴随症状，用于评估多部位或多模块治疗的合理性。",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "data": [
+              {
+                "diseName": "产伤性腹直肌分离"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗",
+          "二级证据标签": "治疗方案",
+          "target_fact": "医生制定的康复治疗计划，是否明确包含多次或分部位的生物反馈治疗医嘱。",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-007 会诊记录、DS-M-IP-009 术前小结、DS-M-IP-010 术前讨论记录、DS-M-IP-002 入院记录",
+            "data": []
+          }
+        }
+      ]
+    }
+  ]
+}

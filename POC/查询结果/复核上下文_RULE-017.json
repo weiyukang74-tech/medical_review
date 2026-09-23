@@ -1,0 +1,240 @@
+{
+  "rule_id": "RULE-017",
+  "review_basis": {
+    "violation_item": "003401000180000-340100018 电子生物反馈疗法",
+    "violation_description": "单次就诊诊疗项目按次或人次收费，机构收取次数异常。",
+    "regulatory_claim": "监管系统判定本次就诊中‘电子生物反馈疗法’的收费次数超过了该患者在单次就诊期间合理或允许的最大执行次数。",
+    "appeal_objective": "证明本次就诊中‘电子生物反馈疗法’的实际执行次数与收费记录一致，且该执行频次符合临床诊疗规范及医保支付规则，不存在分解收费或多记次数。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "本次就诊实际实施了与收费数量一致的‘电子生物反馈疗法’治疗次数，且有客观医疗记录佐证。",
+      "logic_notes": "这是核心路径。原始描述指出‘收取次数异常’，医院需证明收费有对应的真实医疗行为支撑。需要核实治疗执行记录中的具体次数是否与费用明细中的数量完全匹配。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "治疗",
+          "二级证据标签": "治疗过程",
+          "target_fact": "本次就诊中‘电子生物反馈疗法’的具体执行次数、每次治疗的起止时间及治疗部位/参数设置。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-123306038-01",
+              "DOC-DS-M-OP-001-123306038-02"
+            ]
+          }
+        },
+        {
+          "一级证据域": "费用",
+          "二级证据标签": "收费明细",
+          "target_fact": "‘电子生物反馈疗法’的收费项目编码、名称、单价及总收费次数。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-002 费用明细",
+            "structured_data_refs": [
+              "SD-DS-S-002-123306038-0047a4891029"
+            ]
+          }
+        },
+        {
+          "一级证据域": "护理",
+          "二级证据标签": "护理记录",
+          "target_fact": "护士执行治疗时的签名记录或执行时间戳，用于交叉验证治疗发生的真实性。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-015 护理记录单、DS-S-009 重症监护信息、DS-M-IP-008 抢救记录、DS-M-IP-016 体温单与生命体征监测记录",
+            "structured_data_refs": []
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "若存在多次治疗，每次治疗具有独立的临床必要性（如针对不同身体部位、不同功能障碍模块或间隔足够长的独立疗程），符合多计次的合规条件。",
+      "logic_notes": "这是备选核验路径。如果收费次数大于1，仅证明‘做了’不够，还需证明‘为什么做这么多次’是合理的。需排除分解收费嫌疑。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "患者当前的主要诊断及伴随症状，用于评估多部位或多模块治疗的合理性。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-6fbb91aa958b"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗",
+          "二级证据标签": "治疗方案",
+          "target_fact": "医生制定的康复治疗计划，是否明确包含多次或分部位的生物反馈治疗医嘱。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-007 会诊记录、DS-M-IP-009 术前小结、DS-M-IP-010 术前讨论记录、DS-M-IP-002 入院记录",
+            "document_refs": []
+          }
+        }
+      ]
+    }
+  ],
+  "structured_data_pool": {
+    "SD-DS-S-002-123306038-0047a4891029": {
+      "medinsId": "H44030500096",
+      "mdtrtId": "123306038",
+      "rxId": "108546880||15||1",
+      "rxxId": null,
+      "rxno": "53123090||7",
+      "grpno": null,
+      "longDrordFlag": "0",
+      "hilistType": null,
+      "chrgType": "05",
+      "drordBhvr": null,
+      "setCode": "LL00027",
+      "setName": "电子生物反馈疗法",
+      "hilistCode": "003401000180000-340100018",
+      "hilistName": "电子生物反馈疗法",
+      "hosplistCode": "340100018",
+      "hosplistName": "电子生物反馈疗法",
+      "payType": "1",
+      "hilistDosform": null,
+      "hosplistDosform": null,
+      "hilistLv": null,
+      "hilistPric": null,
+      "lv1HospItemPric": null,
+      "lv2HospItemPric": null,
+      "lv3HospItemPric": null,
+      "hilistMemo": null,
+      "cnt": "20",
+      "pric": "35",
+      "sumamt": "700",
+      "ownpayAmt": null,
+      "selfpayAmt": null,
+      "spec": null,
+      "specUnt": "次",
+      "drordBegnDate": "2026-04-17 11:22:52",
+      "drordStopDate": null,
+      "billingDate": "2026-04-17 11:22:52",
+      "drordDeptCodg": "NS0501.0110",
+      "drordDeptName": "妇科门诊",
+      "executeDeptCodg": "NS0501.0174",
+      "executeDeptName": "妇产科门诊理疗室",
+      "drordDrCodg": "100536",
+      "drordDrName": "李江",
+      "drordDrProfttl": null,
+      "currDrordFlag": null,
+      "refundFlag": null,
+      "setType": null,
+      "sinDosDscr": "1",
+      "sinDosUnt": "次",
+      "usedFrquDscr": "Qd",
+      "prdDays": "20",
+      "rxNeedIpt": null,
+      "executeDate": "2026-04-17 11:22:52",
+      "chargeTime": null,
+      "chargeTimeField": null,
+      "chargeType": null
+    },
+    "SD-DS-S-003-UNKNOWN-6fbb91aa958b": {
+      "diseName": "产伤性腹直肌分离"
+    }
+  },
+  "expense_summary_pool": {},
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-123306038-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "updateTime": "2026-04-17 16:18:29",
+      "group_id": "MG-001"
+    },
+    {
+      "document_id": "DOC-DS-M-OP-001-123306038-02",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "复诊病历记录",
+      "recordType": "复诊病历记录",
+      "updateTime": "2026-04-17 13:26:38",
+      "group_id": "MG-002"
+    }
+  ],
+  "medical_document_groups": [
+    {
+      "group_id": "MG-001",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-123306038-01",
+          "updateTime": "2026-04-17 16:18:29",
+          "common_content_ref": "MG-001.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2026年04月17日 11时21分是否外伤：",
+            "主诉": "腰酸背痛半年 咳嗽、漏尿",
+            "过敏史": "否认过敏史。",
+            "体格检查": "腹直肌分离3指，外阴：无明显异常；阴道：松弛；宫颈：光滑；子宫：无明显异常；左附件：无明显异常；右附件：无明显异常；分泌物：少、稀；其他补充：无。宫颈癌筛查：已查正常。",
+            "月经史": "P3。2026年04月10日",
+            "辅助检查": "2026-04-17 (产后)腹直肌彩超 腹直肌间距测量：平卧位静息状态下：双侧腹直肌基本居中，无偏移。脐上3cm处腹直肌分离宽约：[25]↑mm（宽度正常参考值范围：≤14mm）。脐部腹直肌分离宽约：[35]↑mm（宽度正常参考值范围：≤20mm）。脐下3cm处腹直肌分离宽约：[7]↑mm（宽度正常参考值范围：≤2mm）。CDFI：未见异常彩色血流信号。 腹直肌分离（全分离型）。",
+            "诊断": "产伤性腹直肌分离",
+            "处理": "1. (产后)腹直肌彩超2.电诊断  每日1次  20天  20每块肌肉或每条神经3.低频脉冲电治疗  每日1次  20天  20每部位4.表面肌电测定  每日1次  10天  10小时5.神经肌肉电刺激治疗  每日1次  20天  20每部位6.电子生物反馈疗法  每日1次  20天  20次7.阴部/盆底肌刺激治疗  每日1次  1天  1次",
+            "建议": "观察病情变化：如有不适，随诊。",
+            "病人去向": "回家",
+            "医师签名": "李江日期：2026年04月17日",
+            "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+          }
+        }
+      ]
+    },
+    {
+      "group_id": "MG-002",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "复诊病历记录",
+      "recordType": "复诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-123306038-02",
+          "updateTime": "2026-04-17 13:26:38",
+          "common_content_ref": "MG-002.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2026-04-17 13:25是否外伤：",
+            "内容": "产后腹直肌分离G3P3",
+            "辅助检查": "2026-04-17 (产后)腹直肌彩超 腹直肌间距测量：平卧位静息状态下：双侧腹直肌基本居中，无偏移。脐上3cm处腹直肌分离宽约：[25]↑mm（宽度正常参考值范围：≤14mm）。脐部腹直肌分离宽约：[35]↑mm（宽度正常参考值范围：≤20mm）。脐下3cm处腹直肌分离宽约：[7]↑mm（宽度正常参考值范围：≤2mm）。CDFI：未见异常彩色血流信号。 腹直肌分离（全分离型）。",
+            "诊断": "产伤性腹直肌分离",
+            "处理": "1. (产后)腹直肌彩超2.电诊断  每日1次  20天  20每块肌肉或每条神经3.低频脉冲电治疗  每日1次  20天  20每部位4.表面肌电测定  每日1次  10天  10小时5.神经肌肉电刺激治疗  每日1次  20天  20每部位6.电子生物反馈疗法  每日1次  20天  20次7.阴部/盆底肌刺激治疗  每日1次  1天  1次",
+            "病人去向": "回家",
+            "医师签名": "李江日期:2026年04月17日"
+          }
+        }
+      ]
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "核对收费次数与实际执行记录次数的一致性",
+      "inputs_required": [
+        "院内系统记录的‘电子生物反馈疗法’实际执行次数",
+        "医保结算清单中‘电子生物反馈疗法’的收费数量"
+      ],
+      "reason": "确认是否存在‘少做多收’或‘数据录入错误’导致的基础违规。"
+    },
+    {
+      "check": "核查单次治疗时长与频次限制",
+      "inputs_required": [
+        "深圳市医保政策对‘电子生物反馈疗法’的单次就诊最大允许次数",
+        "每次治疗的最小间隔时间要求（如有）"
+      ],
+      "reason": "即使执行记录真实，若违反医保规定的频次上限（如一天最多X次），仍属违规。需获取外部规则阈值进行比对。"
+    }
+  ]
+}

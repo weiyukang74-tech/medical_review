@@ -1,0 +1,99 @@
+{
+  "rule_id": "RULE-009",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 OR P02",
+    "basis_quotes": [
+      "证明本次就诊中‘大关节松动训练’的实际合规支付天数未超过90天，或者证明存在允许超过90天的特殊临床依据或数据计算错误。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "费用",
+      "二级证据标签": "收费明细",
+      "target_fact": "查询本次就诊所有‘大关节松动训练’的收费记录，包括发生日期、数量、金额及状态（正常/退费/作废）。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "distinct_service_days",
+          "quote": "138"
+        }
+      ],
+      "reason": "费用摘要显示‘大关节松动训练’的去重实际发生天数（distinct_service_days）为138天，总服务次数（total_service_times）为139次。该数据明确支持对实际天数的核算，但数值138天超过了90天的限制。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "费用",
+      "二级证据标签": "退费记录",
+      "target_fact": "查询是否存在针对‘大关节松动训练’的退费或冲正记录，以从总天数中扣除无效天数。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "refund_record_count",
+          "quote": "0"
+        }
+      ],
+      "reason": "费用摘要显示退费记录数量（refund_record_count）为0，表明不存在可扣除的退费天数。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗过程",
+      "target_fact": "查阅康复治疗记录单，核对每日实际执行的治疗次数和部位，确认是否存在未执行但计费的情况。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果返回了病历来源，但medical_documents为空，且query_result中document_refs为空，无法获取具体的康复治疗记录单原文来核对每日执行情况。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗方案",
+      "target_fact": "查看康复治疗方案，确认是否针对不同关节或不同部位制定了独立的治疗计划，且这些计划在医保规则中允许独立计算天数。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果返回了病历来源，但medical_documents为空，且query_result中document_refs为空，无法获取康复治疗方案原文。此外，缺乏深圳当地医保关于多部位独立计费的具体政策依据，无法判断是否允许分割计算。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "NOT_SUPPORTED",
+      "reason": "核心事实已明确：实际去重治疗天数为138天，无退费记录。138天 > 90天，因此‘实际有效治疗天数未超过90天’的命题不成立。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "UNKNOWN",
+      "reason": "缺乏病历原文证明存在多部位独立治疗计划，且缺乏当地医保政策依据证明允许独立计算天数。无法确认是否存在允许超过90天的特殊情况。"
+    }
+  ],
+  "overall_logic_status": "UNKNOWN",
+  "review_status": "OPEN",
+  "case_status": "待补充证据",
+  "final_conclusion": {
+    "result": "暂无法判定",
+    "is_final": false,
+    "reason": "P01已确认为NOT_SUPPORTED（实际天数138天超标）。P02为UNKNOWN，若P02能证明存在多部位独立计费等特殊合规情形，则整体可能合规；若P02无法证明，则整体违规。当前缺失P02所需的关键病历证据和政策依据，需补充证据以闭合复核。"
+  },
+  "supplemental_evidence_requests": [
+    {
+      "proposition_id": "P02",
+      "target_fact": "查看康复治疗方案，确认是否针对不同关节或不同部位制定了独立的治疗计划，且这些计划在医保规则中允许独立计算天数。",
+      "requested_data": "包含康复治疗方案、治疗部位说明的病历原文（如首次病程记录、出院记录等），以及深圳医保关于‘大关节松动训练’是否按部位独立计算支付天数的政策条款。",
+      "requested_source": "DS-M-IP-003 首次病程记录、DS-M-IP-002 入院记录、DS-M-IP-021 出院记录或出院小结",
+      "reason": "当前费用数据显示总天数138天超标。若患者存在多个关节分别治疗且医保允许分别计算天数，则可能合规。需补充病历证据确认治疗部位独立性，并确认政策依据。"
+    }
+  ],
+  "manual_review_reason": null
+}

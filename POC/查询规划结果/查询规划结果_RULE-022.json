@@ -1,0 +1,74 @@
+{
+  "rule_id": "RULE-022",
+  "case_parameters": {
+    "mdtrt_id": "123106253",
+    "medins_id": "",
+    "visit_no": "60408113907123106253"
+  },
+  "plans": [
+    {
+      "query_id": "QP-P01-01",
+      "supports_facts": [
+        {
+          "proposition_id": "P01",
+          "一级证据域": "手术操作",
+          "二级证据标签": "手术记录",
+          "target_fact": "如有植入史，需提供相关的手术记录以确认植入物的具体型号、品牌及是否为MRI兼容型。",
+          "necessity": "REQUIRED"
+        }
+      ],
+      "source": "DS-S-002 费用明细",
+      "view_name": "费用明细",
+      "query_type": "STRUCTURED",
+      "plan_origin": "TAG_MAPPED",
+      "supplement_reason": null,
+      "entities": [
+        {
+          "entity_id": "E01",
+          "source_exact": "起搏器植入",
+          "source_path": "query_planning_agent.expansion",
+          "core_terms": [
+            "起搏器"
+          ],
+          "qualifiers": [
+            "植入"
+          ],
+          "normalized_terms": [
+            "心脏起搏器植入术",
+            "起搏器置入"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E02",
+          "source_exact": "除颤器植入",
+          "source_path": "query_planning_agent.expansion",
+          "core_terms": [
+            "除颤器"
+          ],
+          "qualifiers": [
+            "植入"
+          ],
+          "normalized_terms": [
+            "ICD植入术",
+            "CRT-D植入术",
+            "植入式心律转复除颤器"
+          ],
+          "alias_terms": []
+        }
+      ],
+      "search_fields": [
+        "hilist_name",
+        "hosplist_name"
+      ],
+      "fallback_search_fields": [
+        "set_name"
+      ],
+      "fallback_strategy": [
+        "ALL_CHRG_TYPE_SOURCE_EXACT",
+        "ALL_CHRG_TYPE_CORE_QUALIFIER",
+        "ALL_CHRG_TYPE_EXPANDED"
+      ]
+    }
+  ]
+}

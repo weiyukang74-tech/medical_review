@@ -1,0 +1,153 @@
+{
+  "rule_id": "RULE-016",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 AND P02",
+    "basis_quotes": [
+      "肠内营养混悬液(SP)需经营养风险筛查，明确具有营养风险，且应为不能经饮食补充足够营养的患者方予支付。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "营养",
+      "二级证据标签": "营养筛查",
+      "target_fact": "获取本次就诊期间的营养风险筛查量表名称、填写时间及具体评分结果，确认是否达到风险标准。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122577047-01",
+          "location": "内容",
+          "quote": "营养风险评分 4分，有营养风险。NRS2002评分：总分 4 分"
+        }
+      ],
+      "reason": "门诊病历中明确记录了NRS2002评分为4分，并结论为“有营养风险”，直接支持该事实。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "评估",
+      "二级证据标签": "基线评估",
+      "target_fact": "获取入院时或用药前的整体身体状况评估记录，辅助佐证营养风险背景。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122577047-01",
+          "location": "内容",
+          "quote": "患者身高185cm，体重62.5kg，BMI 18.26"
+        }
+      ],
+      "reason": "病历记录了患者BMI为18.26，属于低体重范围，佐证了营养风险背景。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "从现病史中提取导致患者无法正常进食的具体病因描述（如昏迷、吞咽困难、术后禁食等）。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122577047-01",
+          "location": "内容",
+          "quote": "直肠距肛门10cm见肠腔狭窄"
+        }
+      ],
+      "reason": "病历明确记载“直肠距肛门10cm见肠腔狭窄”，肠腔狭窄是导致无法正常经口摄入足够营养的客观病理基础。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗方案",
+      "target_fact": "获取包含‘禁食’、‘胃肠减压’、‘鼻饲’或‘肠内营养支持’等字样的医嘱或治疗计划，证明经口进食受限。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122577047-01",
+          "location": "处理",
+          "quote": "用法：每次500ml  每日4次  鼻饲  18天"
+        }
+      ],
+      "reason": "医嘱明确标注“鼻饲”，证明患者无法经口进食，必须通过非经口途径进行营养支持。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "护理",
+      "二级证据标签": "护理记录",
+      "target_fact": "获取护理记录中关于患者每日实际经口摄入量、进食困难程度或鼻饲执行情况的详细记录。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，未获取到护理记录。但已有医嘱中的“鼻饲”记录及病历中的“肠腔狭窄”描述，足以支持无法经口进食的结论，该事实缺失不影响命题P02的整体成立。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "获取反映患者吞咽功能、意识状态或消化道功能的体格检查或症状描述。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122577047-01",
+          "location": "内容",
+          "quote": "直肠多发连续性病变并狭窄，无法继续进镜"
+        }
+      ],
+      "reason": "肠镜检查结果证实了消化道狭窄的客观存在，支持消化道功能受损。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "获取与营养不良、吞咽障碍、重症或消化道疾病相关的诊断编码及名称，作为无法经口进食的间接依据。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "克罗恩病"
+        }
+      ],
+      "reason": "诊断为克罗恩病，属于炎症性肠病，常伴有肠道狭窄和吸收障碍，间接支持营养风险及进食困难。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "REQUIRED事实“营养风险筛查”在门诊病历中找到明确证据（NRS2002评分4分，有营养风险），命题成立。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "REQUIRED事实“现病史”和“治疗方案”均得到支持。病历明确记载“肠腔狭窄”且医嘱为“鼻饲”，证明患者无法经口摄入足够营养。虽然护理记录缺失（UNKNOWN），但不影响核心结论。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "患者已接受营养风险筛查并确认为高风险（P01成立），且因肠腔狭窄需鼻饲，无法经口摄入足够营养（P02成立）。符合肠内营养混悬液(SP)的医保支付条件。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

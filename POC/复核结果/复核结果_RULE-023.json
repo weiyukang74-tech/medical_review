@@ -1,0 +1,145 @@
+{
+  "rule_id": "RULE-023",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 OR P02",
+    "basis_quotes": [
+      "证明本次住院中实施的‘经腹子宫肌瘤剔除术’与‘卵巢囊肿剔除术’不符合‘同切口同台手术需折价’的违规条件，或者证明费用结算已符合折价规定。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "手术记录",
+      "target_fact": "核验两份手术的详细记录，确认各自的手术切口名称、位置、大小以及是否共用同一切口。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "当前上下文未提供手术记录原文。虽然出院记录中提及手术名称为‘经腹腔镜单侧卵巢囊肿剥除术’和‘经腹腔镜子宫肌瘤切除术’，暗示可能为腹腔镜手术，但缺乏手术记录中关于具体切口位置、数量及是否共用的直接描述。费用明细仅包含项目名称，无法证明切口细节。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "麻醉记录",
+      "target_fact": "核验麻醉开始与结束时间，确认两次手术是否在同一麻醉周期内连续进行（同台），还是分次麻醉（分台）。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "drordBegnDate",
+          "quote": "2025-07-02 14:28:56"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "drordBegnDate",
+          "quote": "2025-07-02 14:35:27"
+        }
+      ],
+      "reason": "费用明细显示2025-07-02存在‘气管插管下全身麻醉’（开始时间14:28:56）及‘麻醉中监测’（开始时间14:35:27），且两项手术费用开具时间相近（15:41:56）。这提示手术可能在同一麻醉下进行，但费用明细无法提供麻醉结束时间或手术连续性的确切证据，无法排除分台或中途苏醒的可能性，需麻醉记录原文确认。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗过程",
+      "target_fact": "查看病程记录中关于手术方案的描述，确认术前计划是否为联合手术及切口设计。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-IP-021 出院记录或出院小结",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-117862946-01",
+          "location": "诊疗经过",
+          "quote": "2025-07-02行(子宫,腹部,右侧卵巢,左侧输卵管)经宫腔镜子宫内膜息肉切除术+腹腔镜子宫陈旧性产科裂伤修补术+经腹腔镜单侧卵巢囊肿剥除术+宫腔镜宫颈息肉切除术+腹腔镜下单侧输卵管系膜囊肿剥除术+经腹腔镜子宫肌瘤切除术+腹腔镜下盆腔病损切除术+诊断性刮宫术。"
+        }
+      ],
+      "reason": "出院记录显示2025-07-02进行了多项手术，包括‘经腹腔镜单侧卵巢囊肿剥除术’和‘经腹腔镜子宫肌瘤切除术’。虽然名称均为‘经腹腔镜’，暗示可能共用Trocar切口，但病历未明确描述切口是否完全共用或为同一切口。且监管指控为‘经腹’，病历显示为‘腹腔镜’，存在名称差异，需手术记录进一步澄清切口细节。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "费用",
+      "二级证据标签": "收费明细",
+      "target_fact": "提取两项手术的具体收费金额、单价及数量，确认是否存在折扣系数或合并收费代码。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "sumamt",
+          "quote": "2229"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "sumamt",
+          "quote": "1500"
+        }
+      ],
+      "reason": "费用明细显示‘经腹子宫肌瘤剔除术’收费2229元，‘卵巢囊肿剔除术’收费1500元。当前上下文未提供深圳医保同切口手术折价的具体政策参数（如打折比例、合并计费规则），也未提供院内标准单价以判断是否已执行折扣。无法仅凭总金额判断是否合规。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "结算",
+      "二级证据标签": "结算记录",
+      "target_fact": "获取最终结算单据，确认医保支付部分与自费部分的构成，验证折价逻辑是否在系统中生效。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "当前上下文未提供最终结算单据或医保结算明细，无法验证折价逻辑是否在结算系统中生效。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "UNKNOWN",
+      "reason": "关键事实‘是否同切口’和‘是否同台’缺乏手术记录和麻醉记录的直接证据支持。虽然出院记录提示均为腹腔镜手术，但无法确认切口共用情况；费用明细提示同一时间段麻醉，但无法确认连续性。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "UNKNOWN",
+      "reason": "缺乏医保折价政策参数和结算明细，无法判断当前收费金额是否符合折价规定。"
+    }
+  ],
+  "overall_logic_status": "UNKNOWN",
+  "review_status": "OPEN",
+  "case_status": "待补充证据",
+  "final_conclusion": {
+    "result": "暂无法判定",
+    "is_final": false,
+    "reason": "P01和P02均为UNKNOWN，无法确定是否违规。需要补充手术记录以确认切口情况，补充麻醉记录以确认同台情况，或补充医保政策参数以验证收费合规性。"
+  },
+  "supplemental_evidence_requests": [
+    {
+      "proposition_id": "P01",
+      "target_fact": "核验两份手术的详细记录，确认各自的手术切口名称、位置、大小以及是否共用同一切口。",
+      "requested_data": "2025-07-02的手术记录原文，特别是关于手术切口位置、数量及是否共用的描述。",
+      "requested_source": "DS-M-IP-005 手术记录",
+      "reason": "出院记录仅列出手术名称，未描述切口细节。手术记录是判断‘同切口’的最直接证据。"
+    },
+    {
+      "proposition_id": "P01",
+      "target_fact": "核验麻醉开始与结束时间，确认两次手术是否在同一麻醉周期内连续进行（同台），还是分次麻醉（分台）。",
+      "requested_data": "2025-07-02的麻醉记录原文，包括麻醉开始、结束时间及手术过程连续性描述。",
+      "requested_source": "DS-M-IP-006 麻醉记录",
+      "reason": "费用明细无法反映麻醉的连续性和结束时间，需麻醉记录确认是否‘同台’。"
+    },
+    {
+      "proposition_id": "P02",
+      "target_fact": "提取两项手术的具体收费金额、单价及数量，确认是否存在折扣系数或合并收费代码。",
+      "requested_data": "深圳医保关于‘同切口手术’的折价政策参数（如打折比例、合并计费规则）及院内手术项目标准单价。",
+      "requested_source": "医保政策库/院内物价标准",
+      "reason": "当前仅有收费金额，缺乏政策依据和标准单价，无法计算理论应收金额并比对是否合规。"
+    }
+  ],
+  "manual_review_reason": null
+}

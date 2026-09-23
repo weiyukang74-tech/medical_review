@@ -1,0 +1,168 @@
+{
+  "rule_id": "RULE-015",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 AND P02",
+    "basis_quotes": [
+      "吡美莫司乳膏限轻中度特应性皮炎患者的二线用药。",
+      "证明患者诊断为轻中度特应性皮炎，且本次使用吡美莫司乳膏符合二线用药指征（即一线治疗失败或不适宜）。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "确认本次就诊的病案首页或门诊病历中记载的标准诊断名称是否为‘特应性皮炎’。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "特应性皮炎(轻度)"
+        }
+      ],
+      "reason": "结构化诊断信息明确记载诊断为‘特应性皮炎(轻度)’，符合特应性皮炎的诊断要求。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "严重程度",
+      "target_fact": "确认病历中对特应性皮炎严重程度的描述或评估结果（如SCORAD评分、医师文字描述）是否明确为‘轻度’或‘中度’。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121833215-01",
+          "location": "诊断",
+          "quote": "特应性皮炎(轻度)"
+        }
+      ],
+      "reason": "门诊病历诊断字段明确记录为‘特应性皮炎(轻度)’，直接支持病情严重程度为轻度。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "评估",
+      "二级证据标签": "量表评分",
+      "target_fact": "获取具体的疾病严重程度评分量表结果，以量化支持轻中度判断。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，未获取到具体的SCORAD等量表评分结果。但鉴于已有明确的文字诊断支持，该补充事实缺失不影响P01成立。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "既往治疗",
+      "target_fact": "查明患者在本次开具吡美莫司乳膏之前的近期就诊记录中，是否使用了指南推荐的特应性皮炎一线药物（如外用糖皮质激素等）。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121833215-01",
+          "location": "现病史",
+          "quote": "患者面部白斑、瘙痒1年。"
+        },
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121833215-01",
+          "location": "既往史和其他病史",
+          "quote": "过敏性鼻炎3年。"
+        }
+      ],
+      "reason": "当前提供的门诊病历仅记录了主诉、现病史（症状描述）和既往史（过敏性鼻炎），未提及本次就诊前是否使用过外用糖皮质激素等一线药物。无法确认是否存在一线治疗史。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗反应",
+      "target_fact": "查明既往一线治疗后的疗效评价记录，是否存在‘疗效不佳’、‘复发’、‘症状未缓解’等描述。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121833215-01",
+          "location": "现病史",
+          "quote": "患者面部白斑、瘙痒1年。"
+        }
+      ],
+      "reason": "病历中未记载既往一线治疗的具体情况及疗效评价，无法判断一线治疗是否无效或不适宜。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗不适宜",
+      "target_fact": "查明是否存在因副作用、禁忌症等原因导致一线治疗‘不适宜’继续使用的医疗记录。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，且门诊病历中无相关记录，无法证明一线治疗不适宜。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "从现病史中提取关于既往用药经历及效果的叙述性描述，佐证治疗线次转换的理由。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121833215-01",
+          "location": "现病史",
+          "quote": "患者面部白斑、瘙痒1年。"
+        }
+      ],
+      "reason": "现病史仅描述症状持续时间，未提及既往用药经历及效果，无法佐证二线用药指征。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "P01的所有REQUIRED事实（诊断名称、严重程度）均已由结构化数据和门诊病历原文明确支持，确认为轻中度特应性皮炎。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "UNKNOWN",
+      "reason": "P02的关键REQUIRED事实（既往一线治疗史、治疗反应/不适宜原因）在当前证据中均无法确认。门诊病历未记载既往用药及疗效，且相关病程记录未检索到。无法证明符合‘二线用药’指征。"
+    }
+  ],
+  "overall_logic_status": "UNKNOWN",
+  "review_status": "OPEN",
+  "case_status": "待补充证据",
+  "final_conclusion": {
+    "result": "暂无法判定",
+    "is_final": false,
+    "reason": "P01已证实患者诊断为轻中度特应性皮炎，但P02关于‘二线用药’指征的关键事实（既往一线治疗史及失败/不适宜原因）缺失，导致整体逻辑状态为UNKNOWN。需补充既往治疗记录以完成复核。"
+  },
+  "supplemental_evidence_requests": [
+    {
+      "proposition_id": "P02",
+      "target_fact": "查明患者在本次开具吡美莫司乳膏之前的近期就诊记录中，是否使用了指南推荐的特应性皮炎一线药物（如外用糖皮质激素等）。",
+      "requested_data": "患者本次就诊前3-6个月内的门诊病历、处方记录或用药记录，重点查找外用糖皮质激素（如丁酸氢化可的松、糠酸莫米松等）的使用记录。",
+      "requested_source": "DS-M-OP-001 门诊病历（历史就诊）、DS-RX-001 处方信息",
+      "reason": "当前病历未体现既往一线治疗史，无法证明吡美莫司乳膏作为二线用药的合理性。若存在一线治疗记录，需进一步评估其疗效。"
+    },
+    {
+      "proposition_id": "P02",
+      "target_fact": "查明既往一线治疗后的疗效评价记录，是否存在‘疗效不佳’、‘复发’、‘症状未缓解’等描述。",
+      "requested_data": "既往就诊病历中关于一线药物治疗效果的描述，或本次就诊主诉/现病史中关于既往治疗无效的叙述。",
+      "requested_source": "DS-M-OP-001 门诊病历（历史就诊）、DS-M-IP-004 日常病程记录",
+      "reason": "需证明一线治疗无效或不适宜，才能支持二线用药的合规性。"
+    }
+  ],
+  "manual_review_reason": null
+}

@@ -1,0 +1,161 @@
+{
+  "rule_id": "RULE-025",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 OR P02",
+    "basis_quotes": [
+      "证明该疑点源于数据记录错误（时间逻辑颠倒或日期录入失误），或者证明两次住院具有独立的、紧急的临床必要性，非人为分解。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "就诊",
+      "二级证据标签": "就诊时间",
+      "target_fact": "获取前次住院和本次住院准确的入院登记时间和出院登记时间。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "admDate",
+          "quote": "2025-11-10 15:14:18"
+        },
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "dscgDate",
+          "quote": "2025-11-13 13:30:00"
+        }
+      ],
+      "reason": "结构化数据明确记录本次住院入院时间为2025-11-10，出院时间为2025-11-13。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "就诊",
+      "二级证据标签": "住院天数",
+      "target_fact": "确认两次住院各自的实际住院天数，用于计算真实的再入院间隔。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "仅获取到本次住院时间，缺乏前次住院的出院日期数据，无法计算真实再入院间隔。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "结算",
+      "二级证据标签": "结算记录",
+      "target_fact": "核对医保结算单据上的日期是否与病历记录一致，排查上传错误。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询范围未解析，未获取结算记录。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "记录本次入院时的主要症状、体征及生命体征，特别是与前次出院时相比的变化。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-120371291-01",
+          "location": "主诉",
+          "quote": "胃癌术后1年余，转移5月余，腹痛半小时。"
+        },
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-120371291-01",
+          "location": "现病史",
+          "quote": "半小时前出现腹胀腹痛，阵发性。"
+        }
+      ],
+      "reason": "病历记录本次入院主诉为突发腹痛半小时，体征显示肠鸣音活跃，提示急性症状。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病情",
+      "二级证据标签": "急慢性状态",
+      "target_fact": "证明本次入院属于急诊或急性加重状态，而非慢性病常规管理。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-003 首次病程记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-003-120371291-01",
+          "location": "病例特点",
+          "quote": "半小时前出现腹痛，奥曲肽治疗后疼痛未完全好转。现为进一步治疗来我院"
+        }
+      ],
+      "reason": "病程记录显示患者因突发腹痛且治疗未好转入院，符合急性加重或急症特征。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "梳理从上次出院到本次入院期间的病情演变过程，说明为何前次治疗无法覆盖本次病情。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-120371291-01",
+          "location": "现病史",
+          "quote": "2025-11-9开始一线维持治疗...治疗结束后今日出院。半小时前出现腹胀腹痛"
+        }
+      ],
+      "reason": "病历显示前次治疗结束后出院，随后突发新发腹痛症状，非前次治疗计划内延续。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "对比两次住院的主要诊断，若诊断不同或新增严重诊断，可支持非分解住院的主张。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "仅有本次住院诊断，缺乏前次住院诊断对比数据。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "检验",
+      "二级证据标签": "检验结果",
+      "target_fact": "提供本次入院时的关键危急值检验结果，佐证病情的紧急性。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "未检索到检验报告数据。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "UNKNOWN",
+      "reason": "虽获取本次住院时间，但缺失前次出院日期，无法计算真实间隔，无法确认是否为数据错误或真实0天间隔。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "病历明确记录本次入院系因突发腹痛（急性症状），且发生在前次治疗结束后，证明具有独立临床必要性，非计划内分解。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "命题逻辑为P01 OR P02。P02已获支持：病历证据充分证明本次入院系因突发腹痛等急性症状，具有独立的临床必要性，非人为分解住院。即使P01因数据缺失无法完全排除日期错误，P02的成立已足以支持合规结论。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

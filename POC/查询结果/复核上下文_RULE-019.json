@@ -1,0 +1,193 @@
+{
+  "rule_id": "RULE-019",
+  "review_basis": {
+    "violation_item": "富马酸伏诺拉生片",
+    "violation_description": "富马酸伏诺拉生片限:1.反流性食管炎;2.与适当的抗生素联用以根除幽门螺杆菌。",
+    "regulatory_claim": "监管方认为本次就诊中使用的“富马酸伏诺拉生片”不符合医保限定支付条件，即患者既未被诊断为“反流性食管炎”，也未在用药期间联合使用“适当的抗生素”以进行“幽门螺杆菌根除治疗”。",
+    "appeal_objective": "证明本次富马酸伏诺拉生片的使用具有合规的医保支付依据，即证实患者患有反流性食管炎，或者证实该药是用于幽门螺杆菌根除治疗的联合用药方案组成部分。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "患者本次就诊的临床诊断中包含‘反流性食管炎’。",
+      "logic_notes": "这是核心路径之一。如果患者被确诊为反流性食管炎，则无论是否联合抗生素，均符合支付条件。需要核实标准诊断编码及病历文本描述。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "本次就诊记录中是否存在‘反流性食管炎’的标准诊断编码或明确文字诊断。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-6dfe62814b9c"
+            ]
+          }
+        },
+        {
+          "一级证据域": "检查",
+          "二级证据标签": "影像结果",
+          "target_fact": "胃镜检查报告是否提示食管黏膜破损、糜烂或反流性改变，以佐证诊断的真实性。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-S-005 检查报告、DS-M-OP-003 医学影像检查报告、DS-M-IP-018 影像检查报告",
+            "structured_data_refs": []
+          }
+        },
+        {
+          "一级证据域": "病情",
+          "二级证据标签": "症状体征",
+          "target_fact": "患者是否有烧心、反酸等典型反流性食管炎症状记录。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122560909-01"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "患者本次就诊存在幽门螺杆菌感染证据，且富马酸伏诺拉生片是与适当的抗生素联合使用以进行根除治疗。",
+      "logic_notes": "这是核心路径之二。需同时证明两点：1. 有Hp感染的客观依据（检验/检查结果）；2. 处方中存在联合抗生素的治疗方案。若仅用此药而无抗生素，或无Hp感染证据，则不符合此条限定。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "检验",
+          "二级证据标签": "病原结果",
+          "target_fact": "是否存在幽门螺杆菌（Hp）阳性的检测报告（如C13/C14呼气试验、快速尿素酶试验、粪便抗原或病理染色结果）。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-S-004 检验报告、DS-M-OP-002 检验报告单、DS-M-IP-017 检验报告单",
+            "structured_data_refs": []
+          }
+        },
+        {
+          "一级证据域": "治疗",
+          "二级证据标签": "联合治疗",
+          "target_fact": "本次处方或医嘱中是否同时开具了用于根除幽门螺杆菌的抗生素（如阿莫西林、克拉霉素、甲硝唑、左氧氟沙星、四环素等）及其他必要药物（如铋剂），形成完整的联合治疗方案。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-007 会诊记录、DS-M-IP-009 术前小结、DS-M-IP-010 术前讨论记录、DS-M-IP-021 出院记录或出院小结",
+            "document_refs": []
+          }
+        },
+        {
+          "一级证据域": "用药",
+          "二级证据标签": "药品医嘱",
+          "target_fact": "富马酸伏诺拉生片的具体医嘱记录，以及与其同期开具的其他药物医嘱，以验证联合用药的时间重叠和方案完整性。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122560909-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "病史",
+          "二级证据标签": "现病史",
+          "target_fact": "病历中是否记载了患者有幽门螺杆菌感染史或本次就诊的主诉涉及Hp相关症状。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122560909-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "是否存在‘幽门螺杆菌感染’或‘慢性胃炎伴幽门螺杆菌感染’等相关诊断。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-6dfe62814b9c"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "structured_data_pool": {
+    "SD-DS-S-003-UNKNOWN-6dfe62814b9c": {
+      "diseName": "喉咽反流"
+    }
+  },
+  "expense_summary_pool": {},
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-122560909-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "updateTime": "2026-03-17 16:58:21",
+      "group_id": "MG-001"
+    }
+  ],
+  "medical_document_groups": [
+    {
+      "group_id": "MG-001",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-122560909-01",
+          "updateTime": "2026-03-17 16:58:21",
+          "common_content_ref": "MG-001.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2026年03月17日 16时04分是否外伤：",
+            "主诉": "咽部异物感数月",
+            "现病史": "咽部分泌物附着感，伴咽干，时有反酸、嗳气，无烧心、胸闷、腹胀。",
+            "既往史和其他病史": "反流性食管炎",
+            "过敏史": "否认过敏史。",
+            "体格检查": "咽喉部未见明显充血，未见异常分泌物及新生物；双侧披裂粘膜色淡，明显水肿。",
+            "月经史": "。",
+            "辅助检查": "无",
+            "诊断": "喉咽反流",
+            "处理": "1. 喉动态镜检查2. 注射用盐酸丁卡因[25mg] X 1.00瓶   用法：每次25mg  一次  表面麻醉  1天",
+            "治疗处理意见": "1、调整生活方式：禁烟酒，避免刺激性饮料、食物；2、PPI药物治疗3、消化内科就诊，不适随诊；",
+            "病人去向": "回家",
+            "医师签名": "李烁日期：2026年03月17日",
+            "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+          }
+        }
+      ]
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "验证联合用药方案的合理性",
+      "inputs_required": [
+        "本次就诊开具的所有药品名称及规格",
+        "国家或地方幽门螺杆菌根除治疗指南推荐的抗生素组合列表"
+      ],
+      "reason": "确认定义的‘适当的抗生素’是否符合临床指南标准，防止因使用非标准抗生素而被判定违规。"
+    },
+    {
+      "check": "验证诊断与用药时间的逻辑关系",
+      "inputs_required": [
+        "反流性食管炎诊断确立日期",
+        "富马酸伏诺拉生片首次使用日期",
+        "幽门螺杆菌检测结果出具日期",
+        "富马酸伏诺拉生片首次使用日期"
+      ],
+      "reason": "确保诊断或检测结果在用药之前或同时存在，排除先用药后补诊断的逻辑倒置情况（除非有既往史支持）。"
+    }
+  ]
+}

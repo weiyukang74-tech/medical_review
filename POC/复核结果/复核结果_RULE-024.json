@@ -1,0 +1,154 @@
+{
+  "rule_id": "RULE-024",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 AND P02",
+    "basis_quotes": [
+      "证明本次住院中‘腹式全子宫切除术’与‘卵巢切除术’的实际执行情况不符合‘同台同切口应折价’的违规前提，或者证明尽管符合前提但费用结算已按规定执行折价，不存在违规多收费行为。",
+      "如果P01成立（确实同台同切口），则本命题是推翻‘违规多收费’结论的关键。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "手术记录",
+      "target_fact": "查阅手术记录，确认‘腹式全子宫切除术’与‘卵巢切除术’是否在同一份手术记录中描述，是否共用同一手术切口，以及是否为同一麻醉时段内完成。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "setName",
+          "quote": "腹式全子宫切除术"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "setName",
+          "quote": "卵巢切除术"
+        }
+      ],
+      "reason": "费用明细仅证明两项手术均发生且执行时间相同（2025-08-01 13:40:13），但无法证明是否共用同一切口或是否在同一份手术记录中描述。手术记录原文未提供（query_result中document_refs为空，且structured_data_pool中无手术记录文本），无法核实‘同切口’这一关键事实。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "麻醉记录",
+      "target_fact": "查阅麻醉记录，确认两次操作是否处于同一麻醉诱导至苏醒的时间段内，以佐证‘同台’属性。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "query_result状态为NOT_RETRIEVED，未获取到麻醉记录，无法确认是否同台麻醉。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗过程",
+      "target_fact": "查阅病程记录或术前讨论，了解手术方案规划，确认是否计划同台同切口。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-021 出院记录或出院小结",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-118366053-01",
+          "location": "诊疗经过",
+          "quote": "于2025年08月01日在全麻下行腹腔镜探查术...行经腹腔镜全子宫切除术+腹腔镜双侧卵巢切除术..."
+        }
+      ],
+      "reason": "出院记录明确记载两项手术于同日在全麻下连续进行（‘行...+...’），佐证了同台手术的可能性，但‘腹腔镜’与费用明细中的‘腹式’存在术式描述差异，且未明确提及切口共用情况，仅作为辅助证据。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "费用",
+      "二级证据标签": "收费明细",
+      "target_fact": "提取‘腹式全子宫切除术’和‘卵巢切除术’的具体收费金额、单价及数量，计算合计收费。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "sumamt",
+          "quote": "2814"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "sumamt",
+          "quote": "1500"
+        }
+      ],
+      "reason": "已获取两项手术的实际收费金额：腹式全子宫切除术2814元，卵巢切除术1500元，合计4314元。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "结算",
+      "二级证据标签": "结算记录",
+      "target_fact": "获取本次住院的最终结算清单，确认是否有针对该组合项目的折价调整记录或备注。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "sumamt",
+          "quote": "2814"
+        },
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "sumamt",
+          "quote": "1500"
+        }
+      ],
+      "reason": "费用明细显示两项手术均按全额单价收费（2814+1500），未见明显的折价后金额或负数调整记录。但缺乏‘深圳医保同切口手术折价比例或规则’这一关键输入，无法通过program_checks计算理论折后价，因此无法判断当前收费是否合规（即无法确认是‘未折价违规’还是‘折价后金额恰好等于此数’或‘无需折价’）。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "UNKNOWN",
+      "reason": "关键事实‘是否同切口’缺乏手术记录原文支持，麻醉记录缺失，仅凭费用明细和出院记录无法确证或排除‘同切口同台’的监管前提。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "UNKNOWN",
+      "reason": "虽然已知实际收费金额，但缺乏医保折价规则（program_checks所需输入），无法判断该收费是否符合折价标准。"
+    }
+  ],
+  "overall_logic_status": "UNKNOWN",
+  "review_status": "OPEN",
+  "case_status": "待补充证据",
+  "final_conclusion": {
+    "result": "暂无法判定",
+    "is_final": false,
+    "reason": "P01（是否同切口同台）和P02（是否已合规折价）均因关键证据缺失或规则不明而无法判定。需补充手术记录以确认切口情况，并获取当地医保同切口手术折价规则以进行金额校验。"
+  },
+  "supplemental_evidence_requests": [
+    {
+      "proposition_id": "P01",
+      "target_fact": "查阅手术记录，确认‘腹式全子宫切除术’与‘卵巢切除术’是否在同一份手术记录中描述，是否共用同一手术切口，以及是否为同一麻醉时段内完成。",
+      "requested_data": "手术记录原文（特别是切口描述、手术步骤连贯性描述）",
+      "requested_source": "DS-M-IP-012 手术记录",
+      "reason": "费用明细无法证明‘同切口’，需手术记录原文确认是否共用切口，这是判断是否适用折价规则的前提。"
+    },
+    {
+      "proposition_id": "P02",
+      "target_fact": "获取本次住院的最终结算清单，确认是否有针对该组合项目的折价调整记录或备注。",
+      "requested_data": "深圳市医保同切口手术折价比例或具体计算规则",
+      "requested_source": "医保政策库或规则引擎配置",
+      "reason": "program_checks需要‘深圳医保同切口手术折价比例或规则’作为输入，以计算理论折后价并与实际收费对比，从而判断是否违规。"
+    }
+  ],
+  "manual_review_reason": null
+}

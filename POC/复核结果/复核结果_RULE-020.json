@@ -1,0 +1,173 @@
+{
+  "rule_id": "RULE-020",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 OR P02",
+    "basis_quotes": [
+      "证明本次‘鼻饲管置管’操作是基于患者当时的具体病情（如吞咽障碍、意识障碍、消化道梗阻等）所必需的医疗行为，且不存在绝对的临床禁忌症，或者证明现有诊断记录未能完整反映支持该操作的临床指征。",
+      "这是核心路径。监管方认为‘诊断禁忌’，医院需反证‘有指征’。",
+      "这是备选核验路径。如果P01中的临床指征明确，但监管仍报错，可能是因为主诊断（如‘脑梗死’）本身不被系统视为鼻饲的直接适应症，而缺少了‘吞咽障碍’等次要诊断。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "患者是否存在吞咽困难、饮水呛咳、意识不清、无法经口进食等症状或体征的具体描述。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122320699-01",
+          "location": "现病史",
+          "quote": "患者5月余前无明显诱因出现吞咽不适...1周前，患者无明显诱因出现呕吐，呕吐物为胃内容物，吞咽困难"
+        },
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122320699-01",
+          "location": "主诉",
+          "quote": "确诊贲门胃底恶性黑色素瘤4月余，恶心呕吐1周"
+        }
+      ],
+      "reason": "入院记录现病史明确记载患者存在“吞咽困难”、“呕吐”症状，主诉包含“恶心呕吐”，符合鼻饲管置管的临床指征（吞咽障碍/消化道梗阻）。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "手术指征",
+      "target_fact": "医生在医嘱或病程记录中明确记载的放置鼻饲管的临床理由和指征。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-003 首次病程记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-003-122320699-01",
+          "location": "诊疗计划",
+          "quote": "予以留置胃管、抑酸、补充营养等对症支持治疗"
+        },
+        {
+          "source": "DS-M-IP-007 会诊记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-007-122320699-01",
+          "location": "会诊记录章节内容",
+          "quote": "为患者有食管贲门肿物，吞咽困难，特请临床营养科医师会诊...动态评估胃肠道功能，尽早联系我科启动鼻饲肠内营养"
+        },
+        {
+          "source": "DS-M-IP-007 会诊记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-007-122320699-02",
+          "location": "会诊记录章节内容",
+          "quote": "为患者无法经过食管进食...可尝试消化内科内镜下胃管/鼻肠管留置行无创操作肠内营养支持"
+        }
+      ],
+      "reason": "首次病程记录诊疗计划中明确记载“予以留置胃管”；会诊记录中明确记载因“吞咽困难”、“无法经过食管进食”而建议启动鼻饲肠内营养或留置胃管/鼻肠管，临床理由充分。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "检查",
+      "二级证据标签": "专科检查",
+      "target_fact": "是否有吞咽功能评估、内镜检查或其他证实存在进食障碍或梗阻的检查结果。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-007 会诊记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-007-122320699-05",
+          "location": "查房内容",
+          "quote": "患者全腹CT提示：1.食管远段管壁偏心性增厚较前明显进展，食道管腔狭窄、闭塞...目前诊断：...2、食管梗阻"
+        }
+      ],
+      "reason": "会诊记录中引用的CT检查结果明确提示“食道管腔狭窄、闭塞”，且诊断包含“食管梗阻”，证实存在进食障碍的器质性病变。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "营养",
+      "二级证据标签": "营养评估",
+      "target_fact": "患者入院时或操作前的营养风险筛查及评估结果，证明经口进食无法满足营养需求。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-007 会诊记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-007-122320699-01",
+          "location": "会诊记录章节内容",
+          "quote": "一、营养诊断：重度营养不良（NRS2002 评分  5分）"
+        }
+      ],
+      "reason": "营养科会诊记录明确诊断“重度营养不良（NRS2002 评分 5分）”，证明患者存在严重营养风险，经口进食无法满足需求。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "本次就诊的所有出院诊断或主要诊断列表，特别是是否包含与吞咽、进食、意识状态相关的诊断。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "食管梗阻"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "贲门胃底恶性肿瘤"
+        }
+      ],
+      "reason": "结构化诊断信息中包含“食管梗阻”和“贲门胃底恶性肿瘤”，这些诊断直接支持鼻饲管置管的指征。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "现病史中关于患者进食能力、意识状态变化的详细描述，用于比对诊断记录的完整性。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122320699-01",
+          "location": "现病史",
+          "quote": "患者5月余前无明显诱因出现吞咽不适...1周前，患者无明显诱因出现呕吐，呕吐物为胃内容物，吞咽困难"
+        }
+      ],
+      "reason": "现病史详细描述了吞咽困难和呕吐，与诊断中的“食管梗阻”一致，诊断记录能够反映支持鼻饲治疗的并发症。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "所有REQUIRED事实均被支持。病历明确记载患者存在吞咽困难、呕吐、食管梗阻等症状和体征，且病程记录和会诊记录中明确记载了留置胃管/鼻饲管的临床理由（吞咽困难、无法经口进食、重度营养不良）。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "所有REQUIRED事实均被支持。诊断信息中包含“食管梗阻”，现病史中详细描述了进食障碍，诊断记录完整反映了支持鼻饲治疗的临床状态。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "P01和P02均被支持。患者因贲门胃底恶性肿瘤导致食管梗阻、吞咽困难，存在明确的鼻饲管置管临床指征，且病历记录完整，诊断信息包含相关并发症，不存在诊断禁忌。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

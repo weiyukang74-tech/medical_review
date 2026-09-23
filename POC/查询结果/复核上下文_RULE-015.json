@@ -1,0 +1,180 @@
+{
+  "rule_id": "RULE-015",
+  "review_basis": {
+    "violation_item": "吡美莫司乳膏",
+    "violation_description": "吡美莫司乳膏限轻中度特应性皮炎患者的二线用药。",
+    "regulatory_claim": "监管方认为本次就诊中使用的‘吡美莫司乳膏’不符合‘限轻中度特应性皮炎患者的二线用药’的支付条件，疑点在于患者诊断可能非轻中度特应性皮炎，或该药未被作为二线治疗使用（即未证明一线治疗无效或不适宜）。",
+    "appeal_objective": "证明患者诊断为轻中度特应性皮炎，且本次使用吡美莫司乳膏符合二线用药指征（即一线治疗失败或不适宜）。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "患者本次就诊的主要诊断为特应性皮炎，且病情严重程度评估为轻度或中度。",
+      "logic_notes": "这是核心路径。原始规则限定适应症为‘轻中度特应性皮炎’。需要证明诊断名称匹配且严重程度符合限制。若诊断为重度或非特应性皮炎，则直接违规。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "确认本次就诊的病案首页或门诊病历中记载的标准诊断名称是否为‘特应性皮炎’。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-7f1ce9a261cc"
+            ]
+          }
+        },
+        {
+          "一级证据域": "病情",
+          "二级证据标签": "严重程度",
+          "target_fact": "确认病历中对特应性皮炎严重程度的描述或评估结果（如SCORAD评分、医师文字描述）是否明确为‘轻度’或‘中度’。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-121833215-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "评估",
+          "二级证据标签": "量表评分",
+          "target_fact": "获取具体的疾病严重程度评分量表结果，以量化支持轻中度判断。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-OP-005 测评量表",
+            "document_refs": []
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "患者在本次使用吡美莫司乳膏之前，已经接受过针对特应性皮炎的一线治疗，且该一线治疗被判定为无效、不耐受或不适宜。",
+      "logic_notes": "这是核心路径。规则限定为‘二线用药’。必须证明‘一线’的存在及其‘失败/不适宜’的状态。若无一线治疗记录，或一线治疗有效仍换用二线，则不符合支付条件。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "既往治疗",
+          "target_fact": "查明患者在本次开具吡美莫司乳膏之前的近期就诊记录中，是否使用了指南推荐的特应性皮炎一线药物（如外用糖皮质激素等）。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-121833215-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗反应",
+          "target_fact": "查明既往一线治疗后的疗效评价记录，是否存在‘疗效不佳’、‘复发’、‘症状未缓解’等描述。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-121833215-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗不适宜",
+          "target_fact": "查明是否存在因副作用、禁忌症等原因导致一线治疗‘不适宜’继续使用的医疗记录。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-004 日常病程记录、DS-M-IP-021 出院记录或出院小结、DS-M-IP-007 会诊记录",
+            "document_refs": []
+          }
+        },
+        {
+          "一级证据域": "病史",
+          "二级证据标签": "现病史",
+          "target_fact": "从现病史中提取关于既往用药经历及效果的叙述性描述，佐证治疗线次转换的理由。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-121833215-01"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "structured_data_pool": {
+    "SD-DS-S-003-UNKNOWN-7f1ce9a261cc": {
+      "diseName": "特应性皮炎(轻度)"
+    }
+  },
+  "expense_summary_pool": {},
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-121833215-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "updateTime": "2026-01-28 11:58:57",
+      "group_id": "MG-001"
+    }
+  ],
+  "medical_document_groups": [
+    {
+      "group_id": "MG-001",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-121833215-01",
+          "updateTime": "2026-01-28 11:58:57",
+          "common_content_ref": "MG-001.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2026年01月28日 11时53分是否外伤：",
+            "主诉": "面部白斑、瘙痒1年。",
+            "现病史": "患者面部白斑、瘙痒1年。",
+            "既往史和其他病史": "过敏性鼻炎3年。",
+            "过敏史": "否认过敏史。",
+            "体格检查": "全身皮肤干燥，面部散在大片淡白鳞屑斑。",
+            "辅助检查": "无",
+            "诊断": "特应性皮炎(轻度)",
+            "处理": "1. 吡美莫司乳膏[15g] X 1.00支   用法：每次0.5g  每日2次  外用  10天",
+            "建议": "吡美莫司乳膏使用注意事项：药物使用前放冰箱冷藏。开始要少量涂于患处，若刺激性较明显，减少使用次数及冷敷患处皮肤或清水洗去。观察病情变化：如有不适，随诊。",
+            "病人去向": "回家",
+            "医师签名": "王鹏日期：2026年01月28日",
+            "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+          }
+        }
+      ]
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "验证诊断编码与药品适应症的映射关系",
+      "inputs_required": [
+        "院内诊断编码库",
+        "医保药品目录适应症限定说明"
+      ],
+      "reason": "确认‘特应性皮炎’的诊断编码是否在系统内正确映射到吡美莫司乳膏的允许支付范围，排除因编码映射错误导致的误判。"
+    },
+    {
+      "check": "计算一线治疗的时间间隔合理性",
+      "inputs_required": [
+        "一线治疗结束时间",
+        "二线治疗开始时间",
+        "临床指南推荐的观察期"
+      ],
+      "reason": "虽然主要依赖病历文本，但程序可辅助检查一线治疗停止与二线治疗开始之间的时间逻辑是否符合常规临床路径，辅助判断‘二线’定义的合理性。"
+    }
+  ]
+}
