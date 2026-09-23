@@ -1,0 +1,232 @@
+{
+  "rule_id": "RULE-032",
+  "mdtrt_id": "121771411",
+  "review_basis": {
+    "violation_item": "沙库巴曲缬沙坦钠片",
+    "violation_description": "沙库巴曲缬沙坦钠片限:1.射血分数降低的慢性心力衰竭(NYHAⅡ-Ⅳ级,LVEF≤40%)成人患者;2.原发性高血压。",
+    "regulatory_claim": "监管系统判定本次就诊中使用的“沙库巴曲缬沙坦钠片”不符合医保限定的支付条件。即：患者既未被诊断为“射血分数降低的慢性心力衰竭（NYHAⅡ-Ⅳ级，LVEF≤40%）的成人患者”，也未被诊断为“原发性高血压”。",
+    "appeal_objective": "证明患者本次使用沙库巴曲缬沙坦钠片符合医保限定的适应症（原发性高血压 或 射血分数降低的慢性心力衰竭伴特定分级/指标），且患者为成人。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "患者本次就诊被明确诊断为“原发性高血压”。",
+      "logic_notes": "这是最直接的申诉路径。如果病历中存在原发性高血压的诊断，即可直接满足限定条件2。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "本次就诊的主诊断或次要诊断中包含‘原发性高血压’或其标准ICD编码。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-1bef4c5bd965"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "患者本次就诊被明确诊断为“慢性心力衰竭”，且临床评估显示为射血分数降低型（LVEF≤40%），NYHA心功能分级为Ⅱ-Ⅳ级。",
+      "logic_notes": "这是另一条核心申诉路径。需要同时证明诊断名称、心功能分级和射血分数指标。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "本次就诊的诊断中包含‘慢性心力衰竭’或其相关标准编码。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-2273f5ab81d3",
+              "SD-DS-S-003-UNKNOWN-0ef98f935ced",
+              "SD-DS-S-003-UNKNOWN-c4d0621da825",
+              "SD-DS-S-003-UNKNOWN-5ca5a4c58cbc",
+              "SD-DS-S-003-UNKNOWN-15ea5990d771",
+              "SD-DS-S-003-UNKNOWN-31f5a39fb794",
+              "SD-DS-S-003-UNKNOWN-4b767ab3f108",
+              "SD-DS-S-003-UNKNOWN-caec9ffb623d",
+              "SD-DS-S-003-UNKNOWN-472ce9686e92"
+            ]
+          }
+        },
+        {
+          "一级证据域": "评估",
+          "二级证据标签": "功能分级",
+          "target_fact": "病历中记录的NYHA心功能分级为Ⅱ级、Ⅲ级或Ⅳ级。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-121771411-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "检查",
+          "二级证据标签": "功能检查",
+          "target_fact": "超声心动图或其他检查报告中记录的左室射血分数（LVEF）数值≤40%。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-S-005 检查报告、DS-M-OP-004 其他辅助检查报告、DS-M-IP-020 其他辅助检查报告",
+            "structured_data_refs": []
+          }
+        },
+        {
+          "一级证据域": "病史",
+          "二级证据标签": "现病史",
+          "target_fact": "现病史中描述的心力衰竭症状及病程，佐证心功能分级。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-121771411-01"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P03",
+      "statement": "患者为成人（年龄≥18岁）。",
+      "logic_notes": "限定条件1明确要求为“成人患者”。虽然通常默认住院患者为成人，但需排除儿童或青少年误用情况，作为基础合规性证明。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "患者",
+          "二级证据标签": "年龄",
+          "target_fact": "患者就诊时的实际年龄≥18岁。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-001 患者信息",
+            "structured_data_refs": [
+              "SD-DS-S-001-121771411-4621c285c0b3"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "structured_data_pool": {
+    "SD-DS-S-003-UNKNOWN-1bef4c5bd965": {
+      "diseName": "原发性高血压",
+      "diseCodg": "ICD007337",
+      "maindiseFlag": "0",
+      "inoutDiseType": "3"
+    },
+    "SD-DS-S-003-UNKNOWN-2273f5ab81d3": {
+      "diseName": "慢性肾炎综合征"
+    },
+    "SD-DS-S-003-UNKNOWN-0ef98f935ced": {
+      "diseName": "慢性肾脏病5期"
+    },
+    "SD-DS-S-003-UNKNOWN-c4d0621da825": {
+      "diseName": "肾性骨病"
+    },
+    "SD-DS-S-003-UNKNOWN-5ca5a4c58cbc": {
+      "diseName": "血液透析状态"
+    },
+    "SD-DS-S-003-UNKNOWN-15ea5990d771": {
+      "diseName": "陈旧性脑梗死"
+    },
+    "SD-DS-S-003-UNKNOWN-31f5a39fb794": {
+      "diseName": "高磷血症"
+    },
+    "SD-DS-S-003-UNKNOWN-4b767ab3f108": {
+      "diseName": "继发性甲状旁腺功能亢进"
+    },
+    "SD-DS-S-003-UNKNOWN-caec9ffb623d": {
+      "diseName": "肾性贫血"
+    },
+    "SD-DS-S-003-UNKNOWN-472ce9686e92": {
+      "diseName": "原发性高血压"
+    },
+    "SD-DS-S-001-121771411-4621c285c0b3": {
+      "medinsId": "H44030500096",
+      "medMdtrtType": "1",
+      "mdtrtId": "121771411",
+      "patnName": "李喜春",
+      "idNo": "442530197006282151",
+      "gend": "1",
+      "brdy": "1970-06-28",
+      "patnId": "442530197006282151",
+      "admDate": "2026-01-22 12:56:11",
+      "drCodg": "104697",
+      "drName": "徐丹丹",
+      "admDeptCodg": "NSXTSMZ",
+      "admDeptName": "血透室门诊",
+      "currDeptCodg": "NSXTSMZ",
+      "currDeptName": "血透室门诊",
+      "insutype": "310",
+      "opspDiseRgst": "1",
+      "opspDiseCodg": "M07808",
+      "opspDiseName": "慢性肾功能不全（非透析治疗）",
+      "psnNo": "0006462606",
+      "ybpt_jzh": "44039100000980114046"
+    }
+  },
+  "expense_summary_pool": {},
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-121771411-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "复诊病历记录",
+      "recordType": "复诊病历记录",
+      "updateTime": "2026-03-16 09:46:39",
+      "group_id": "MG-001"
+    }
+  ],
+  "medical_document_groups": [
+    {
+      "group_id": "MG-001",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "复诊病历记录",
+      "recordType": "复诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-121771411-01",
+          "updateTime": "2026-03-16 09:46:39",
+          "common_content_ref": "MG-001.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2026-01-22 12:58是否外伤：",
+            "内容": "慢性肾炎综合征慢性肾脏病5期肾性骨病血液透析状态陈旧性脑梗死高磷血症继发性甲状旁腺功能亢进肾性贫血原发性高血压复诊，无不适。查体：慢性病容，贫血貌，双下肢无水肿。",
+            "辅助检查": "暂无。",
+            "诊断": "慢性肾炎综合征慢性肾脏病5期肾性骨病血液透析状态陈旧性脑梗死高磷血症继发性甲状旁腺功能亢进肾性贫血原发性高血压",
+            "处理": "1. (集)硝苯地平控释片[30mg*30片] X 2.00瓶   用法：每次30mg  每日2次  口服  28天2. (运)(集)琥珀酸美托洛尔缓释片(国产)[47.5mg*30片] X 1.00瓶   用法：每次1片  每日1次  口服  28天3. 甲磺酸多沙唑嗪缓释片[4mg*10片] X 3.00盒   用法：每次4mg  每日1次  口服  28天4. 沙库巴曲缬沙坦钠片(进口)[100mg*14片] X 4.00盒   用法：每次100mg  每日2次  口服  28天5. (集)阿托伐他汀钙片[20mg*28片] X 1.00盒   用法：每次20mg  每日1次  口服  28天",
+            "治疗处理意见": "观察病情变化：如有不适，随诊。",
+            "医师签名": "徐丹丹日期:2026年01月22日"
+          }
+        }
+      ]
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "诊断编码映射校验",
+      "inputs_required": [
+        "院内诊断编码",
+        "医保标准诊断编码"
+      ],
+      "reason": "确认院内使用的诊断编码是否正确映射到医保目录限定的‘原发性高血压’或‘慢性心力衰竭’标准编码，排除因编码映射错误导致的误判。"
+    },
+    {
+      "check": "LVEF数值逻辑校验",
+      "inputs_required": [
+        "检查报告中的LVEF数值",
+        "医保规则阈值40%"
+      ],
+      "reason": "程序化比对检查报告中的LVEF数值是否严格小于或等于40%，确保数据提取准确。"
+    }
+  ]
+}

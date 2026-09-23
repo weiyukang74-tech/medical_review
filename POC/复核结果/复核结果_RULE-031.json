@@ -1,0 +1,211 @@
+{
+  "rule_id": "RULE-031",
+  "mdtrt_id": "122474618",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "(P01 AND (P02 OR P03)) AND P04",
+    "basis_quotes": [
+      "塞利尼索片限：1.既往接受过治疗且对至少一种蛋白酶体抑制剂，一种免疫调节剂以及一种抗CD38单抗难治的复发或难治性多发性骨髓瘤成人患者；2.既往接受过至少两线系统性治疗的复发或难治性弥漫性大B细胞淋巴瘤(DLBCL)成人患者。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "确认患者本次就诊的主要诊断为多发性骨髓瘤或弥漫性大B细胞淋巴瘤。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "弥漫大B细胞淋巴瘤"
+        }
+      ],
+      "reason": "结构化诊断明确记录为弥漫大B细胞淋巴瘤，符合DLBCL诊断。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病理",
+      "二级证据标签": "病理诊断",
+      "target_fact": "获取确诊该恶性肿瘤的病理报告，证实疾病类型。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病理报告未检索到，但临床诊断已明确，不影响疾病事实认定。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "活动进展",
+      "target_fact": "证实疾病处于复发或难治状态（如既往治疗后出现进展或无法耐受）。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122474618-01",
+          "location": "内容",
+          "quote": "4年余前诊断纵膈弥漫大B淋巴瘤，复发难治性",
+          "source": "DS-M-OP-001 门诊病历"
+        }
+      ],
+      "reason": "门诊病历明确记录“复发难治性”，支持复发或难治状态。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "诊断分型",
+      "target_fact": "明确多发性骨髓瘤的具体分型或DLBCL的具体亚型，以辅助确认诊断准确性。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122474618-01",
+          "location": "诊断",
+          "quote": "弥漫大B细胞淋巴瘤(复发难治性，纵膈，两线及以上治疗后)",
+          "source": "DS-M-OP-001 门诊病历"
+        }
+      ],
+      "reason": "病历诊断字段明确记录为纵膈弥漫大B细胞淋巴瘤。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "既往治疗",
+      "target_fact": "列出患者既往使用过的所有抗肿瘤治疗方案，特别是蛋白酶体抑制剂、免疫调节剂和抗CD38单抗的具体药物名称。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "患者诊断为DLBCL，不适用多发性骨髓瘤的用药限制，无需核查此类药物。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗反应",
+      "target_fact": "证明患者对上述三类药物中的至少各一种表现为难治（如治疗期间疾病进展或治疗后短期内复发）。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "患者诊断为DLBCL，不适用多发性骨髓瘤的难治性定义，无需核查。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗线次",
+      "target_fact": "明确既往治疗属于第几线治疗，辅助判断难治性背景。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "患者诊断为DLBCL，不适用多发性骨髓瘤适应症，无需核查。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗史",
+      "二级证据标签": "既往治疗",
+      "target_fact": "列出患者既往接受过的系统性治疗方案，确认方案数量至少为两线。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122474618-01",
+          "location": "内容",
+          "quote": "多疗程化疗及CART治疗",
+          "source": "DS-M-OP-001 门诊病历"
+        }
+      ],
+      "reason": "病历记录“多疗程化疗及CART治疗”，结合诊断中“两线及以上治疗后”，支持至少两线治疗。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗线次",
+      "target_fact": "明确标注既往治疗的线次（如一线、二线），证实已接受过至少两线治疗。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122474618-01",
+          "location": "诊断",
+          "quote": "两线及以上治疗后",
+          "source": "DS-M-OP-001 门诊病历"
+        }
+      ],
+      "reason": "诊断字段明确记录“两线及以上治疗后”，直接支持至少两线治疗。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗反应",
+      "target_fact": "说明既往治疗失败或疾病复发的具体情况，佐证为何需要进入下一线治疗。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122474618-01",
+          "location": "内容",
+          "quote": "复发难治性，多疗程化疗及CART治疗，目前疾病仍未缓解",
+          "source": "DS-M-OP-001 门诊病历"
+        }
+      ],
+      "reason": "病历记录“复发难治性”、“疾病仍未缓解”，佐证既往治疗失败。"
+    },
+    {
+      "proposition_id": "P04",
+      "一级证据域": "患者",
+      "二级证据标签": "年龄",
+      "target_fact": "确认患者就诊时的年龄是否达到成人标准（≥18岁）。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "brdy",
+          "quote": "1984-06-08"
+        }
+      ],
+      "reason": "患者出生于1984年，就诊时2026年，年龄41岁，符合成人标准。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "结构化诊断和门诊病历均明确记录患者为弥漫大B细胞淋巴瘤，且病历明确记载“复发难治性”，支持确诊为复发或难治性DLBCL。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "UNKNOWN",
+      "reason": "患者诊断为DLBCL，不适用多发性骨髓瘤的适应症条件，该命题为条件分支中的非适用路径，状态为UNKNOWN但不影响整体结论。"
+    },
+    {
+      "proposition_id": "P03",
+      "status": "SUPPORTED",
+      "reason": "门诊病历诊断明确记录“两线及以上治疗后”，内容提及“多疗程化疗及CART治疗”及“复发难治性”，充分支持既往接受过至少两线系统性治疗。"
+    },
+    {
+      "proposition_id": "P04",
+      "status": "SUPPORTED",
+      "reason": "患者出生日期为1984年，就诊时年龄41岁，明确为成人。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "命题关系为(P01 AND (P02 OR P03)) AND P04。P01支持确诊复发难治性DLBCL；P03支持DLBCL适应症所需的至少两线治疗史；P04支持成人身份。P02为MM适应症条件，因诊断为DLBCL而不适用，其UNKNOWN状态不影响OR分支结果。整体逻辑结果为SUPPORTED，符合医保支付限定条件。"
+  },
+  "supplemental_evidence_requests": []
+}

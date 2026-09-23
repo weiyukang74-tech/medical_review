@@ -1,0 +1,182 @@
+{
+  "rule_id": "RULE-027",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "(P01 AND P02) OR P03",
+    "basis_quotes": [
+      "用于单纯型流行性感冒轻症，中医辨证属风热犯肺证者...在新型冠状病毒肺炎的常规治疗中，可用于轻型、普通型引起的发热、咳嗽、乏力。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "患者本次就诊的主要诊断或次要诊断中是否包含‘流行性感冒’或‘新型冠状病毒肺炎’及其分型（轻症/轻型/普通型）。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "发热"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "风热感冒证"
+        }
+      ],
+      "reason": "结构化诊断仅显示“发热”和“风热感冒证”，未包含“流行性感冒”或“新型冠状病毒肺炎”诊断。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "检验",
+      "二级证据标签": "病原结果",
+      "target_fact": "流感病毒抗原/核酸检测结果或新冠病毒核酸检测/抗原检测结果，用于佐证诊断的准确性。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "检验报告查询结果为NOT_RETRIEVED，无病原学证据。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "中医诊断名称是否包含‘风热犯肺证’或相关中医病名。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "风热感冒证"
+        }
+      ],
+      "reason": "诊断包含“风热感冒证”，符合风热犯肺证的相关中医病名要求。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "病历中是否记录了发热、头痛、全身酸痛、咽痛、咳嗽、恶风/恶寒、鼻塞流涕等症状，以及舌象（舌质红、苔薄黄）和脉象（脉数）。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119635373-01",
+          "location": "现病史",
+          "quote": "不伴有寒战、头痛...无关节疼痛、肌肉疼痛"
+        },
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119635373-01",
+          "location": "体格检查",
+          "quote": "T ：38.6 ℃，神清，颈软，咽充血...心肺查体未见明显异常。"
+        }
+      ],
+      "reason": "病历明确记录“不伴有头痛”、“无肌肉疼痛”，且体格检查未记录舌象（舌质红、苔薄黄）和脉象（脉数），不符合规则要求的全部症状体征。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "现病史描述中是否详细记载了上述症状的起始时间、程度及演变过程。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119635373-01",
+          "location": "现病史",
+          "quote": "患者 4 天前出现发热，体温最高达 39.2 ℃"
+        }
+      ],
+      "reason": "现病史记录了发热起始时间和体温程度。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "诊断",
+      "二级证据标签": "诊断分型",
+      "target_fact": "新型冠状病毒肺炎的诊断是否明确标注为‘轻型’或‘普通型’。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119635373-01",
+          "location": "诊断",
+          "quote": "发热"
+        }
+      ],
+      "reason": "病历诊断仅为“发热”，未诊断新型冠状病毒肺炎。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "病历中是否记录了发热、咳嗽、乏力等症状。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119635373-01",
+          "location": "现病史",
+          "quote": "伴畏寒...伴咽痛、鼻塞、流涕、咳嗽、咳痰"
+        }
+      ],
+      "reason": "病历记录了发热、咳嗽，但未明确记录“乏力”症状，且因无新冠诊断，此事实对结论无决定性影响。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "检查",
+      "二级证据标签": "影像结果",
+      "target_fact": "胸部CT等影像学检查结果是否支持轻型或普通型的临床分型判断（如肺部浸润影范围等）。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "影像检查查询结果为NOT_RETRIEVED。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "NOT_SUPPORTED",
+      "reason": "REQUIRED事实“西医诊断为流感或新冠”证据显示诊断仅为发热和风热感冒证，不支持流感或新冠诊断。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "NOT_SUPPORTED",
+      "reason": "REQUIRED事实“症状体征”证据显示患者无头痛、无肌肉痛，且缺失舌脉记录，不满足风热犯肺证的全部症状要求。"
+    },
+    {
+      "proposition_id": "P03",
+      "status": "NOT_SUPPORTED",
+      "reason": "REQUIRED事实“新冠诊断分型”证据显示无新冠诊断，不支持该命题。"
+    }
+  ],
+  "overall_logic_status": "NOT_SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "违规",
+    "is_final": true,
+    "reason": "命题关系为(P01 AND P02) OR P03。P01（流感诊断）和P02（流感症状）均被判定为NOT_SUPPORTED，导致(P01 AND P02)为NOT_SUPPORTED。P03（新冠诊断）被判定为NOT_SUPPORTED。整体逻辑结果为NOT_SUPPORTED，即不符合医保限定支付条件。"
+  },
+  "supplemental_evidence_requests": [],
+  "manual_review_reason": null
+}

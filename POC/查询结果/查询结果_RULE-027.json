@@ -26,9 +26,152 @@
           "二级证据标签": "病原结果",
           "target_fact": "流感病毒抗原/核酸检测结果或新冠病毒核酸检测/抗原检测结果，用于佐证诊断的准确性。",
           "query_result": {
-            "status": "NOT_RETRIEVED",
-            "source": "DS-S-004 检验报告、DS-M-OP-002 检验报告单、DS-M-IP-017 检验报告单",
-            "data": []
+            "status": "RETRIEVED",
+            "source": "DS-S-004 检验报告",
+            "matched_by": {
+              "query_id": "QP-P01-01",
+              "supports_facts": [
+                {
+                  "proposition_id": "P01",
+                  "一级证据域": "检验",
+                  "二级证据标签": "病原结果",
+                  "target_fact": "流感病毒抗原/核酸检测结果或新冠病毒核酸检测/抗原检测结果，用于佐证诊断的准确性。",
+                  "necessity": "SUPPLEMENTARY"
+                }
+              ],
+              "plan_origin": "TAG_MAPPED",
+              "entity_results": [
+                {
+                  "entity_id": "E01",
+                  "source_exact": "流感病毒抗原/核酸检测结果",
+                  "stage": "CORE_QUALIFIER",
+                  "matched_terms": [
+                    "流感",
+                    "病毒"
+                  ],
+                  "matched_fields": [
+                    "indexName",
+                    "itemName"
+                  ],
+                  "record_count": 2
+                },
+                {
+                  "entity_id": "E02",
+                  "source_exact": "新冠病毒核酸检测/抗原检测结果",
+                  "stage": "EXPANDED",
+                  "matched_terms": [
+                    "新型冠状病毒",
+                    "SARS-CoV-2",
+                    "新冠核酸",
+                    "新冠抗原",
+                    "COVID-19"
+                  ],
+                  "matched_fields": [
+                    "itemName"
+                  ],
+                  "record_count": 4
+                }
+              ],
+              "search_fields": [
+                "itemName",
+                "indexName"
+              ],
+              "search_terms": [
+                "流感病毒抗原/核酸检测结果",
+                "流感",
+                "病毒",
+                "甲型流感",
+                "乙型流感",
+                "甲流",
+                "乙流",
+                "流感抗原",
+                "流感核酸",
+                "Influenza",
+                "新冠病毒核酸检测/抗原检测结果",
+                "新冠",
+                "新型冠状病毒",
+                "SARS-CoV-2",
+                "新冠核酸",
+                "新冠抗原",
+                "COVID-19"
+              ],
+              "record_count": 6,
+              "fields_trimmed": true
+            },
+            "data": [
+              {
+                "itemName": "流感病毒核酸检测（甲/乙型）",
+                "indexName": "甲型流感病毒RNA",
+                "quantRslt": "阳性(+)",
+                "indexRslt": null,
+                "resultStatus": null,
+                "refVal": "阴性(-)",
+                "examUnt": null,
+                "examRsltVal": "2",
+                "itemCode": "JY42518",
+                "indexCode": "M4370"
+              },
+              {
+                "itemName": "流感病毒核酸检测（甲/乙型）",
+                "indexName": "乙型流感病毒RNA",
+                "quantRslt": "阴性(-)",
+                "indexRslt": null,
+                "resultStatus": null,
+                "refVal": "阴性(-)",
+                "examUnt": null,
+                "examRsltVal": "1",
+                "itemCode": "JY42518",
+                "indexCode": "M4369"
+              },
+              {
+                "itemName": "新型冠状病毒核酸检测（单采）",
+                "indexName": "2019-nCov核酸检测初筛",
+                "quantRslt": "阴性(-)",
+                "indexRslt": null,
+                "resultStatus": null,
+                "refVal": "阴性(-)",
+                "examUnt": null,
+                "examRsltVal": "1",
+                "itemCode": "JY44255",
+                "indexCode": "M4226"
+              },
+              {
+                "itemName": "新型冠状病毒核酸检测（单采）",
+                "indexName": "2019-nCov",
+                "quantRslt": "Negative(-)",
+                "indexRslt": null,
+                "resultStatus": null,
+                "refVal": "Negative(-)",
+                "examUnt": null,
+                "examRsltVal": "1",
+                "itemCode": "JY44255",
+                "indexCode": "M42261"
+              },
+              {
+                "itemName": "新型冠状病毒核酸检测（单采）",
+                "indexName": "N基因CT值",
+                "quantRslt": "0",
+                "indexRslt": null,
+                "resultStatus": null,
+                "refVal": null,
+                "examUnt": null,
+                "examRsltVal": "1",
+                "itemCode": "JY44255",
+                "indexCode": "M4357"
+              },
+              {
+                "itemName": "新型冠状病毒核酸检测（单采）",
+                "indexName": "ORF1ab基因CT值",
+                "quantRslt": "0",
+                "indexRslt": null,
+                "resultStatus": null,
+                "refVal": null,
+                "examUnt": null,
+                "examRsltVal": "1",
+                "itemCode": "JY44255",
+                "indexCode": "M4358"
+              }
+            ]
           }
         }
       ]

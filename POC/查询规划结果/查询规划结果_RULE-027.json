@@ -5,5 +5,71 @@
     "medins_id": "",
     "visit_no": "50009620251001151707008510"
   },
-  "plans": []
+  "plans": [
+    {
+      "query_id": "QP-P01-01",
+      "supports_facts": [
+        {
+          "proposition_id": "P01",
+          "一级证据域": "检验",
+          "二级证据标签": "病原结果",
+          "target_fact": "流感病毒抗原/核酸检测结果或新冠病毒核酸检测/抗原检测结果，用于佐证诊断的准确性。",
+          "necessity": "SUPPLEMENTARY"
+        }
+      ],
+      "source": "DS-S-004 检验报告",
+      "view_name": "检验报告明细",
+      "query_type": "STRUCTURED",
+      "plan_origin": "TAG_MAPPED",
+      "supplement_reason": null,
+      "entities": [
+        {
+          "entity_id": "E01",
+          "source_exact": "流感病毒抗原/核酸检测结果",
+          "source_path": "target_fact",
+          "core_terms": [
+            "流感"
+          ],
+          "qualifiers": [
+            "病毒"
+          ],
+          "normalized_terms": [
+            "甲型流感",
+            "乙型流感",
+            "甲流",
+            "乙流",
+            "流感抗原",
+            "流感核酸",
+            "Influenza"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E02",
+          "source_exact": "新冠病毒核酸检测/抗原检测结果",
+          "source_path": "target_fact",
+          "core_terms": [
+            "新冠"
+          ],
+          "qualifiers": [
+            "病毒"
+          ],
+          "normalized_terms": [
+            "新型冠状病毒",
+            "SARS-CoV-2",
+            "新冠核酸",
+            "新冠抗原",
+            "COVID-19"
+          ],
+          "alias_terms": []
+        }
+      ],
+      "search_fields": [
+        "itemName",
+        "indexName"
+      ],
+      "fallback_search_fields": [],
+      "fallback_strategy": []
+    }
+  ]
 }

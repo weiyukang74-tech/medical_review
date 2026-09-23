@@ -45,7 +45,6 @@ class OpenAICompatibleClient:
             "temperature": 0,
             "enable_thinking": False,
             "stream": True,
-            "max_tokens": self.settings.max_output_tokens,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},
@@ -116,7 +115,7 @@ class OpenAICompatibleClient:
                 last_error = exc
                 if attempt >= self.settings.max_retries:
                     break
-                time.sleep(min(2**attempt, 4))
+                time.sleep(min(0.5 * (2**attempt), 1.0))
         raise RuntimeError(
             f"模型调用失败，已尝试 {self.settings.max_retries + 1} 次: {last_error}"
         ) from last_error
@@ -188,7 +187,17 @@ class OpenAICompatibleClient:
             if lines and lines[-1].strip() == "```":
                 lines = lines[:-1]
             text = "\n".join(lines).strip()
-        parsed = json.loads(text)
+        try:
+            parsed = json.loads(text)
+        except json.JSONDecodeError as exc:
+            snippet_start = max(0, exc.pos - 120)
+            snippet_end = min(len(text), exc.pos + 120)
+            snippet = text[snippet_start:snippet_end].replace("\n", "\\n")
+            raise ValueError(
+                "模型JSON解析失败，"
+                f"位置=line {exc.lineno}, column {exc.colno}, char {exc.pos}; "
+                f"附近原文={snippet!r}"
+            ) from exc
         if not isinstance(parsed, dict):
             raise ValueError("模型输出必须是 JSON 对象")
         return parsed

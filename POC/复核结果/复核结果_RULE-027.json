@@ -1,0 +1,209 @@
+{
+  "rule_id": "RULE-027",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "(P01 AND P02) OR P03",
+    "basis_quotes": [
+      "用于单纯型流行性感冒轻症，中医辨证属风热犯肺证者...在新型冠状病毒肺炎的常规治疗中，可用于轻型、普通型引起的发热、咳嗽、乏力。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "患者本次就诊的主要诊断或次要诊断中是否包含‘流行性感冒’或‘新型冠状病毒肺炎’及其分型（轻症/轻型/普通型）。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "发热"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "风热感冒证"
+        }
+      ],
+      "reason": "诊断字段仅记录‘发热’和‘风热感冒证’，未直接记录‘流行性感冒’或‘新型冠状病毒肺炎’及其分型。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "检验",
+      "二级证据标签": "病原结果",
+      "target_fact": "流感病毒抗原/核酸检测结果或新冠病毒核酸检测/抗原检测结果，用于佐证诊断的准确性。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-004 检验报告",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "quantRslt",
+          "quote": "阳性(+)"
+        },
+        {
+          "source": "DS-S-004 检验报告",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "indexName",
+          "quote": "甲型流感病毒RNA"
+        },
+        {
+          "source": "DS-S-004 检验报告",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "quantRslt",
+          "quote": "阴性(-)"
+        },
+        {
+          "source": "DS-S-004 检验报告",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "indexName",
+          "quote": "2019-nCov核酸检测初筛"
+        }
+      ],
+      "reason": "甲型流感病毒RNA阳性，支持流行性感冒诊断；新冠病毒核酸阴性，排除新冠。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "中医诊断名称是否包含‘风热犯肺证’或相关中医病名。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "风热感冒证"
+        }
+      ],
+      "reason": "诊断记录‘风热感冒证’，与规则要求的‘风热犯肺证’在中医辨证上高度一致，视为支持。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "病历中是否记录了发热、头痛、全身酸痛、咽痛、咳嗽、恶风/恶寒、鼻塞流涕等症状，以及舌象（舌质红、苔薄黄）和脉象（脉数）。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119635373-01",
+          "location": "现病史",
+          "quote": "发热...伴畏寒...伴咽痛、鼻塞、流涕、咳嗽...无关节疼痛、肌肉疼痛"
+        },
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119635373-01",
+          "location": "体格检查",
+          "quote": "T ：38.6 ℃...咽充血"
+        }
+      ],
+      "reason": "病历记录发热、畏寒、咽痛、鼻塞、流涕、咳嗽，符合风热犯肺主要症状；虽未记录舌脉，但核心症状已支持辨证。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "现病史描述中是否详细记载了上述症状的起始时间、程度及演变过程。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-119635373-01",
+          "location": "现病史",
+          "quote": "患者 4 天前出现发热，体温最高达 39.2 ℃"
+        }
+      ],
+      "reason": "现病史详细记录了发热起始时间、最高体温及伴随症状演变。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "诊断",
+      "二级证据标签": "诊断分型",
+      "target_fact": "新型冠状病毒肺炎的诊断是否明确标注为‘轻型’或‘普通型’。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-004 检验报告",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "quantRslt",
+          "quote": "阴性(-)"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "发热"
+        }
+      ],
+      "reason": "新冠核酸阴性，且诊断中无新冠相关记录，明确排除新冠适应症。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "病历中是否记录了发热、咳嗽、乏力等症状。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "因已排除新冠诊断，此事实不再影响最终结论，且病历未明确记录‘乏力’。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "检查",
+      "二级证据标签": "影像结果",
+      "target_fact": "胸部CT等影像学检查结果是否支持轻型或普通型的临床分型判断（如肺部浸润影范围等）。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "未检索到影像报告，且因排除新冠，此事实不影响结论。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "虽然诊断字段未直接写‘流行性感冒’，但甲型流感病毒RNA阳性（直接病原学证据）结合发热、咽痛等症状，足以支持‘单纯型流行性感冒’的临床事实。诊断记录不完整不构成反证。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "中医诊断‘风热感冒证’支持风热犯肺辨证；病历记录发热、畏寒、咽痛、鼻塞、流涕、咳嗽等核心症状，符合规则要求。虽缺舌脉记录，但主要症状已满足支付条件。"
+    },
+    {
+      "proposition_id": "P03",
+      "status": "NOT_SUPPORTED",
+      "reason": "新冠核酸阴性，且无新冠诊断，明确排除新型冠状病毒肺炎适应症。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "命题关系为(P01 AND P02) OR P03。P01（流感诊断）由甲流核酸阳性及相符症状支持；P02（风热犯肺证及症状）由中医诊断及病历症状支持；P03（新冠）被核酸阴性排除。流感路径(P01 AND P02)成立，整体逻辑结果为SUPPORTED，符合医保限定支付条件。"
+  },
+  "supplemental_evidence_requests": []
+}

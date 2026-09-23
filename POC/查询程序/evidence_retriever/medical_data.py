@@ -39,6 +39,15 @@ def _parse_value(value: str | None) -> object:
     return text
 
 
+def _load_xlsx_workbook(path: Path):
+    workbook = load_workbook(path, read_only=True, data_only=True)
+    for worksheet in workbook.worksheets:
+        reset_dimensions = getattr(worksheet, "reset_dimensions", None)
+        if callable(reset_dimensions):
+            reset_dimensions()
+    return workbook
+
+
 @dataclass(frozen=True)
 class MedicalDataset:
     section_name: str
@@ -69,7 +78,7 @@ class MarkdownMedicalData:
         for path in self._xlsx_paths:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", UserWarning)
-                workbook = load_workbook(path, read_only=True, data_only=True)
+                workbook = _load_xlsx_workbook(path)
             try:
                 for worksheet in workbook.worksheets:
                     header = _read_header(worksheet)
@@ -94,7 +103,7 @@ class MarkdownMedicalData:
         for path in self._index_xlsx_views().get(view_name, []):
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore", UserWarning)
-                workbook = load_workbook(path, read_only=True, data_only=True)
+                workbook = _load_xlsx_workbook(path)
             try:
                 for worksheet in workbook.worksheets:
                     header = _read_header(worksheet)
@@ -120,7 +129,7 @@ class MarkdownMedicalData:
         for path in sorted(directory.glob("*.xlsx")):
             if path.name.startswith("~$") or "负面清单" in path.stem:
                 continue
-            workbook = load_workbook(path, read_only=True, data_only=True)
+            workbook = _load_xlsx_workbook(path)
             for worksheet in workbook.worksheets:
                 rows = worksheet.iter_rows(values_only=True)
                 header: list[str] | None = None
@@ -201,7 +210,7 @@ class MarkdownMedicalData:
             for path in self._index_xlsx_views().get("患者信息", []):
                 with warnings.catch_warnings():
                     warnings.simplefilter("ignore", UserWarning)
-                    workbook = load_workbook(path, read_only=True, data_only=True)
+                    workbook = _load_xlsx_workbook(path)
                 try:
                     for worksheet in workbook.worksheets:
                         header = _read_header(worksheet)

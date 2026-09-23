@@ -1,0 +1,218 @@
+{
+  "rule_id": "RULE-033",
+  "mdtrt_id": "122359039",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 AND P02 AND P03",
+    "basis_quotes": [
+      "证明本次就诊中‘输卵管修复整形术’与‘子宫输卵管通液术’是两项独立实施的医疗行为，不存在项目内涵包含或重复收费情形",
+      "核心路径。需确认监管指控中的‘输卵管修复整形术’是否真实发生。若未发生，则属于错收，需退费或改项；若发生，需进一步证明通液术的独立性。",
+      "核心路径。需证明通液术是独立进行的。",
+      "核心路径。若两项操作均发生，需证明其非重复。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "手术记录",
+      "target_fact": "确认是否实施了输卵管修复、整形或吻合手术，记录手术名称、时间及具体操作内容。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "setName",
+          "quote": "输卵管修复整形术"
+        },
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-122359039-01",
+          "location": "诊疗经过",
+          "quote": "行腹腔镜右侧输卵管输卵管吻合术+...+双侧输卵管造口术",
+          "source": "DS-M-IP-021 出院记录或出院小结"
+        }
+      ],
+      "reason": "费用明细及出院记录明确记载实施了输卵管吻合术及造口术，属于输卵管修复整形范畴。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "手术操作",
+      "二级证据标签": "操作记录",
+      "target_fact": "若为非手术类操作，确认是否有对应的操作记录证明实施了输卵管修复整形相关操作。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-122359039-01",
+          "location": "诊疗经过",
+          "quote": "行腹腔镜右侧输卵管输卵管吻合术+...+双侧输卵管造口术",
+          "source": "DS-M-IP-021 出院记录或出院小结"
+        }
+      ],
+      "reason": "出院记录详细描述了输卵管吻合及造口操作，证实手术真实发生。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "费用",
+      "二级证据标签": "收费明细",
+      "target_fact": "确认‘输卵管修复整形术’的收费时间、数量及对应的项目编码。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "executeDate",
+          "quote": "2026-03-06 06:24:31"
+        }
+      ],
+      "reason": "费用明细显示2026-03-06执行了输卵管修复整形术，数量1次。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "手术操作",
+      "二级证据标签": "操作记录",
+      "target_fact": "确认是否实施了子宫输卵管通液术，记录操作时间、注入液体量、阻力情况及操作者。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-122359039-01",
+          "location": "诊疗经过",
+          "quote": "行...宫腔镜输卵管通液术",
+          "source": "DS-M-IP-021 出院记录或出院小结"
+        }
+      ],
+      "reason": "出院记录明确记载实施了宫腔镜输卵管通液术。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗过程",
+      "target_fact": "描述通液术的具体实施过程，证明其与修复整形术在操作手法、器械使用或时间点上的独立性。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-122359039-01",
+          "location": "诊疗经过",
+          "quote": "行腹腔镜右侧输卵管输卵管吻合术+经宫腔镜子宫内膜息肉切除术+腹腔镜下盆腔腹膜粘连松解术+宫腔镜输卵管通液术+双侧输卵管造口术",
+          "source": "DS-M-IP-021 出院记录或出院小结"
+        }
+      ],
+      "reason": "病历将通液术与吻合术、造口术并列列出，作为独立手术步骤记录，表明其为独立操作。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "费用",
+      "二级证据标签": "收费明细",
+      "target_fact": "确认‘子宫输卵管通液术’的收费时间、数量及对应的项目编码。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "查询结果为NOT_RETRIEVED，无法从结构化数据中直接获取通液术的收费明细，但病历已证实操作发生。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "就诊",
+      "二级证据标签": "就诊时间",
+      "target_fact": "获取两项操作的具体执行时间点，判断是否存在时间重叠或先后顺序。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-002 费用明细",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "executeDate",
+          "quote": "2026-03-06 06:24:31"
+        },
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-122359039-01",
+          "location": "诊疗经过",
+          "quote": "于2026年03月05日在全麻下行宫腹腔镜联合探查术...行腹腔镜右侧输卵管输卵管吻合术...+宫腔镜输卵管通液术",
+          "source": "DS-M-IP-021 出院记录或出院小结"
+        }
+      ],
+      "reason": "费用明细显示修复整形术执行时间为3月6日，但病历记载手术日期为3月5日。无论时间是否完全重合，病历将两者列为同一台手术中的不同步骤。需结合临床逻辑判断。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗方案",
+      "target_fact": "说明为何需要同时或先后进行这两项操作，提供临床必要性依据。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-009-122359039-01",
+          "location": "查房内容",
+          "quote": "拟施行手术名称和方式：宫腹腔镜联合输卵管插管通液术+输卵管远端造口+经宫腔镜子宫内膜息肉切除术",
+          "source": "DS-M-IP-009 术前小结"
+        },
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-021-122359039-01",
+          "location": "诊疗经过",
+          "quote": "腹腔镜术中见...左侧输卵管...远端不可见。右侧输卵管...远端不可见...行腹腔镜右侧输卵管输卵管吻合术...+宫腔镜输卵管通液术+双侧输卵管造口术",
+          "source": "DS-M-IP-021 出院记录或出院小结"
+        }
+      ],
+      "reason": "术前计划及术后记录显示，通液术用于评估输卵管通畅度（诊断性/辅助性），而吻合术和造口术用于修复解剖结构（治疗性）。两者目的不同，通液术并非修复术的必然附属冲洗步骤，而是独立的评估或治疗环节。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "记录患者就诊时的主诉及病情，支持进行两项操作的临床逻辑。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-122359039-01",
+          "location": "现病史",
+          "quote": "左侧输卵管不通，近端梗阻。右侧输卵管不通，远端梗阻。",
+          "source": "DS-M-IP-002 入院记录"
+        }
+      ],
+      "reason": "患者存在双侧输卵管梗阻，需通过通液评估通畅性，并通过手术修复梗阻，临床逻辑支持两项操作并存。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "费用明细和出院记录均证实实施了输卵管吻合术及造口术，属于输卵管修复整形术范畴，证据充分。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "出院记录明确记载实施了宫腔镜输卵管通液术，且将其与修复手术并列记录，证明其为独立操作，非附属步骤。"
+    },
+    {
+      "proposition_id": "P03",
+      "status": "SUPPORTED",
+      "reason": "病历显示通液术用于评估通畅度，修复术用于解剖重建，两者临床目的不同。虽在同一麻醉下进行，但属于不同性质的医疗行为，符合单独收费的临床逻辑。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "P01、P02、P03均被支持。证据表明输卵管修复整形术与子宫输卵管通液术均为真实实施的独立医疗行为，通液术具有独立的诊断或治疗目的，并非修复术的必然附属步骤，不存在内涵包含或重复收费。"
+  },
+  "supplemental_evidence_requests": []
+}

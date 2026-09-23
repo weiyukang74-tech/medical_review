@@ -1,0 +1,267 @@
+{
+  "rule_id": "RULE-029",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 OR P02 OR P03",
+    "basis_quotes": [
+      "证明本次‘梅毒螺旋体特异抗体测定’具有明确的临床必要性或符合规定的常规检查指征，从而推翻‘非必要检查’的认定。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "患者本次就诊的主诉、现病史中是否提及梅毒相关症状、高危行为史或疑似感染线索。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-121510866-01",
+          "location": "现病史",
+          "quote": "患者7年前劳累后出现腰部疼痛...不伴有二便障碍...近日来精神饮食可，睡眠一般，体重体力无明显改变，二便无异常。"
+        }
+      ],
+      "reason": "现病史仅描述腰腿痛症状，无梅毒相关症状或高危行为描述。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病史",
+      "二级证据标签": "既往史",
+      "target_fact": "患者既往是否有梅毒感染史、性病史或其他相关传染病史。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-121510866-01",
+          "location": "个人史",
+          "quote": "否认性病和冶游史。"
+        },
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-121510866-01",
+          "location": "平素健康状况",
+          "quote": "否认“病毒性肝炎、结核”等传染病史。"
+        }
+      ],
+      "reason": "病历明确否认性病、冶游史及传染病史。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "体格检查或病程记录中是否记载了梅毒相关的特异性体征（如硬下疳、皮疹等）或非特异性症状。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-121510866-01",
+          "location": "全身皮肤、粘膜",
+          "quote": "色泽正常...无黄染、皮疹、皮下出血...无粘膜溃疡...无肝掌及蜘蛛痣。"
+        }
+      ],
+      "reason": "体格检查未见皮疹、硬下疳等梅毒特异性体征。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "入院诊断或初步诊断中是否包含梅毒、疑似梅毒或需要排除梅毒的相关疾病诊断。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "腰椎间盘突出"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "椎管狭窄"
+        },
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "腰椎间盘突出伴神经根病"
+        }
+      ],
+      "reason": "诊断均为腰椎疾病，无梅毒或疑似梅毒诊断。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "检验",
+      "二级证据标签": "检验结果",
+      "target_fact": "本次检查的结果及后续是否根据结果进行了相应治疗或进一步检查，以佐证检查的临床价值。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-004 检验报告",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "quantRslt",
+          "quote": "0.07"
+        }
+      ],
+      "reason": "检验结果为阴性，未提示感染，但已执行检查。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "手术操作",
+      "二级证据标签": "手术申请",
+      "target_fact": "是否存在手术或侵入性操作的申请记录，且该操作属于术前感染筛查的常规要求。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-003 首次病程记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-003-121510866-01",
+          "location": "诊疗计划",
+          "quote": "予以对症处理，完善微创手术治疗前准备（术前感染筛查如HIV，梅毒，乙肝，丙肝，血型筛查等）"
+        }
+      ],
+      "reason": "病程记录明确记载为微创手术前准备进行感染筛查。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "输血",
+      "二级证据标签": "输血指征",
+      "target_fact": "是否存在输血计划或输血指征，需证明输血前必须进行梅毒筛查。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "输血相关记录未检索到，但手术筛查指征已成立，此事实不影响P02整体判断。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗方案",
+      "target_fact": "是否存在需要排除梅毒感染的特殊治疗方案（如器官移植、大剂量激素治疗等）。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病历未提及特殊免疫抑制治疗，但手术筛查指征已成立，此事实不影响P02整体判断。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "检查",
+      "二级证据标签": "检查申请",
+      "target_fact": "检查申请单上是否注明了‘术前筛查’、‘输血前检查’等指征。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-003 首次病程记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-003-121510866-01",
+          "location": "诊疗计划",
+          "quote": "完善微创手术治疗前准备（术前感染筛查如HIV，梅毒，乙肝，丙肝，血型筛查等）"
+        }
+      ],
+      "reason": "病程记录中诊疗计划明确注明为术前感染筛查。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "患者",
+      "二级证据标签": "生育状态",
+      "target_fact": "患者是否为孕妇、备孕女性或处于哺乳期等需要常规筛查梅毒的生理状态。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-121510866-01",
+          "location": "婚育史",
+          "quote": "已婚已育。"
+        },
+        {
+          "source": "DS-M-IP-002 入院记录",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-IP-002-121510866-01",
+          "location": "月经史",
+          "quote": "末次月经：2026年01月02日，既往月经周期规则"
+        }
+      ],
+      "reason": "患者已婚已育，末次月经正常，无妊娠或备孕指征。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "就诊",
+      "二级证据标签": "就诊科室",
+      "target_fact": "就诊科室是否为产科、妇科或儿科等常规开展此类筛查的科室。",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "admDeptName",
+          "quote": "疼痛科"
+        }
+      ],
+      "reason": "就诊科室为疼痛科，非产科或妇科。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "诊断中是否包含妊娠、待产等相关诊断。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "腰椎间盘突出"
+        }
+      ],
+      "reason": "诊断均为腰椎疾病，无妊娠相关诊断。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "NOT_SUPPORTED",
+      "reason": "患者无梅毒症状、体征、高危史及疑似诊断，病历明确否认性病及传染病史，不支持病情相关指征。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "SUPPORTED",
+      "reason": "首次病程记录明确记载患者拟行微创手术，梅毒筛查为术前感染筛查的常规准备项目，符合手术前必要筛查指征。"
+    },
+    {
+      "proposition_id": "P03",
+      "status": "NOT_SUPPORTED",
+      "reason": "患者非孕产期，就诊科室为疼痛科，诊断无妊娠相关，不支持孕产期常规筛查指征。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "命题关系为P01 OR P02 OR P03。P01（病情相关）和P03（孕产期筛查）均不成立。但P02（术前筛查）成立，病程记录明确记载梅毒筛查为微创手术前的必要准备。因此整体逻辑结果为SUPPORTED，判定合规。"
+  },
+  "supplemental_evidence_requests": []
+}

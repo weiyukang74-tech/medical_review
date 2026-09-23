@@ -1,0 +1,114 @@
+{
+  "rule_id": "RULE-038",
+  "case_parameters": {
+    "mdtrt_id": "121780896",
+    "medins_id": "",
+    "visit_no": "20260123084050304473"
+  },
+  "plans": [
+    {
+      "query_id": "QP-P02-01",
+      "supports_facts": [
+        {
+          "proposition_id": "P02",
+          "一级证据域": "检验",
+          "二级证据标签": "病原结果",
+          "target_fact": "是否有幽门螺杆菌检测阳性结果（如C13/C14呼气试验、粪便抗原或胃镜活检快速尿素酶试验）。",
+          "necessity": "REQUIRED"
+        }
+      ],
+      "source": "DS-S-004 检验报告",
+      "view_name": "检验报告明细",
+      "query_type": "STRUCTURED",
+      "plan_origin": "TAG_MAPPED",
+      "supplement_reason": null,
+      "entities": [
+        {
+          "entity_id": "E01",
+          "source_exact": "幽门螺杆菌",
+          "source_path": "target_fact",
+          "core_terms": [
+            "幽门螺杆菌"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "Hp",
+            "H.pylori",
+            "HP"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E02",
+          "source_exact": "C13呼气试验",
+          "source_path": "query_planning_agent.expansion",
+          "core_terms": [
+            "C13"
+          ],
+          "qualifiers": [
+            "呼气"
+          ],
+          "normalized_terms": [
+            "碳13",
+            "13C",
+            "C-13"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E03",
+          "source_exact": "C14呼气试验",
+          "source_path": "target_fact",
+          "core_terms": [
+            "C14"
+          ],
+          "qualifiers": [
+            "呼气"
+          ],
+          "normalized_terms": [
+            "碳14",
+            "14C",
+            "C-14"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E04",
+          "source_exact": "粪便抗原",
+          "source_path": "target_fact",
+          "core_terms": [
+            "幽门螺杆菌"
+          ],
+          "qualifiers": [
+            "抗原"
+          ],
+          "normalized_terms": [
+            "Hp抗原",
+            "粪便Hp"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E05",
+          "source_exact": "快速尿素酶试验",
+          "source_path": "target_fact",
+          "core_terms": [
+            "快速尿素酶"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "RUT",
+            "尿素酶试验"
+          ],
+          "alias_terms": []
+        }
+      ],
+      "search_fields": [
+        "itemName",
+        "indexName"
+      ],
+      "fallback_search_fields": [],
+      "fallback_strategy": []
+    }
+  ]
+}

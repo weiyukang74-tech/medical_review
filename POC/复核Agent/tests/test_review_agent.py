@@ -10,6 +10,7 @@ from review_agent.validation import (
     ExpressionParser,
     ReviewValidationError,
     evaluate_expression,
+    _medical_quote_matches_source,
     validate_context,
     validate_result,
 )
@@ -228,6 +229,26 @@ class ReviewAgentTests(unittest.TestCase):
         ]
         with self.assertRaises(ReviewValidationError):
             validate_result(result, self.context, 1)
+
+    def test_medical_quote_ignores_whitespace_differences(self) -> None:
+        source = "患者 4 天前出现发热，体温最高达 39.2  ℃。"
+        quote = "患者 4 天前出现发热，体温最高达 39.2 ℃。"
+        self.assertTrue(_medical_quote_matches_source(quote, source))
+
+    def test_medical_quote_allows_trailing_ellipsis(self) -> None:
+        source = (
+            "予以对症处理，完善微创手术治疗前准备"
+            "（术前感染筛查如HIV，梅毒，乙肝，丙肝，血型筛查等）"
+        )
+        self.assertTrue(
+            _medical_quote_matches_source(
+                "完善微创手术治疗前准备（术前感染筛查如HIV...",
+                source,
+            )
+        )
+        self.assertFalse(
+            _medical_quote_matches_source("不存在的手术准备内容...", source)
+        )
 
 
 if __name__ == "__main__":

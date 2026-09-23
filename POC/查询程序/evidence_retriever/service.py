@@ -42,6 +42,30 @@ EXPENSE_FIELD_ALIASES = {
     "set_name": "setName",
 }
 
+LAB_SEARCH_FIELDS = ("itemName", "indexName")
+LAB_RESULT_FIELDS = (
+    "itemName",
+    "indexName",
+    "quantRslt",
+    "indexRslt",
+    "resultStatus",
+    "refVal",
+    "examUnt",
+    "examRsltVal",
+    "itemCode",
+    "indexCode",
+)
+LAB_VIEW_NAMES = {"检验报告", "检验报告明细"}
+KEYWORD_VIEWS = {"费用明细", *LAB_VIEW_NAMES}
+
+
+def _is_lab_view(view_name: str) -> bool:
+    return view_name in LAB_VIEW_NAMES
+
+
+def _canonical_view_name(view_name: str) -> str:
+    return "检验报告明细" if _is_lab_view(view_name) else view_name
+
 
 class RetrievalService:
     def __init__(self, mapping_path: Path, medical_data_path: Path):
@@ -104,7 +128,11 @@ class RetrievalService:
                 )
                 status = "FOUND" if records else "NOT_FOUND"
         else:
-            records = self.medical_data.query_structured(route.view_name, medins_id, mdtrt_id)
+            records = self.medical_data.query_structured(
+                _canonical_view_name(route.view_name),
+                medins_id,
+                mdtrt_id,
+            )
             status = "FOUND" if records else "NOT_FOUND"
 
         evidence = {
@@ -177,6 +205,13 @@ class RetrievalService:
                     "reason": "当前事实无专属计划，且同一申诉命题中没有可继承的争议实体",
                 }
             return self._filter_expense_records(records, query_plan)
+        if _is_lab_view(route.view_name):
+            if query_plan is None:
+                return [], {
+                    "status": "QUERY_SCOPE_UNRESOLVED",
+                    "reason": "检验结果需要按itemName或indexName生成关键词计划",
+                }
+            return self._filter_lab_records(records, query_plan)
         if route.view_name == "诊断信息":
             keyword = self._diagnosis_keyword(target_fact, records)
             if keyword:
@@ -215,6 +250,143 @@ class RetrievalService:
                 if any(record.get(field) not in (None, "") for field in expected_fields)
             ], None
         return records, None
+
+    @classmethod
+    def _filter_lab_records(
+        cls,
+        records: list[dict[str, object]],
+        query_plan: dict[str, Any],
+    ) -> tuple[list[dict[str, object]], dict[str, Any]]:
+        search_fields = [
+            str(field).strip()
+            for field in query_plan.get("search_fields", LAB_SEARCH_FIELDS)
+            if str(field).strip()
+        ] or list(LAB_SEARCH_FIELDS)
+        entities = query_plan.get("entities")
+        if not isinstance(entities, list) or not entities:
+            return [], {
+                "query_id": query_plan.get("query_id"),
+                "supports_facts": query_plan.get("supports_facts"),
+                "plan_origin": query_plan.get("plan_origin"),
+                "entity_results": [],
+                "search_fields": search_fields,
+                "search_terms": [],
+                "record_count": 0,
+                "fields_trimmed": False,
+            }
+
+        def normalized(value: object) -> str:
+            text = cls._normalize_search_text(value)
+            return text.replace("特异性", "特异")
+
+        def field_values(record: dict[str, object]) -> dict[str, str]:
+            return {
+                field: normalized(record.get(field, ""))
+                for field in search_fields
+            }
+
+        def contains_any(values: dict[str, str], terms: list[str]) -> bool:
+            normalized_terms = [normalized(term) for term in terms if str(term).strip()]
+            return any(
+                term and term in value
+                for term in normalized_terms
+                for value in values.values()
+            )
+
+        def contains_all_one_field(values: dict[str, str], terms: list[str]) -> bool:
+            normalized_terms = [normalized(term) for term in terms if str(term).strip()]
+            return bool(normalized_terms) and any(
+                all(term in value for term in normalized_terms)
+                for value in values.values()
+            )
+
+        all_matched: list[dict[str, object]] = []
+        entity_results: list[dict[str, Any]] = []
+        all_terms: list[str] = []
+        for entity in entities:
+            source_exact = str(entity.get("source_exact", "")).strip()
+            core_terms = [
+                str(term).strip()
+                for term in entity.get("core_terms", [])
+                if str(term).strip()
+            ]
+            qualifiers = [
+                str(term).strip()
+                for term in entity.get("qualifiers", [])
+                if str(term).strip()
+            ]
+            expanded_terms = list(
+                dict.fromkeys(
+                    str(term).strip()
+                    for term in list(entity.get("normalized_terms", []))
+                    + list(entity.get("alias_terms", []))
+                    if str(term).strip() and str(term).strip() != source_exact
+                )
+            )
+            all_terms.extend([source_exact, *core_terms, *qualifiers, *expanded_terms])
+            stages = [
+                ("SOURCE_EXACT", [source_exact], False),
+                ("CORE_QUALIFIER", [*core_terms, *qualifiers], True),
+                ("EXPANDED", expanded_terms, False),
+            ]
+            entity_matches: list[dict[str, object]] = []
+            matched_stage = "NO_MATCH"
+            matched_terms: list[str] = []
+            matched_fields: set[str] = set()
+            for stage_name, terms, require_all in stages:
+                if not terms or not any(str(term).strip() for term in terms):
+                    continue
+                current_matches: list[dict[str, object]] = []
+                current_fields: set[str] = set()
+                for record in records:
+                    values = field_values(record)
+                    if require_all:
+                        matched = contains_all_one_field(values, terms)
+                    else:
+                        matched = contains_any(values, terms)
+                    if not matched:
+                        continue
+                    current_matches.append(record)
+                    current_fields.update(
+                        field for field, value in values.items()
+                        if any(normalized(term) and normalized(term) in value for term in terms)
+                    )
+                if current_matches:
+                    entity_matches = current_matches
+                    matched_stage = stage_name
+                    matched_terms = terms
+                    matched_fields = current_fields
+                    break
+            all_matched.extend(entity_matches)
+            entity_results.append(
+                {
+                    "entity_id": entity.get("entity_id"),
+                    "source_exact": source_exact,
+                    "stage": matched_stage,
+                    "matched_terms": matched_terms,
+                    "matched_fields": sorted(matched_fields),
+                    "record_count": len(entity_matches),
+                }
+            )
+
+        projected = [
+            {
+                field: record[field]
+                for field in LAB_RESULT_FIELDS
+                if field in record
+            }
+            for record in all_matched
+        ]
+        return projected, {
+            "query_id": query_plan.get("query_id"),
+            "supports_facts": query_plan.get("supports_facts"),
+            "plan_origin": query_plan.get("plan_origin"),
+            "entity_results": entity_results,
+            "search_fields": search_fields,
+            "search_terms": list(dict.fromkeys(term for term in all_terms if term)),
+            "record_count": len(projected),
+            "fields_trimmed": True,
+        }
 
     @staticmethod
     def _normalize_search_text(value: object) -> str:
@@ -446,10 +618,17 @@ class RetrievalService:
         }
 
     @staticmethod
-    def _expense_plan_route(
+    def _planned_route(
         primary_domain: str,
         secondary_tag: str,
+        view_name: str,
     ) -> SourceRoute:
+        if view_name == "检验报告明细":
+            source_code = "DS-S-004"
+            source_name = "检验报告"
+        else:
+            source_code = "DS-S-002"
+            source_name = "费用明细"
         return SourceRoute(
             mapping_id=f"PLAN-{primary_domain}-{secondary_tag}",
             medins_id="运行时传入",
@@ -457,9 +636,9 @@ class RetrievalService:
             primary_domain=primary_domain,
             secondary_tag=secondary_tag,
             source_level="PRIMARY",
-            source_code="DS-S-002",
-            source_name="费用明细",
-            view_name="费用明细",
+            source_code=source_code,
+            source_name=source_name,
+            view_name=view_name,
             document_kind="具体信息",
             record_name=None,
             record_type=None,
@@ -513,24 +692,30 @@ class RetrievalService:
             (primary_domain, secondary_tag),
             {"PRIMARY": [], "SECONDARY": []},
         )
-        mapped_to_expense = any(
-            route.view_name == "费用明细"
+        mapped_to_keyword_view = any(
+            route.view_name in KEYWORD_VIEWS
             for route in [*route_groups["PRIMARY"], *route_groups["SECONDARY"]]
         )
         has_exact_plan = plan_key in query_plan_index
         query_plan = (
             resolve_query_plan(query_plan_index, plan_key)
-            if has_exact_plan or mapped_to_expense
+            if has_exact_plan or mapped_to_keyword_view
             else None
         )
         primary_routes = list(route_groups["PRIMARY"])
-        if query_plan is not None and not any(
-            route.view_name == "费用明细" for route in primary_routes
-        ):
-            primary_routes.insert(
-                0,
-                self._expense_plan_route(primary_domain, secondary_tag),
-            )
+        if query_plan is not None:
+            planned_view = str(query_plan.get("view_name", "")).strip()
+            if planned_view in KEYWORD_VIEWS and not any(
+                route.view_name == planned_view
+                or _canonical_view_name(route.view_name)
+                == _canonical_view_name(planned_view)
+                for route in primary_routes
+            ):
+                primary_routes.insert(0, self._planned_route(
+                    primary_domain,
+                    secondary_tag,
+                    planned_view,
+                ))
 
         primary_attempts = self._run_routes(
             primary_routes,
@@ -542,11 +727,11 @@ class RetrievalService:
         execute_secondary = secondary_mode == "always" or (
             secondary_mode == "auto" and self._needs_secondary(primary_attempts)
         )
-        expense_scope_unresolved = query_plan is None and any(
-            route.view_name == "费用明细"
+        keyword_scope_unresolved = query_plan is None and any(
+            route.view_name in KEYWORD_VIEWS
             for route in [*primary_routes, *route_groups["SECONDARY"]]
         )
-        if secondary_mode == "auto" and expense_scope_unresolved:
+        if secondary_mode == "auto" and keyword_scope_unresolved:
             execute_secondary = True
         if secondary_mode == "auto" and query_plan is not None:
             planned_primary_found = False
@@ -633,16 +818,16 @@ class RetrievalService:
                 "RETRIEVED"
                 if data
                 else "QUERY_SCOPE_UNRESOLVED"
-                if expense_scope_unresolved
+                if keyword_scope_unresolved
                 else "NOT_RETRIEVED"
             ),
             "source": source,
         }
-        if expense_scope_unresolved:
+        if keyword_scope_unresolved:
             query_result["query_scope_status"] = "QUERY_SCOPE_UNRESOLVED"
             query_result["query_scope_reason"] = (
                 "当前事实无专属计划，且同一申诉命题中没有可继承的争议实体；"
-                "费用明细未执行默认全量返回"
+                "费用明细或检验报告未执行默认全量返回"
             )
         if matched_by is not None:
             query_result["matched_by"] = matched_by
@@ -705,6 +890,7 @@ class RetrievalService:
                 rule_results.append(
                     {
                         "rule_id": current_rule_id,
+                        "mdtrt_id": mdtrt_id,
                         "propositions": proposition_results,
                     }
                 )

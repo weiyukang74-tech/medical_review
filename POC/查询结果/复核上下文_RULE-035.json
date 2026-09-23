@@ -1,0 +1,187 @@
+{
+  "rule_id": "RULE-035",
+  "mdtrt_id": "121935363",
+  "review_basis": {
+    "violation_item": "索磷布韦维帕他韦片",
+    "violation_description": "索磷布韦维帕他韦片限成人慢性丙型肝炎病毒(HCV)感染。",
+    "regulatory_claim": "监管方认为本次就诊中使用的“索磷布韦维帕他韦片”不符合“限成人慢性丙型肝炎病毒(HCV)感染”的支付条件，疑点在于患者可能非成人，或未确诊为慢性丙型肝炎病毒感染。",
+    "appeal_objective": "证明患者为成年人，且本次就诊的临床诊断确认为慢性丙型肝炎病毒（HCV）感染，从而满足该药品的医保支付适应症限制。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "患者年龄符合成人标准（通常指≥18周岁）。",
+      "logic_notes": "这是核心路径。规则明确限制“限成人”。需从患者基本信息中获取年龄或出生日期进行核验。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "患者",
+          "二级证据标签": "年龄",
+          "target_fact": "患者的实际年龄或出生日期，以确认是否达到成人标准。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-001 患者信息",
+            "structured_data_refs": [
+              "SD-DS-S-001-121935363-1ef66e16117d"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "患者本次就诊的临床诊断包含“慢性丙型肝炎病毒（HCV）感染”。",
+      "logic_notes": "这是核心路径。规则限制适应症为“慢性丙型肝炎病毒(HCV)感染”。需通过标准诊断编码或病历中的诊断记录来证明。若标准诊断编码未直接体现“慢性”或“HCV”，需结合现病史或检验结果佐证。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "本次就诊录入的标准诊断名称及编码，确认是否包含慢性丙型肝炎或HCV感染相关诊断。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-ca214ea6a688",
+              "SD-DS-S-003-UNKNOWN-c8ee43729168",
+              "SD-DS-S-003-UNKNOWN-f6b4b2a2f8b4"
+            ]
+          }
+        },
+        {
+          "一级证据域": "病史",
+          "二级证据标签": "现病史",
+          "target_fact": "病历中关于丙型肝炎感染病程、既往确诊情况的描述，以佐证“慢性”属性。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-121935363-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "检验",
+          "二级证据标签": "病原结果",
+          "target_fact": "HCV RNA、HCV抗体等病原学检测结果，用于确诊HCV感染。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-004 检验报告",
+            "structured_data_refs": [
+              "SD-DS-S-004-UNKNOWN-ab17c5181728"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "structured_data_pool": {
+    "SD-DS-S-001-121935363-1ef66e16117d": {
+      "medinsId": "H44030500096",
+      "medMdtrtType": "1",
+      "mdtrtId": "121935363",
+      "patnName": "侯啓淋",
+      "idNo": "431028199008182610",
+      "gend": "1",
+      "brdy": "1990-08-18",
+      "patnId": "431028199008182610",
+      "admDate": "2026-02-01 09:03:39",
+      "drCodg": "104240",
+      "drName": "王红燕",
+      "admDeptCodg": "NS1600.0010",
+      "admDeptName": "感染肝病门诊",
+      "currDeptCodg": "NS1600.0010",
+      "currDeptName": "感染肝病门诊",
+      "insutype": "310",
+      "opspDiseRgst": "1",
+      "opspDiseCodg": "M00202",
+      "opspDiseName": "丙型肝炎（HCV RNA阳性）",
+      "psnNo": "0003163260",
+      "ybpt_jzh": "44039100000986792577"
+    },
+    "SD-DS-S-003-UNKNOWN-ca214ea6a688": {
+      "diseName": "丙型肝炎病毒携带者"
+    },
+    "SD-DS-S-003-UNKNOWN-c8ee43729168": {
+      "diseName": "2型糖尿病"
+    },
+    "SD-DS-S-003-UNKNOWN-f6b4b2a2f8b4": {
+      "diseName": "高脂血症"
+    },
+    "SD-DS-S-004-UNKNOWN-ab17c5181728": {
+      "itemName": "丙型肝炎病毒RNA定量检测",
+      "indexName": "丙型肝炎病毒RNA定量",
+      "quantRslt": "未检出HCV-RNA",
+      "refVal": "25IU/ml",
+      "examUnt": "IU/ml",
+      "examRsltVal": "1",
+      "itemCode": "JY10323",
+      "indexCode": "M4187"
+    }
+  },
+  "expense_summary_pool": {},
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-121935363-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "updateTime": "2026-02-01 09:04:59",
+      "group_id": "MG-001"
+    }
+  ],
+  "medical_document_groups": [
+    {
+      "group_id": "MG-001",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-121935363-01",
+          "updateTime": "2026-02-01 09:04:59",
+          "common_content_ref": "MG-001.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2026年02月01日 09时03分是否外伤：",
+            "主诉": "丙肝复诊，抗病毒两个月后",
+            "现病史": "一年前体检反复转氨酶异常，2025年6月外院查丙肝抗体阳性；现病毒阳性，完善基因型为1b型；拟启动抗病毒治疗",
+            "既往史和其他病史": "糖尿病，长期口服降糖药物、注射胰岛素，控制可",
+            "过敏史": "否认过敏史。",
+            "体格检查": "未见肝掌蜘蛛痣",
+            "辅助检查": "外院查丙肝阳性；11-24 丙型肝炎病毒RNA定量检测:5.89*10-6",
+            "诊断": "丙型肝炎病毒携带者2型糖尿病高脂血症",
+            "处理": "1. 丙型肝炎病毒RNA定量检测^^ 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT)^^ 血脂四项^^ 糖化血红蛋白2. [谈]索磷布韦维帕他韦片(4:1)[0.5g*28片] X 1.00瓶   用法：每次0.5g  每日1次  口服  28天",
+            "建议": "观察病情变化：如有不适，随诊。",
+            "医师签名": "王红燕日期：2026年02月01日",
+            "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+          }
+        }
+      ]
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "年龄计算与成人标准比对",
+      "inputs_required": [
+        "患者出生日期",
+        "就诊日期",
+        "成人年龄阈值（通常为18岁）"
+      ],
+      "reason": "系统需自动计算就诊时患者年龄，判断是否≥18岁。"
+    },
+    {
+      "check": "诊断编码与适应症关键词匹配",
+      "inputs_required": [
+        "本次就诊的标准诊断编码",
+        "诊断编码对应的标准名称",
+        "医保规则中定义的慢性丙型肝炎相关诊断编码集合或关键词"
+      ],
+      "reason": "系统需比对诊断编码是否在允许的支付范围内，或诊断名称是否包含“慢性”、“丙型肝炎”、“HCV”等关键限定词。"
+    }
+  ]
+}

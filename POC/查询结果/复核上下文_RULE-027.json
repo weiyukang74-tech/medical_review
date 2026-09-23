@@ -33,9 +33,16 @@
           "target_fact": "流感病毒抗原/核酸检测结果或新冠病毒核酸检测/抗原检测结果，用于佐证诊断的准确性。",
           "necessity": "SUPPLEMENTARY",
           "query_result": {
-            "status": "NOT_RETRIEVED",
-            "source": "DS-S-004 检验报告、DS-M-OP-002 检验报告单、DS-M-IP-017 检验报告单",
-            "structured_data_refs": []
+            "status": "RETRIEVED",
+            "source": "DS-S-004 检验报告",
+            "structured_data_refs": [
+              "SD-DS-S-004-UNKNOWN-b22684c1a545",
+              "SD-DS-S-004-UNKNOWN-60cef93029cc",
+              "SD-DS-S-004-UNKNOWN-9b57523750a0",
+              "SD-DS-S-004-UNKNOWN-518756f78ac3",
+              "SD-DS-S-004-UNKNOWN-e14dac8028d4",
+              "SD-DS-S-004-UNKNOWN-51558f738f6b"
+            ]
           }
         }
       ]
@@ -140,6 +147,58 @@
     },
     "SD-DS-S-003-UNKNOWN-7878eb1c239b": {
       "diseName": "风热感冒证"
+    },
+    "SD-DS-S-004-UNKNOWN-b22684c1a545": {
+      "itemName": "流感病毒核酸检测（甲/乙型）",
+      "indexName": "甲型流感病毒RNA",
+      "quantRslt": "阳性(+)",
+      "refVal": "阴性(-)",
+      "examRsltVal": "2",
+      "itemCode": "JY42518",
+      "indexCode": "M4370"
+    },
+    "SD-DS-S-004-UNKNOWN-60cef93029cc": {
+      "itemName": "流感病毒核酸检测（甲/乙型）",
+      "indexName": "乙型流感病毒RNA",
+      "quantRslt": "阴性(-)",
+      "refVal": "阴性(-)",
+      "examRsltVal": "1",
+      "itemCode": "JY42518",
+      "indexCode": "M4369"
+    },
+    "SD-DS-S-004-UNKNOWN-9b57523750a0": {
+      "itemName": "新型冠状病毒核酸检测（单采）",
+      "indexName": "2019-nCov核酸检测初筛",
+      "quantRslt": "阴性(-)",
+      "refVal": "阴性(-)",
+      "examRsltVal": "1",
+      "itemCode": "JY44255",
+      "indexCode": "M4226"
+    },
+    "SD-DS-S-004-UNKNOWN-518756f78ac3": {
+      "itemName": "新型冠状病毒核酸检测（单采）",
+      "indexName": "2019-nCov",
+      "quantRslt": "Negative(-)",
+      "refVal": "Negative(-)",
+      "examRsltVal": "1",
+      "itemCode": "JY44255",
+      "indexCode": "M42261"
+    },
+    "SD-DS-S-004-UNKNOWN-e14dac8028d4": {
+      "itemName": "新型冠状病毒核酸检测（单采）",
+      "indexName": "N基因CT值",
+      "quantRslt": "0",
+      "examRsltVal": "1",
+      "itemCode": "JY44255",
+      "indexCode": "M4357"
+    },
+    "SD-DS-S-004-UNKNOWN-51558f738f6b": {
+      "itemName": "新型冠状病毒核酸检测（单采）",
+      "indexName": "ORF1ab基因CT值",
+      "quantRslt": "0",
+      "examRsltVal": "1",
+      "itemCode": "JY44255",
+      "indexCode": "M4358"
     }
   },
   "expense_summary_pool": {},

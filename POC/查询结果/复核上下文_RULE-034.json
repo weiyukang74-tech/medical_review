@@ -1,0 +1,324 @@
+{
+  "rule_id": "RULE-034",
+  "mdtrt_id": "122144337",
+  "review_basis": {
+    "violation_item": "司库奇尤单抗注射液",
+    "violation_description": "司库奇尤单抗注射液限：1.符合系统治疗或光疗指征的中度至重度斑块状银屑病的6岁及以上患者；2.常规治疗疗效欠佳的强直性脊柱炎的成年患者；3.既往传统的改善病情抗风湿药(cDMARDs)疗效不佳或不耐受的活动性银屑病关节炎成人患者。",
+    "regulatory_claim": "监管系统判定该次司库奇尤单抗注射液的使用不符合限定的三种适应症条件之一。具体疑点可能包括：诊断不符合（非中度至重度斑块状银屑病、非强直性脊柱炎、非活动性银屑病关节炎）；患者年龄不符合（<6岁或<18岁）；或关键临床条件缺失（如银屑病未证明符合系统治疗/光疗指征，强直性脊柱炎未证明常规治疗疗效欠佳，银屑病关节炎未证明cDMARDs疗效不佳或不耐受）。",
+    "appeal_objective": "证明本次使用司库奇尤单抗注射液的患者符合医保限定的适应症条件（诊断、年龄、病情严重程度或既往治疗反应）。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "患者诊断为中度至重度斑块状银屑病，且年龄≥6岁，并符合系统治疗或光疗指征。",
+      "logic_notes": "对应规则条件1。需证明诊断分型、严重程度、年龄及治疗指征。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "确诊为斑块状银屑病",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-4f00eba4718b"
+            ]
+          }
+        },
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "诊断分型",
+          "target_fact": "确诊为斑块状银屑病",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122144337-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "病情",
+          "二级证据标签": "严重程度",
+          "target_fact": "病情评估为中度至重度",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122144337-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "患者",
+          "二级证据标签": "年龄",
+          "target_fact": "患者年龄≥6岁",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-001 患者信息",
+            "structured_data_refs": [
+              "SD-DS-S-001-122144337-d978964084e4"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗",
+          "二级证据标签": "治疗方案",
+          "target_fact": "符合系统治疗或光疗指征的临床依据",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-007 会诊记录、DS-M-IP-009 术前小结、DS-M-IP-010 术前讨论记录、DS-M-IP-002 入院记录",
+            "document_refs": []
+          }
+        },
+        {
+          "一级证据域": "评估",
+          "二级证据标签": "量表评分",
+          "target_fact": "银屑病面积与严重程度指数(PASI)等评分记录",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-OP-005 测评量表",
+            "document_refs": []
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "患者诊断为强直性脊柱炎，且为成年患者，且常规治疗疗效欠佳。",
+      "logic_notes": "对应规则条件2。需证明诊断、成年身份及既往常规治疗无效的事实。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "确诊为强直性脊柱炎",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-4f00eba4718b"
+            ]
+          }
+        },
+        {
+          "一级证据域": "患者",
+          "二级证据标签": "年龄",
+          "target_fact": "患者为成年人（通常≥18岁）",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-001 患者信息",
+            "structured_data_refs": [
+              "SD-DS-S-001-122144337-d978964084e4"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "既往治疗",
+          "target_fact": "接受过常规治疗（如NSAIDs等）的记录",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122144337-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗反应",
+          "target_fact": "常规治疗疗效欠佳的临床评估或记录",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122144337-01"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P03",
+      "statement": "患者诊断为活动性银屑病关节炎，且为成人患者，且既往传统改善病情抗风湿药(cDMARDs)疗效不佳或不耐受。",
+      "logic_notes": "对应规则条件3。需证明诊断、活动性、成年身份及cDMARDs治疗失败或不耐受的事实。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "确诊为银屑病关节炎",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-4f00eba4718b"
+            ]
+          }
+        },
+        {
+          "一级证据域": "病情",
+          "二级证据标签": "活动进展",
+          "target_fact": "疾病处于活动期",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122144337-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "患者",
+          "二级证据标签": "年龄",
+          "target_fact": "患者为成年人",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-001 患者信息",
+            "structured_data_refs": [
+              "SD-DS-S-001-122144337-d978964084e4"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "既往治疗",
+          "target_fact": "既往使用过传统改善病情抗风湿药(cDMARDs)的记录",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122144337-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗反应",
+          "target_fact": "cDMARDs疗效不佳的记录",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-122144337-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗不适宜",
+          "target_fact": "对cDMARDs不耐受的记录（如不良反应）",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-004 日常病程记录、DS-M-IP-021 出院记录或出院小结、DS-M-IP-007 会诊记录",
+            "document_refs": []
+          }
+        }
+      ]
+    }
+  ],
+  "structured_data_pool": {
+    "SD-DS-S-003-UNKNOWN-4f00eba4718b": {
+      "diseName": "化脓性汗腺炎"
+    },
+    "SD-DS-S-001-122144337-d978964084e4": {
+      "medinsId": "H44030500096",
+      "medMdtrtType": "1",
+      "mdtrtId": "122144337",
+      "patnName": "陈佳钰",
+      "idNo": "210402199802212019",
+      "gend": "1",
+      "brdy": "1998-02-21",
+      "patnId": "210402199802212019",
+      "admDate": "2026-02-13 14:48:53",
+      "drCodg": "101000",
+      "drName": "陆原",
+      "admDeptCodg": "NS1301.0010",
+      "admDeptName": "皮肤科门诊",
+      "currDeptCodg": "NS1301.0010",
+      "currDeptName": "皮肤科门诊",
+      "insutype": "310",
+      "opspDiseRgst": "2",
+      "psnNo": "0020616582",
+      "ybpt_jzh": "44039100000995204998"
+    }
+  },
+  "expense_summary_pool": {},
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-122144337-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "updateTime": "2026-02-13 14:54:29",
+      "group_id": "MG-001"
+    }
+  ],
+  "medical_document_groups": [
+    {
+      "group_id": "MG-001",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-122144337-01",
+          "updateTime": "2026-02-13 14:54:29",
+          "common_content_ref": "MG-001.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2026年02月13日 14时43分是否外伤：",
+            "主诉": "头皮、腋窝、股沟、面部、头皮、腋窝等红色丘疹伴疼痛多年",
+            "现病史": "患者于主诉时间前发现以上部位反复出现红色毛囊性丘疹、脓肿，后形成窦道、并有脱发、形成瘢痕，曾口服维甲酸类，面部皮疹有一定疗效。",
+            "既往史和其他病史": "既往体健，否认糖尿病、高血压、心脏病、肾病等疾病，否认乙肝、结核等传染病史。",
+            "过敏史": "否认过敏史。",
+            "体格检查": "一般情况可。专科检查：以上部位见红色脓丘疹、脓肿、窦道、瘢痕。",
+            "辅助检查": "无",
+            "诊断": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+            "处理": "1. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  左侧2. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  右侧",
+            "治疗处理意见": "1.应注意皮肤清洁卫生、防止外伤、挤捏。2.避免精神压力过大，保持心情舒畅、精神愉悦、作息规律，不熬夜、劳累。3.清淡饮食，饮食尽量避免食用辛辣、刺激食物及饮酒，避免高脂高热量饮食，多吃蔬菜、水果。              观察病情变化：如有不适，随诊。",
+            "病人去向": "回家",
+            "医师签名": "陆原日期：2026年02月13日",
+            "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+          }
+        }
+      ]
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "年龄阈值校验",
+      "inputs_required": [
+        "患者出生日期",
+        "就诊日期"
+      ],
+      "reason": "计算患者就诊时的实际年龄，判断是否满足≥6岁（银屑病）或成年（强直/银屑病关节炎）的条件。"
+    },
+    {
+      "check": "诊断编码映射校验",
+      "inputs_required": [
+        "ICD-10诊断编码",
+        "临床诊断名称"
+      ],
+      "reason": "确认诊断编码是否准确对应中度至重度斑块状银屑病、强直性脊柱炎或活动性银屑病关节炎。"
+    }
+  ]
+}

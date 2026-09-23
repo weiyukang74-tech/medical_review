@@ -1,0 +1,79 @@
+{
+  "rule_id": "RULE-028",
+  "case_parameters": {
+    "mdtrt_id": "121953025",
+    "medins_id": "",
+    "visit_no": "20260205082812165145"
+  },
+  "plans": [
+    {
+      "query_id": "QP-P01-01",
+      "supports_facts": [
+        {
+          "proposition_id": "P01",
+          "一级证据域": "检验",
+          "二级证据标签": "检验结果",
+          "target_fact": "支持慢性肾功能不全的实验室检查结果（如血肌酐、尿素氮、eGFR等）或支持慢性支气管炎的相关检查，用于强化诊断依据。",
+          "necessity": "SUPPLEMENTARY"
+        }
+      ],
+      "source": "DS-S-004 检验报告",
+      "view_name": "检验报告明细",
+      "query_type": "STRUCTURED",
+      "plan_origin": "TAG_MAPPED",
+      "supplement_reason": null,
+      "entities": [
+        {
+          "entity_id": "E01",
+          "source_exact": "血肌酐",
+          "source_path": "target_fact",
+          "core_terms": [
+            "肌酐"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "Cr",
+            "血清肌酐",
+            "血Cr"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E02",
+          "source_exact": "尿素氮",
+          "source_path": "target_fact",
+          "core_terms": [
+            "尿素氮"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "BUN",
+            "血尿素氮"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E03",
+          "source_exact": "eGFR",
+          "source_path": "target_fact",
+          "core_terms": [
+            "eGFR"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "估算肾小球滤过率",
+            "肾小球滤过率",
+            "GFR"
+          ],
+          "alias_terms": []
+        }
+      ],
+      "search_fields": [
+        "itemName",
+        "indexName"
+      ],
+      "fallback_search_fields": [],
+      "fallback_strategy": []
+    }
+  ]
+}

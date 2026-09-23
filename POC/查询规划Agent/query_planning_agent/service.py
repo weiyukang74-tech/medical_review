@@ -8,6 +8,8 @@ from typing import Any
 from .client import OpenAICompatibleClient
 from .prompt import (
     FALLBACK_SEARCH_FIELDS,
+    LAB_FALLBACK_SEARCH_FIELDS,
+    LAB_SEARCH_FIELDS,
     SEARCH_FIELDS,
     SYSTEM_PROMPT,
     build_repair_prompt,
@@ -20,12 +22,14 @@ class PlanningValidationError(ValueError):
 
 
 EXPENSE_TRIGGER_DOMAINS = {"费用", "手术操作"}
+LAB_TRIGGER_DOMAINS = {"检验"}
 
 FALLBACK_STRATEGY = [
     "ALL_CHRG_TYPE_SOURCE_EXACT",
     "ALL_CHRG_TYPE_CORE_QUALIFIER",
     "ALL_CHRG_TYPE_EXPANDED",
 ]
+LAB_FALLBACK_STRATEGY: list[str] = []
 
 
 def load_rule_evidence(path: Path) -> list[dict[str, Any]]:
@@ -56,6 +60,20 @@ def collect_rule_facts(
                         "necessity": str(tag.get("necessity", "")).strip(),
                         "mapped_to_expense": (primary, secondary) in expense_tags,
                         "triggers_expense": primary in EXPENSE_TRIGGER_DOMAINS,
+                        "triggers_lab": primary in LAB_TRIGGER_DOMAINS,
+                        "query_domain": (
+                            "检验报告明细"
+                            if primary in LAB_TRIGGER_DOMAINS
+                            else "费用明细"
+                            if primary in EXPENSE_TRIGGER_DOMAINS
+                            else None
+                        ),
+                        "proposition_statement": str(
+                            proposition.get("statement", "")
+                        ).strip(),
+                        "proposition_logic_notes": str(
+                            proposition.get("logic_notes", "")
+                        ).strip(),
                     }
                 )
     return facts
@@ -84,6 +102,7 @@ class QueryPlanningService:
             fact
             for fact in candidate_facts
             if fact.get("triggers_expense") is True
+            or fact.get("triggers_lab") is True
         ]
         if not domain_facts:
             return self.empty_plan(rule)
@@ -100,6 +119,10 @@ class QueryPlanningService:
                 "fact_id": f"F{index:02d}",
                 **_copy_fact(fact),
                 "triggers_expense": fact.get("triggers_expense") is True,
+                "triggers_lab": fact.get("triggers_lab") is True,
+                "query_domain": fact.get("query_domain"),
+                "proposition_statement": fact.get("proposition_statement", ""),
+                "proposition_logic_notes": fact.get("proposition_logic_notes", ""),
             }
             for index, fact in enumerate(domain_facts, start=1)
         ]
@@ -215,6 +238,14 @@ class QueryPlanningService:
                     )
                 if source_phrase in target_fact:
                     source_path = "target_fact"
+                elif source_phrase in facts_by_id[fact_id].get(
+                    "proposition_statement", ""
+                ):
+                    source_path = "proposition.statement"
+                elif source_phrase in facts_by_id[fact_id].get(
+                    "proposition_logic_notes", ""
+                ):
+                    source_path = "proposition.logic_notes"
                 elif source_phrase in violation_item:
                     source_path = "result.source.violation_item"
                 elif source_phrase in violation_description:
@@ -275,18 +306,28 @@ class QueryPlanningService:
             )
 
         proposition_id = fact["proposition_id"]
+        query_domain = fact.get("query_domain") or "费用明细"
+        is_lab = query_domain == "检验报告明细"
         return {
             "query_id": f"QP-{proposition_id}-{proposition_sequence:02d}",
             "supports_facts": [_copy_fact(fact)],
-            "source": "DS-S-002 费用明细",
-            "view_name": "费用明细",
+            "source": (
+                "DS-S-004 检验报告"
+                if is_lab
+                else "DS-S-002 费用明细"
+            ),
+            "view_name": query_domain,
             "query_type": "STRUCTURED",
             "plan_origin": "TAG_MAPPED",
             "supplement_reason": None,
             "entities": entities,
-            "search_fields": SEARCH_FIELDS,
-            "fallback_search_fields": FALLBACK_SEARCH_FIELDS,
-            "fallback_strategy": FALLBACK_STRATEGY,
+            "search_fields": LAB_SEARCH_FIELDS if is_lab else SEARCH_FIELDS,
+            "fallback_search_fields": (
+                LAB_FALLBACK_SEARCH_FIELDS if is_lab else FALLBACK_SEARCH_FIELDS
+            ),
+            "fallback_strategy": (
+                LAB_FALLBACK_STRATEGY if is_lab else FALLBACK_STRATEGY
+            ),
         }
 
     @staticmethod

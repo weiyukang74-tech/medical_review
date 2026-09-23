@@ -1,0 +1,155 @@
+{
+  "rule_id": "RULE-037",
+  "mdtrt_id": "119450725",
+  "review_basis": {
+    "violation_item": "替戈拉生片",
+    "violation_description": "替戈拉生片限：1.反流性食管炎；2.十二指肠溃疡。",
+    "regulatory_claim": "监管系统判定本次就诊中使用的“替戈拉生片”不符合医保限定的支付适应症（反流性食管炎或十二指肠溃疡），即当前病历或诊断数据中未检测到支持该药品支付的对应诊断记录。",
+    "appeal_objective": "证明患者本次使用替戈拉生片的临床诊断属于“反流性食管炎”或“十二指肠溃疡”，或证明现有诊断记录因编码映射问题未能被监管系统正确识别，从而满足医保支付限定条件。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "患者本次就诊的标准诊断中包含“反流性食管炎”或“十二指肠溃疡”。",
+      "logic_notes": "这是核心路径。直接对应监管规则中的限定适应症。需要核实病案首页或电子病历中的主要诊断或次要诊断是否明确包含这两类疾病之一。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "本次就诊记录中是否存在ICD编码或标准名称为‘反流性食管炎’或‘十二指肠溃疡’的诊断条目。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-53a1b6c8a158"
+            ]
+          }
+        },
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "诊断依据",
+          "target_fact": "支持上述诊断的临床依据，如内镜检查报告、病理报告或典型症状描述。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "query_scope_status": "QUERY_SCOPE_UNRESOLVED",
+            "query_scope_reason": "当前事实无专属计划，且同一申诉命题中没有可继承的争议实体；费用明细或检验报告未执行默认全量返回",
+            "document_refs": [
+              "DOC-DS-M-OP-001-119450725-01"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "statement": "若标准诊断未直接匹配，患者实际病情经临床评估确认为反流性食管炎或十二指肠溃疡，且诊断记录存在编码映射错误或表述差异。",
+      "logic_notes": "这是备选核验路径。当P01不成立时，需证明实际病情符合适应症，但数据层面存在映射问题。需结合检查报告和病程记录证明实际病情，并指出诊断编码与医保目录的对应关系。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "检查",
+          "二级证据标签": "专科检查",
+          "target_fact": "胃镜或其他专科检查报告中是否明确描述存在反流性食管炎或十二指肠溃疡的病变特征。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-S-005 检查报告、DS-M-OP-004 其他辅助检查报告、DS-M-IP-007 会诊记录、DS-M-IP-020 其他辅助检查报告",
+            "structured_data_refs": []
+          }
+        },
+        {
+          "一级证据域": "病史",
+          "二级证据标签": "现病史",
+          "target_fact": "病程记录中是否描述了符合反流性食管炎或十二指肠溃疡的典型症状及诊疗过程。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-119450725-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "诊断分型",
+          "target_fact": "诊断的具体分型或严重程度描述，以辅助证明病情的特异性。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-119450725-01"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "structured_data_pool": {
+    "SD-DS-S-003-UNKNOWN-53a1b6c8a158": {
+      "diseName": "反流性食管炎",
+      "diseCodg": "ICD009499",
+      "maindiseFlag": "0",
+      "inoutDiseType": "3"
+    }
+  },
+  "expense_summary_pool": {},
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-119450725-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "updateTime": "2025-11-11 18:59:07",
+      "group_id": "MG-001"
+    }
+  ],
+  "medical_document_groups": [
+    {
+      "group_id": "MG-001",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "初诊病历记录",
+      "recordType": "初诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-119450725-01",
+          "updateTime": "2025-11-11 18:59:07",
+          "common_content_ref": "MG-001.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2025年09月23日 08时04分是否外伤：",
+            "主诉": "咽部异物感1月余",
+            "现病史": "咽部分泌物附着感1月余，经常做清嗓动作，伴反酸、嗳气，自服药物无效。",
+            "既往史和其他病史": "无",
+            "过敏史": "否认过敏史。",
+            "体格检查": "咽喉部稍充血，未见异常分泌物及新生物；双侧披裂、梨状窝粘膜色淡，水肿。",
+            "月经史": "。",
+            "辅助检查": "无",
+            "诊断": "喉咽反流反流性食管炎 慢性咽炎 阴虚火旺症",
+            "处理": "1. [谈]替戈拉生片[50mg*7片] X 4.00盒   用法：每次50mg  每日1次  口服  4周2. 玄麦甘桔胶囊[0.35g*48粒] X 2.00盒   用法：每次3粒  每日3次  口服  7天",
+            "治疗处理意见": "1、调整生活方式：禁烟酒，避免刺激性饮料、食物；2、必要时消化内科就诊，不适随诊；",
+            "病人去向": "回家",
+            "医师签名": "刘飞日期：2025年09月23日",
+            "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+          }
+        }
+      ]
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "诊断编码映射一致性检查",
+      "inputs_required": [
+        "院内诊断编码",
+        "医保标准诊断编码",
+        "诊断名称映射表"
+      ],
+      "reason": "确认医院内部使用的诊断编码或名称是否能被医保系统正确映射为“反流性食管炎”或“十二指肠溃疡”，排除因编码版本差异或映射缺失导致的误判。"
+    }
+  ]
+}

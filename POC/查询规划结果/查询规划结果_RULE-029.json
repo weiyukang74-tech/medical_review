@@ -1,0 +1,163 @@
+{
+  "rule_id": "RULE-029",
+  "case_parameters": {
+    "mdtrt_id": "121510866",
+    "medins_id": "",
+    "visit_no": "60109142152121510866"
+  },
+  "plans": [
+    {
+      "query_id": "QP-P01-01",
+      "supports_facts": [
+        {
+          "proposition_id": "P01",
+          "一级证据域": "检验",
+          "二级证据标签": "检验结果",
+          "target_fact": "本次检查的结果及后续是否根据结果进行了相应治疗或进一步检查，以佐证检查的临床价值。",
+          "necessity": "SUPPLEMENTARY"
+        }
+      ],
+      "source": "DS-S-004 检验报告",
+      "view_name": "检验报告明细",
+      "query_type": "STRUCTURED",
+      "plan_origin": "TAG_MAPPED",
+      "supplement_reason": null,
+      "entities": [
+        {
+          "entity_id": "E01",
+          "source_exact": "梅毒螺旋体特异抗体测定",
+          "source_path": "proposition.statement",
+          "core_terms": [
+            "梅毒螺旋体"
+          ],
+          "qualifiers": [
+            "特异抗体"
+          ],
+          "normalized_terms": [
+            "梅毒螺旋体特异性抗体",
+            "TP-Ab",
+            "TPPA",
+            "梅毒确诊试验"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E02",
+          "source_exact": "化学发光法",
+          "source_path": "result.source.violation_item",
+          "core_terms": [
+            "化学发光"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "CLIA",
+            "发光免疫"
+          ],
+          "alias_terms": []
+        }
+      ],
+      "search_fields": [
+        "itemName",
+        "indexName"
+      ],
+      "fallback_search_fields": [],
+      "fallback_strategy": []
+    },
+    {
+      "query_id": "QP-P02-01",
+      "supports_facts": [
+        {
+          "proposition_id": "P02",
+          "一级证据域": "手术操作",
+          "二级证据标签": "手术申请",
+          "target_fact": "是否存在手术或侵入性操作的申请记录，且该操作属于术前感染筛查的常规要求。",
+          "necessity": "REQUIRED"
+        }
+      ],
+      "source": "DS-S-002 费用明细",
+      "view_name": "费用明细",
+      "query_type": "STRUCTURED",
+      "plan_origin": "TAG_MAPPED",
+      "supplement_reason": null,
+      "entities": [
+        {
+          "entity_id": "E01",
+          "source_exact": "手术",
+          "source_path": "target_fact",
+          "core_terms": [
+            "手术"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "术",
+            "切除",
+            "植入",
+            "修补",
+            "吻合"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E02",
+          "source_exact": "侵入性操作",
+          "source_path": "target_fact",
+          "core_terms": [
+            "操作"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "穿刺",
+            "活检",
+            "内镜",
+            "介入",
+            "置管",
+            "插管"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E03",
+          "source_exact": "输血",
+          "source_path": "proposition.statement",
+          "core_terms": [
+            "输血"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "红细胞",
+            "血浆",
+            "血小板",
+            "全血"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E04",
+          "source_exact": "术前筛查",
+          "source_path": "query_planning_agent.expansion",
+          "core_terms": [
+            "术前"
+          ],
+          "qualifiers": [],
+          "normalized_terms": [
+            "术前检查",
+            "术前准备"
+          ],
+          "alias_terms": []
+        }
+      ],
+      "search_fields": [
+        "hilist_name",
+        "hosplist_name"
+      ],
+      "fallback_search_fields": [
+        "set_name"
+      ],
+      "fallback_strategy": [
+        "ALL_CHRG_TYPE_SOURCE_EXACT",
+        "ALL_CHRG_TYPE_CORE_QUALIFIER",
+        "ALL_CHRG_TYPE_EXPANDED"
+      ]
+    }
+  ]
+}

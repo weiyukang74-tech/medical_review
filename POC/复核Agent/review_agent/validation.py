@@ -25,6 +25,7 @@ EVIDENCE_TYPES = {"STRUCTURED", "MEDICAL_DOCUMENT"}
 
 ROOT_KEYS = {
     "rule_id",
+    "mdtrt_id",
     "review_round",
     "proposition_relation",
     "fact_reviews",
@@ -34,8 +35,9 @@ ROOT_KEYS = {
     "case_status",
     "final_conclusion",
     "supplemental_evidence_requests",
-    "manual_review_reason",
 }
+
+OPTIONAL_ROOT_KEYS = {"manual_review_reason"}
 
 TOKEN_PATTERN = re.compile(r"\s*(AND|OR|NOT|\(|\)|[A-Za-z0-9][A-Za-z0-9_-]*)")
 
@@ -209,6 +211,7 @@ def _fact_key(proposition_id: str, fact: dict[str, Any]) -> tuple[str, str, str,
 
 def validate_context(context: dict[str, Any]) -> None:
     _require_nonempty_string(context.get("rule_id"), "rule_id")
+    _require_nonempty_string(context.get("mdtrt_id"), "mdtrt_id")
     _require_object(context.get("review_basis"), "review_basis")
     propositions = _require_list(context.get("propositions"), "propositions")
     if not propositions:
@@ -431,25 +434,70 @@ def _logic_quote_matches_source(quote: str, source_text: str) -> bool:
 
 
 def _medical_quote_matches_source(quote: str, source_text: str) -> bool:
-    """Match an exact quote or ordered source fragments separated by ellipses."""
+    """Match an exact quote or verbatim source fragments separated by ellipses.
+
+    Medical quotes may compact several independently selected facts into one
+    quote.  Prefer the original order, but accept a different fragment order
+    as long as every fragment appears verbatim in the same source field.
+    """
     if quote in source_text:
+        return True
+    normalized_quote = _normalize_medical_text(quote)
+    normalized_source = _normalize_medical_text(source_text)
+    if normalized_quote in normalized_source:
         return True
     if not re.search(r"(?:\.\.\.|…+)", quote):
         return False
     segments = [
-        segment.strip()
+        _normalize_medical_text(segment)
         for segment in re.split(r"(?:\.\.\.|…+)", quote)
-        if segment.strip()
+        if _normalize_medical_text(segment)
     ]
-    if len(segments) < 2:
+    if not segments:
         return False
+    if len(segments) == 1:
+        return segments[0] in normalized_source
+
+    # Keep the stricter, semantically safer path when the model preserved the
+    # source order.
     position = 0
+    ordered = True
     for segment in segments:
-        match_position = source_text.find(segment, position)
+        match_position = normalized_source.find(segment, position)
         if match_position < 0:
-            return False
+            ordered = False
+            break
         position = match_position + len(segment)
-    return True
+    if ordered:
+        return True
+
+    # A medical quote can also be a compact collection of facts rather than a
+    # reconstructed sentence.  In that case order is not evidence; exact
+    # membership of every fragment in the same field is still required.
+    return all(segment in normalized_source for segment in segments)
+
+
+def _unmatched_medical_quote_segments(quote: str, source_values: list[Any]) -> list[str]:
+    normalized_sources = [_normalize_medical_text(str(value)) for value in source_values]
+    if re.search(r"(?:\.\.\.|…+)", quote):
+        segments = [
+            _normalize_medical_text(segment)
+            for segment in re.split(r"(?:\.\.\.|…+)", quote)
+            if _normalize_medical_text(segment)
+        ]
+    else:
+        segments = [_normalize_medical_text(quote)]
+    return [
+        segment
+        for segment in segments
+        if not any(segment in source for source in normalized_sources)
+    ]
+
+
+def _normalize_medical_text(text: str) -> str:
+    """Normalize harmless Unicode and whitespace differences in medical text."""
+    normalized = unicodedata.normalize("NFKC", text)
+    return re.sub(r"\s+", " ", normalized).strip()
 
 
 def _find_location_values(node: Any, location: str) -> list[Any]:
@@ -533,6 +581,41 @@ def _query_sources(query_result: dict[str, Any]) -> Any:
     return None
 
 
+def _source_codes(value: Any) -> set[str]:
+    codes: set[str] = set()
+    for part in _source_parts(value):
+        codes.update(
+            match.casefold()
+            for match in re.findall(r"DS-[SM]-\d{3}", part, re.IGNORECASE)
+        )
+    return codes
+
+
+def _shared_structured_data_for_source(
+    source: str,
+    structured_pool: dict[str, dict[str, Any]],
+    summary_pool: dict[str, dict[str, Any]],
+) -> list[dict[str, Any]]:
+    """Return shared case records whose IDs prove they came from source."""
+    source_codes = _source_codes(source)
+    if not source_codes:
+        return []
+    records: list[dict[str, Any]] = []
+    for pool in (structured_pool, summary_pool):
+        for record_id, record in pool.items():
+            record_codes = {
+                match.casefold()
+                for match in re.findall(
+                    r"DS-[SM]-\d{3}",
+                    str(record_id),
+                    re.IGNORECASE,
+                )
+            }
+            if source_codes & record_codes:
+                records.append(record)
+    return records
+
+
 def _structured_data(
     query_result: dict[str, Any],
     structured_pool: dict[str, dict[str, Any]],
@@ -574,7 +657,6 @@ def _validate_evidence_quote(
     summary_pool: dict[str, dict[str, Any]],
     fragment_pool: dict[str, dict[str, str]],
 ) -> None:
-    source = _require_nonempty_string(evidence.get("source"), "evidence.source")
     evidence_type = evidence.get("evidence_type")
     if evidence_type not in EVIDENCE_TYPES:
         raise ReviewValidationError(f"evidence_type无效: {evidence_type}")
@@ -587,8 +669,6 @@ def _validate_evidence_quote(
         document = documents.get(document_id)
         if document is None:
             raise ReviewValidationError(f"引用了不存在的document_id: {document_id}")
-        if not _source_matches(source, document.get("source")):
-            raise ReviewValidationError(f"{document_id}的source与病历目录不一致")
         record_content = expand_medical_record_content(
             document.get("recordContent"),
             fragment_pool,
@@ -601,14 +681,32 @@ def _validate_evidence_quote(
             _medical_quote_matches_source(quote, str(value))
             for value in values
         ):
+            unmatched_segments = _unmatched_medical_quote_segments(quote, values)
             raise ReviewValidationError(
-                f"病历原文中找不到引用: {document_id}/{location}/{quote}"
+                f"病历原文中找不到引用: {document_id}/{location}/{quote}; "
+                f"未匹配片段={unmatched_segments}"
             )
         return
 
+    source = _require_nonempty_string(evidence.get("source"), "evidence.source")
     if evidence.get("document_id") is not None:
-        raise ReviewValidationError("STRUCTURED证据的document_id必须为null")
+        raise ReviewValidationError("STRUCTURED证据不得填写document_id")
     available_sources = _query_sources(query_result)
+    structured_data = _structured_data(query_result, structured_pool, summary_pool)
+    if _source_matches(source, available_sources):
+        values = _find_location_values(structured_data, location)
+        if any(quote == str(value) for value in values):
+            return
+
+    shared_data = _shared_structured_data_for_source(
+        source,
+        structured_pool,
+        summary_pool,
+    )
+    shared_values = _find_location_values(shared_data, location)
+    if any(quote == str(value) for value in shared_values):
+        return
+
     if not _source_matches(source, available_sources):
         fact_label = (
             f"{fact_context.get('一级证据域')}/"
@@ -616,12 +714,11 @@ def _validate_evidence_quote(
             f"{fact_context.get('target_fact')}"
         )
         raise ReviewValidationError(
-            f"{fact_label}的STRUCTURED证据source与查询结果不一致: "
-            f"模型={source}，可用={available_sources}"
+            f"{fact_label}的STRUCTURED证据既不属于当前查询结果，"
+            f"也无法在本案共享结构化证据池中验证: "
+            f"模型={source}，当前可用={available_sources}"
         )
-    structured_data = _structured_data(query_result, structured_pool, summary_pool)
-    values = _find_location_values(structured_data, location)
-    if not any(quote == str(value) for value in values):
+    else:
         raise ReviewValidationError(
             f"结构化结果中找不到引用: {location}={quote}"
         )
@@ -633,9 +730,18 @@ def validate_result(
     review_round: int,
 ) -> None:
     validate_context(context)
-    _require_exact_keys(result, ROOT_KEYS, "模型输出")
+    actual_root_keys = set(result)
+    allowed_root_keys = ROOT_KEYS | OPTIONAL_ROOT_KEYS
+    missing_root_keys = sorted(ROOT_KEYS - actual_root_keys)
+    extra_root_keys = sorted(actual_root_keys - allowed_root_keys)
+    if missing_root_keys or extra_root_keys:
+        raise ReviewValidationError(
+            f"模型输出字段不正确，缺少={missing_root_keys}，多余={extra_root_keys}"
+        )
     if result.get("rule_id") != context["rule_id"]:
         raise ReviewValidationError("模型输出rule_id与复核上下文不一致")
+    if result.get("mdtrt_id") != context["mdtrt_id"]:
+        raise ReviewValidationError("模型输出mdtrt_id与复核上下文不一致")
     if result.get("review_round") != review_round:
         raise ReviewValidationError("模型输出review_round不正确")
 
@@ -789,7 +895,8 @@ def validate_result(
         request = _require_object(raw_request, "supplemental_evidence_requests项")
         _require_exact_keys(
             request,
-            {"proposition_id", "target_fact", "requested_data", "requested_source", "reason"},
+            {"proposition_id", "target_fact", "requested_data", "reason"}
+            | ({"requested_source"} if "requested_source" in request else set()),
             "supplemental_evidence_requests项",
         )
         proposition_id = _require_nonempty_string(request.get("proposition_id"), "request.proposition_id")

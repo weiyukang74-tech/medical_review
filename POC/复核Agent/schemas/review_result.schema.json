@@ -4,6 +4,7 @@
   "additionalProperties": false,
   "required": [
     "rule_id",
+    "mdtrt_id",
     "review_round",
     "proposition_relation",
     "fact_reviews",
@@ -12,11 +13,14 @@
     "review_status",
     "case_status",
     "final_conclusion",
-    "supplemental_evidence_requests",
-    "manual_review_reason"
+    "supplemental_evidence_requests"
   ],
   "properties": {
     "rule_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "mdtrt_id": {
       "type": "string",
       "minLength": 1
     },
@@ -91,9 +95,7 @@
               "type": "object",
               "additionalProperties": false,
               "required": [
-                "source",
                 "evidence_type",
-                "document_id",
                 "location",
                 "quote"
               ],
@@ -191,7 +193,6 @@
           "proposition_id",
           "target_fact",
           "requested_data",
-          "requested_source",
           "reason"
         ],
         "properties": {
@@ -208,10 +209,8 @@
             "minLength": 1
           },
           "requested_source": {
-            "anyOf": [
-              {"type": "string", "minLength": 1},
-              {"type": "null"}
-            ]
+            "type": "string",
+            "minLength": 1
           },
           "reason": {
             "type": "string",
@@ -221,10 +220,8 @@
       }
     },
     "manual_review_reason": {
-      "anyOf": [
-        {"type": "string", "minLength": 1},
-        {"type": "null"}
-      ]
+      "type": "string",
+      "minLength": 1
     }
   }
 }

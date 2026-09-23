@@ -311,6 +311,7 @@ def _build_rule_context(
     )
     return {
         "rule_id": query_rule.get("rule_id"),
+        "mdtrt_id": query_rule.get("mdtrt_id"),
         "review_basis": {
             "violation_item": source.get("violation_item"),
             "violation_description": source.get("violation_description"),

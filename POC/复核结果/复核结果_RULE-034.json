@@ -1,0 +1,256 @@
+{
+  "rule_id": "RULE-034",
+  "mdtrt_id": "122144337",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 OR P02 OR P03",
+    "basis_quotes": [
+      "司库奇尤单抗注射液限：1.符合系统治疗或光疗指征的中度至重度斑块状银屑病的6岁及以上患者；2.常规治疗疗效欠佳的强直性脊柱炎的成年患者；3.既往传统的改善病情抗风湿药(cDMARDs)疗效不佳或不耐受的活动性银屑病关节炎成人患者。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "确诊为斑块状银屑病",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "化脓性汗腺炎"
+        }
+      ],
+      "reason": "结构化诊断明确为化脓性汗腺炎，非斑块状银屑病。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "诊断分型",
+      "target_fact": "确诊为斑块状银屑病",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-122144337-01",
+          "location": "诊断",
+          "quote": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+          "source": "DS-M-OP-001 门诊病历"
+        }
+      ],
+      "reason": "门诊病历诊断明确为化脓性汗腺炎，非斑块状银屑病。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "严重程度",
+      "target_fact": "病情评估为中度至重度",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "诊断非银屑病，无法评估银屑病严重程度；且无PASI评分。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "患者",
+      "二级证据标签": "年龄",
+      "target_fact": "患者年龄≥6岁",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "brdy",
+          "quote": "1998-02-21"
+        }
+      ],
+      "reason": "患者出生于1998年，就诊时28岁，满足≥6岁条件。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗方案",
+      "target_fact": "符合系统治疗或光疗指征的临床依据",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "相关病程记录未检索到，无法判断是否符合银屑病系统治疗指征。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "评估",
+      "二级证据标签": "量表评分",
+      "target_fact": "银屑病面积与严重程度指数(PASI)等评分记录",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "测评量表未检索到。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "确诊为强直性脊柱炎",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "化脓性汗腺炎"
+        }
+      ],
+      "reason": "结构化诊断明确为化脓性汗腺炎，非强直性脊柱炎。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "患者",
+      "二级证据标签": "年龄",
+      "target_fact": "患者为成年人（通常≥18岁）",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "brdy",
+          "quote": "1998-02-21"
+        }
+      ],
+      "reason": "患者出生于1998年，就诊时28岁，满足成年条件。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "既往治疗",
+      "target_fact": "接受过常规治疗（如NSAIDs等）的记录",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病历未提及强直性脊柱炎的常规治疗史。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗反应",
+      "target_fact": "常规治疗疗效欠佳的临床评估或记录",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病历未提及强直性脊柱炎的常规治疗疗效。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "确诊为银屑病关节炎",
+      "necessity": "REQUIRED",
+      "status": "NOT_SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "化脓性汗腺炎"
+        }
+      ],
+      "reason": "结构化诊断明确为化脓性汗腺炎，非银屑病关节炎。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "病情",
+      "二级证据标签": "活动进展",
+      "target_fact": "疾病处于活动期",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "诊断非银屑病关节炎，无法评估其活动性。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "患者",
+      "二级证据标签": "年龄",
+      "target_fact": "患者为成年人",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-001 患者信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "brdy",
+          "quote": "1998-02-21"
+        }
+      ],
+      "reason": "患者出生于1998年，就诊时28岁，满足成年条件。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗史",
+      "二级证据标签": "既往治疗",
+      "target_fact": "既往使用过传统改善病情抗风湿药(cDMARDs)的记录",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病历未提及银屑病关节炎的cDMARDs治疗史。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗反应",
+      "target_fact": "cDMARDs疗效不佳的记录",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病历未提及银屑病关节炎的cDMARDs疗效。"
+    },
+    {
+      "proposition_id": "P03",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗不适宜",
+      "target_fact": "对cDMARDs不耐受的记录（如不良反应）",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "相关病程记录未检索到，无法判断是否不耐受。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "NOT_SUPPORTED",
+      "reason": "诊断明确为化脓性汗腺炎，非斑块状银屑病，核心诊断条件不成立。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "NOT_SUPPORTED",
+      "reason": "诊断明确为化脓性汗腺炎，非强直性脊柱炎，核心诊断条件不成立。"
+    },
+    {
+      "proposition_id": "P03",
+      "status": "NOT_SUPPORTED",
+      "reason": "诊断明确为化脓性汗腺炎，非银屑病关节炎，核心诊断条件不成立。"
+    }
+  ],
+  "overall_logic_status": "NOT_SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "违规",
+    "is_final": true,
+    "reason": "患者诊断为化脓性汗腺炎，不符合司库奇尤单抗注射液限定的三种适应症（斑块状银屑病、强直性脊柱炎、银屑病关节炎）中的任何一种。P01、P02、P03均因诊断不符被判定为NOT_SUPPORTED，整体逻辑结果为NOT_SUPPORTED。"
+  },
+  "supplemental_evidence_requests": []
+}

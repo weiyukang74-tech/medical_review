@@ -1,0 +1,169 @@
+{
+  "rule_id": "RULE-036",
+  "mdtrt_id": "121722787",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01 AND P02",
+    "basis_quotes": [
+      "他克莫司软膏限中重度特应性皮炎患者的二线用药。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "本次就诊的主要诊断或次要诊断中包含特应性皮炎（Atopic Dermatitis）的标准诊断编码或名称。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "特应性皮炎"
+        }
+      ],
+      "reason": "结构化诊断信息明确记录主要诊断为特应性皮炎。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "严重程度",
+      "target_fact": "病历记录中明确描述或评估患者特应性皮炎的严重程度为‘中度’或‘重度’（如通过EASI评分、POEM评分或医生文字描述）。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "病历未明确记录中重度文字描述或评分，仅凭症状无法直接判定严重程度。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "评估",
+      "二级证据标签": "量表评分",
+      "target_fact": "如有特应性皮炎特异性量表（如EASI、SCORAD、POEM）评分记录，提取具体分值以佐证严重程度。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "未检索到量表评分记录。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病情",
+      "二级证据标签": "症状体征",
+      "target_fact": "记录患者皮损范围、瘙痒程度、睡眠影响等具体症状体征，支持中重度判断。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121722787-01",
+          "location": "主诉",
+          "quote": "躯干、面部、上肢等处红斑、丘疹、鳞屑伴瘙痒多年，加重1月",
+          "source": "DS-M-OP-001 门诊病历"
+        },
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121722787-01",
+          "location": "体格检查",
+          "quote": "以上部位见散在分布红斑、丘疹、鳞屑",
+          "source": "DS-M-OP-001 门诊病历"
+        }
+      ],
+      "reason": "皮损累及躯干、面部、上肢多处，伴瘙痒多年且近期加重，提示病情较重，但不足以单独确诊中重度。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "既往治疗",
+      "target_fact": "患者既往使用过特应性皮炎一线治疗药物（如外用糖皮质激素、保湿剂等）的记录。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "现病史仅述‘未规范治疗’，未明确记录既往具体使用过何种一线药物。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗反应",
+      "target_fact": "记录显示既往一线治疗无效、效果不佳或患者出现不良反应（不耐受）。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "未记录既往治疗反应，无法证明一线治疗失败。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗史",
+      "二级证据标签": "治疗不适宜",
+      "target_fact": "如有记录表明患者因特定原因（如面部/皱褶部位长期使用激素风险）不适宜继续使用一线治疗，需提取相关描述。",
+      "necessity": "REQUIRED",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "未检索到相关病程记录，无法证明不适宜使用一线治疗。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "病史",
+      "二级证据标签": "现病史",
+      "target_fact": "现病史中关于病情演变、既往用药尝试及效果的描述。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121722787-01",
+          "location": "现病史",
+          "quote": "患者于主诉时间前发现以上部位反复出现红斑、丘疹、鳞屑，伴瘙痒，未规范治疗。",
+          "source": "DS-M-OP-001 门诊病历"
+        }
+      ],
+      "reason": "现病史记录病情反复且未规范治疗，但未提供具体用药史。"
+    },
+    {
+      "proposition_id": "P02",
+      "一级证据域": "治疗",
+      "二级证据标签": "治疗方案",
+      "target_fact": "本次就诊的整体治疗方案记录，显示他克莫司在方案中的定位（如替代、联合或序贯）。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "UNKNOWN",
+      "evidence": [],
+      "reason": "未检索到住院或详细治疗方案记录，仅门诊处方显示联合用药，无法明确二线定位逻辑。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "UNKNOWN",
+      "reason": "诊断明确为特应性皮炎，但缺乏中重度的明确文字描述或评分支持，仅凭多部位皮损和瘙痒无法排除轻度可能，严重程度证据不足。"
+    },
+    {
+      "proposition_id": "P02",
+      "status": "UNKNOWN",
+      "reason": "病历未记录既往一线治疗史及治疗反应，无法证明他克莫司是基于一线治疗失败或不适宜而使用的二线药物。"
+    }
+  ],
+  "overall_logic_status": "UNKNOWN",
+  "review_status": "OPEN",
+  "case_status": "待补充证据",
+  "final_conclusion": {
+    "result": "暂无法判定",
+    "is_final": false,
+    "reason": "P01和P02均为UNKNOWN。缺乏病情严重程度评估及既往一线治疗史证据，无法确认是否符合‘中重度’及‘二线用药’条件。"
+  },
+  "supplemental_evidence_requests": [
+    {
+      "proposition_id": "P01",
+      "target_fact": "病历记录中明确描述或评估患者特应性皮炎的严重程度为‘中度’或‘重度’（如通过EASI评分、POEM评分或医生文字描述）。",
+      "requested_data": "特应性皮炎严重程度评估记录（如EASI/POEM评分或医生对中重度的文字描述）",
+      "reason": "当前病历未明确严重程度，需补充证据以支持中重度诊断。"
+    },
+    {
+      "proposition_id": "P02",
+      "target_fact": "患者既往使用过特应性皮炎一线治疗药物（如外用糖皮质激素、保湿剂等）的记录。",
+      "requested_data": "既往外用糖皮质激素或其他一线治疗药物的使用记录及疗效评估",
+      "reason": "需证明一线治疗无效或不适宜，以支持他克莫司作为二线用药的合理性。"
+    }
+  ]
+}

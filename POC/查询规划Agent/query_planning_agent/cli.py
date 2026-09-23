@@ -21,7 +21,7 @@ LOCAL_ENV = PROGRAM_ROOT / ".env"
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="为费用明细和病例文书生成关键词查询计划")
+    parser = argparse.ArgumentParser(description="为费用明细、检验报告和病例文书生成关键词查询计划")
     parser.add_argument("--rule-evidence", type=Path, default=DEFAULT_RULE_EVIDENCE)
     parser.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)

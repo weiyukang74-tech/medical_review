@@ -1,0 +1,70 @@
+{
+  "rule_id": "RULE-035",
+  "case_parameters": {
+    "mdtrt_id": "121935363",
+    "medins_id": "",
+    "visit_no": "20260201090842656794"
+  },
+  "plans": [
+    {
+      "query_id": "QP-P02-01",
+      "supports_facts": [
+        {
+          "proposition_id": "P02",
+          "一级证据域": "检验",
+          "二级证据标签": "病原结果",
+          "target_fact": "HCV RNA、HCV抗体等病原学检测结果，用于确诊HCV感染。",
+          "necessity": "SUPPLEMENTARY"
+        }
+      ],
+      "source": "DS-S-004 检验报告",
+      "view_name": "检验报告明细",
+      "query_type": "STRUCTURED",
+      "plan_origin": "TAG_MAPPED",
+      "supplement_reason": null,
+      "entities": [
+        {
+          "entity_id": "E01",
+          "source_exact": "HCV RNA",
+          "source_path": "target_fact",
+          "core_terms": [
+            "HCV"
+          ],
+          "qualifiers": [
+            "RNA"
+          ],
+          "normalized_terms": [
+            "丙肝病毒RNA",
+            "HCV-RNA",
+            "丙型肝炎病毒RNA"
+          ],
+          "alias_terms": []
+        },
+        {
+          "entity_id": "E02",
+          "source_exact": "HCV抗体",
+          "source_path": "target_fact",
+          "core_terms": [
+            "HCV"
+          ],
+          "qualifiers": [
+            "抗体"
+          ],
+          "normalized_terms": [
+            "丙肝抗体",
+            "抗-HCV",
+            "HCV-Ab",
+            "丙型肝炎病毒抗体"
+          ],
+          "alias_terms": []
+        }
+      ],
+      "search_fields": [
+        "itemName",
+        "indexName"
+      ],
+      "fallback_search_fields": [],
+      "fallback_strategy": []
+    }
+  ]
+}

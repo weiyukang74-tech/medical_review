@@ -1,0 +1,144 @@
+{
+  "rule_id": "RULE-028",
+  "review_basis": {
+    "violation_item": "金水宝片",
+    "violation_description": "金水宝片限慢性支气管炎、慢性肾功能不全的患者。",
+    "regulatory_claim": "监管方认为本次就诊中使用的“金水宝片”不符合医保限定的支付条件，即患者当前诊断或病历记录中未体现“慢性支气管炎”或“慢性肾功能不全”这两个限定适应症之一。",
+    "appeal_objective": "证明患者本次就诊符合“金水宝片”的医保支付限定条件，即患者确诊患有“慢性支气管炎”或“慢性肾功能不全”。"
+  },
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "statement": "患者本次就诊的诊断记录中包含“慢性支气管炎”或“慢性肾功能不全”的明确诊断。",
+      "logic_notes": "这是核心路径。监管规则明确限定了两个适应症。申诉必须证明患者具备其中至少一个诊断。需要核对病案首页、入院记录、出院小结等关键文书中的诊断列表。",
+      "missing_required_facts": [],
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "患者本次就诊的所有明确诊断名称及编码，特别是是否包含‘慢性支气管炎’或‘慢性肾功能不全’。",
+          "necessity": "REQUIRED",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "structured_data_refs": [
+              "SD-DS-S-003-UNKNOWN-a3f0d73ba690"
+            ]
+          }
+        },
+        {
+          "一级证据域": "病史",
+          "二级证据标签": "既往史",
+          "target_fact": "患者既往是否患有慢性支气管炎或慢性肾功能不全，以佐证本次诊断的连续性和真实性。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "document_refs": [
+              "DOC-DS-M-OP-001-121953025-01"
+            ]
+          }
+        },
+        {
+          "一级证据域": "检验",
+          "二级证据标签": "检验结果",
+          "target_fact": "支持慢性肾功能不全的实验室检查结果（如血肌酐、尿素氮、eGFR等）或支持慢性支气管炎的相关检查，用于强化诊断依据。",
+          "necessity": "SUPPLEMENTARY",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-004 检验报告",
+            "structured_data_refs": [
+              "SD-DS-S-004-UNKNOWN-4bd680b0b33c",
+              "SD-DS-S-004-UNKNOWN-5f198ec34f59",
+              "SD-DS-S-004-UNKNOWN-778fb81bf152"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "structured_data_pool": {
+    "SD-DS-S-003-UNKNOWN-a3f0d73ba690": {
+      "diseName": "慢性肾功能不全",
+      "diseCodg": "ICD032626",
+      "maindiseFlag": "0",
+      "inoutDiseType": "3"
+    },
+    "SD-DS-S-004-UNKNOWN-4bd680b0b33c": {
+      "itemName": "肾功三项",
+      "indexName": "肌酐",
+      "quantRslt": "103",
+      "refVal": "70-115",
+      "examUnt": "μmol/L",
+      "examRsltVal": "1",
+      "itemCode": "JY10253",
+      "indexCode": "B4053"
+    },
+    "SD-DS-S-004-UNKNOWN-5f198ec34f59": {
+      "itemName": "肾功三项",
+      "indexName": "BUN/CRE",
+      "quantRslt": "20.43",
+      "examRsltVal": "1",
+      "itemCode": "JY10253",
+      "indexCode": "B4188"
+    },
+    "SD-DS-S-004-UNKNOWN-778fb81bf152": {
+      "itemName": "肾功三项",
+      "indexName": "肾小球滤过率",
+      "quantRslt": "59.1",
+      "examUnt": "ml/min",
+      "examRsltVal": "1",
+      "itemCode": "JY10253",
+      "indexCode": "B4402"
+    }
+  },
+  "expense_summary_pool": {},
+  "medical_documents": [
+    {
+      "document_id": "DOC-DS-M-OP-001-121953025-01",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "复诊病历记录",
+      "recordType": "复诊病历记录",
+      "updateTime": "2026-04-03 11:48:36",
+      "group_id": "MG-001"
+    }
+  ],
+  "medical_document_groups": [
+    {
+      "group_id": "MG-001",
+      "source": "DS-M-OP-001 门诊病历",
+      "recordName": "复诊病历记录",
+      "recordType": "复诊病历记录",
+      "common_content": {},
+      "records": [
+        {
+          "document_id": "DOC-DS-M-OP-001-121953025-01",
+          "updateTime": "2026-04-03 11:48:36",
+          "common_content_ref": "MG-001.common_content",
+          "unique_content": {
+            "基本信息": "就诊时间：2026-02-05 08:13是否外伤：",
+            "内容": "PRCA（继发于T-LGLL）6年半，复查 Cr较上次稳定，尿量正常，Hb上升 CsA多次减量，激素一片，CsA100mg日，周末50mg； MP一片，持续3月，CsA 50mg 日一次 周末模式既往史：慢性肾功能不全、肝功能异常PE：贫血貌改善 上肢瘀斑 形状各异,减轻",
+            "辅助检查": "2026-02-04 肾功三项:CRE 112.0μmol/L，eGFR 53.4ml/min，2026-02-04 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):AST 49U/L↑，ALP 136U/L↑，GGT 185U/L↑，2026-02-04 外周血涂片:晚幼粒细胞 1%，分叶核粒细胞 34%，嗜酸粒细胞 3%，淋巴细胞 50%，单核细胞 10%，异型淋巴细胞 2%，WBC形态 中性晚幼粒细胞占1%，颗粒淋巴细胞占22%，异型淋巴细胞占2%，RBC形态 RBC大小不等，形态不整，部分细胞体积大，PLT形态 未见异常，2026-02-04 血常规+网织红细胞计数:Neut% 21.7%↓，Lymph% 63.7%↑，Mono% 11.7%↑，Neut# 1.79*109/L↓，Lymph# 5.26*109/L↑，Mono# 0.97*109/L↑，RBC 2.59*1012/L↓，Hb 104g/L↓，Hct 31.0%↓，MCV 119.7fL↑，MCH 40.2pg↑，RDW_SD 65.1↑，IRF 27.1%↑，LFR 72.9%↓，MFR 14.20%↑，HFR 12.90%↑，RET% 2.28%↑，WBC 8.3*109/L，MCHC 335g/L，RDW-CV 14.7%，PLT 253*109/L，2026-01-10 肾功三项:BUN 9.1mmol/L↑，CRE 111.0μmol/L，eGFR 54.0ml/min，BUN/CRE 20.29，UA 395.9μmol/L，2026-01-10 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):AST 48U/L↑，ALP 130U/L↑，GGT 201U/L↑，2026-01-10 血常规+网织红细胞计数:Neut% 19.8%↓，Lymph% 65.8%↑，Mono% 12.1%↑，Neut# 1.60*109/L↓，Lymph# 5.32*109/L↑，Mono# 0.98*109/L↑，RBC 2.67*1012/L↓，Hb 106g/L↓，Hct 31.5%↓，MCV 118.0fL↑，MCH 39.7pg↑，RDW_SD 63.1↑，IRF 15.5%↑，LFR 84.5%↓，HFR 3.30%↑，WBC 8.1*109/L，Eos% 1.6%，PLT 261*109/L，RET% 1.68%，2025-12-10 肾功三项:CRE 114.0μmol/L，eGFR 52.3ml/min，2025-12-10 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 64.0g/L↓，ALP 126U/L↑，GGT 182U/L↑，2025-12-10 血常规+网织红细胞计数:Neut% 25.3%↓，Lymph% 58.7%↑，Mono% 12.8%↑，Neut# 1.62*109/L↓，Lymph# 3.77*109/L↑，Mono# 0.82*109/L↑，RBC 2.69*1012/L↓，Hb 108g/L↓，Hct 31.8%↓，MCV 118.2fL↑，MCH 40.1pg↑，RDW_SD 63.5↑，IRF 25.4%↑，LFR 74.6%↓，MFR 14.10%↑，HFR 11.30%↑，WBC 6.4*109/L，PLT 232*109/L，RET% 1.86%，2025-11-13 环孢素A血药浓度监测:CysA 31.31ng/mL，2025-11-10 血常规+网织红细胞计数:Neut% 27.7%↓，Lymph% 58.2%↑，Mono% 10.5%↑，Lymph# 4.42*109/L↑，Mono# 0.80*109/L↑，RBC 2.76*1012/L↓，Hb 109g/L↓，Hct 33.4%↓，MCV 121.0fL↑，MCH 39.5pg↑，RDW_SD 65.9↑，IRF 29.5%↑，LFR 70.5%↓，MFR 15.50%↑，HFR 14.00%↑，WBC 7.6*109/L，2025-11-10 肾功三项:CRE 116.0μmol/L↑，eGFR 51.2ml/min，2025-11-10 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):AST 43U/L↑，ALP 136U/L↑，GGT 176U/L↑，2025-11-10 葡萄糖:GLU 5.7mmol/L，2025-10-17 血液病MRD检测:结论 外周血有核细胞中，淋巴细胞占有核细胞66.30%，其中3.93%（占有核细胞比例）表达CD3，CD8, CD2，TCRαβ，CD57part，CD279part，TRBC1part，弱表达CD5，CD7，不表达TCRγδ，CD56，CD4, CD34，CD30，CD10，为表型异常的成熟T细胞，其余T及NK/T细胞表型未见明显异常；未见明显单克隆B细胞。2025-10-15 肾功三项:BUN 9.6mmol/L↑，CRE 124.0μmol/L↑，eGFR 47.2ml/min，2025-10-15 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 63.6g/L↓，AST 45U/L↑，ALP 143U/L↑，GGT 190U/L↑，2025-10-15 血常规+网织红细胞计数:Neut% 24.0%↓，Lymph% 62.2%↑，Mono% 11.1%↑，Lymph# 5.10*109/L↑，Mono# 0.91*109/L↑，RBC 2.73*1012/L↓，Hb 108g/L↓，Hct 32.9%↓，MCV 120.5fL↑，MCH 39.6pg↑，RDW_SD 64.9↑，NRBC 0.10%↑，NRBC 0.01*109/L↑，IRF 27.6%↑，LFR 72.4%↓，MFR 14.80%↑，HFR 12.80%↑，RET% 1.93%↑，WBC 8.2*109/L，PLT 228*109/L，2025-09-10 肾功三项:BUN 9.9mmol/L↑，CRE 115.0μmol/L↑，eGFR 51.7ml/min，2025-09-10 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 62.7g/L↓，AST 42U/L↑，ALP 156U/L↑，GGT 210U/L↑，2025-09-10 血常规+网织红细胞计数:Neut% 26.8%↓，Lymph% 57.6%↑，Mono% 12.7%↑，Lymph# 4.35*109/L↑，Mono# 0.96*109/L↑，RBC 2.84*1012/L↓，Hb 112g/L↓，Hct 34.3%↓，MCV 120.8fL↑，MCH 39.4pg↑，RDW_SD 65.1↑，IRF 23.9%↑，LFR 76.1%↓，MFR 14.80%↑，HFR 9.10%↑，RET% 2.44%↑，WBC 7.6*109/L，PLT 259*109/L，2025-08-13 肾功三项:BUN 11.3mmol/L↑，CRE 113.0μmol/L↑，eGFR 52.8ml/min，2025-08-13 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):AST 47U/L↑，ALP 144U/L↑，GGT 218U/L↑，2025-08-13 血常规+网织红细胞计数:Neut% 22.3%↓，Lymph% 63.3%↑，Mono% 12.2%↑，Neut# 1.77*109/L↓，Lymph# 5.01*109/L↑，Mono# 0.97*109/L↑，RBC 2.81*1012/L↓，Hb 113g/L↓，Hct 33.5%↓，MCV 119.2fL↑，MCH 40.2pg↑，RDW_SD 60.7↑，IRF 28.5%↑，LFR 71.5%↓，MFR 17.70%↑，HFR 10.80%↑，RET% 2.06%↑，WBC 7.9*109/L，PLT 256*109/L，2025-07-12 肾功三项:BUN 8.4mmol/L↑，UA 629.0μmol/L↑，CRE 123.0μmol/L↑，2025-07-12 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 63.2g/L↓，AST 49U/L↑，ALP 145U/L↑，GGT 256U/L↑，TBiL 14.2μmol/L，DBiL 3.4μmol/L，2025-06-18 血常规+网织红细胞计数:Neut% 24.6%↓，Lymph% 60.9%↑，Mono% 12.4%↑，Lymph# 4.90*109/L↑，Mono# 1.00*109/L↑，RBC 3.03*1012/L↓，Hb 120g/L↓，Hct 35.8%↓，MCV 118.2fL↑，MCH 39.6pg↑，RDW_SD 61.4↑，IRF 29.0%↑，LFR 71.0%↓，MFR 15.10%↑，HFR 13.90%↑，RET% 2.06%↑，WBC 8.1*109/L，PLT 245*109/L，RET# 0.062*106/μl，2025-06-18 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 64.2g/L↓，ALT 77U/L↑，AST 47U/L↑，ALP 135U/L↑，GGT 192U/L↑，2025-06-18 肾功三项:CRE 117.0μmol/L↑，2025-05-17 血常规+网织红细胞计数:Neut% 20.8%↓，Lymph% 64.2%↑，Mono% 12.3%↑，Neut# 1.77*109/L↓，Lymph# 5.48*109/L↑，Mono# 1.05*109/L↑，RBC 3.10*1012/L↓，Hb 123g/L↓，Hct 37.0%↓，MCV 119.4fL↑，MCH 39.7pg↑，RDW_SD 66.2↑，NRBC 0.10%↑，NRBC 0.01*109/L↑，IRF 19.5%↑，LFR 80.5%↓，HFR 7.20%↑，RET% 2.36%↑，WBC 8.5*109/L，PLT 224*109/L，2025-05-17 肾功三项:BUN 7.9mmol/L，UA 320.9μmol/L，CRE 108.0μmol/L，BUN/CRE 18.11，eGFR 56.2ml/min，2025-05-17 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 64.4g/L↓，ALT 58U/L↑，ALP 128U/L↑，GGT 172U/L↑，2025-04-16 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 64.2g/L↓，ALT 57U/L↑，ALP 127U/L↑，GGT 190U/L↑，2025-04-16 肾功三项:BUN 7.4mmol/L，UA 340.0μmol/L，CRE 107.0μmol/L，BUN/CRE 17.12，eGFR 56.8ml/min，2025-04-16 血常规+网织红细胞计数:Neut% 21.1%↓，Lymph% 65.1%↑，Mono% 11.8%↑，Neut# 1.72*109/L↓，Lymph# 5.30*109/L↑，Mono# 0.96*109/L↑，RBC 3.03*1012/L↓，Hb 119g/L↓，Hct 35.1%↓，MCV 115.8fL↑，MCH 39.3pg↑，RDW_SD 61.7↑，IRF 23.1%↑，LFR 76.9%↓，MFR 13.40%↑，HFR 9.70%↑，RET% 2.68%↑，WBC 8.1*109/L，PLT 241*109/L，2025-03-19 血常规+网织红细胞计数:Neut% 18.8%↓，Lymph% 67.1%↑，Mono% 11.7%↑，Neut# 1.55*109/L↓，Lymph# 5.52*109/L↑，Mono# 0.96*109/L↑，RBC 3.10*1012/L↓，Hb 123g/L↓，Hct 36.3%↓，MCV 117.1fL↑，MCH 39.7pg↑，RDW_SD 59.3↑，RET% 2.77%↑，WBC 8.2*109/L，PLT 249*109/L，2025-03-19 肾功三项:-  2025-03-19 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 63.5g/L↓，ALT 72U/L↑，AST 41U/L↑，ALP 126U/L↑，GGT 197U/L↑，2025-02-19 肾功三项:CRE 116.5μmol/L↑，2025-02-19 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):ALT 83U/L↑，AST 47U/L↑，ALP 140U/L↑，GGT 205U/L↑，2025-02-19 血常规+网织红细胞计数:WBC 10.1*109/L↑，Neut% 17.1%↓，Lymph% 69.5%↑，Mono% 11.5%↑，Neut# 1.72*109/L↓，Lymph# 6.99*109/L↑，Mono# 1.16*109/L↑，RBC 3.01*1012/L↓，Hb 121g/L↓，Hct 36.1%↓，MCV 119.9fL↑，MCH 40.2pg↑，RDW_SD 62.4↑，IRF 28.2%↑，LFR 71.8%↓，MFR 16.20%↑，HFR 12.00%↑，RET% 2.73%↑，PLT 283*109/L，2025-01-18 肾功三项:eGFR 57.1ml/min，CRE 106.5μmol/L，UA 302.9μmol/L，BUN 8.2mmol/L，2025-01-18 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):TP 61.3g/L↓，ALT 94U/L↑，AST 57U/L↑，ALP 151U/L↑，GGT 156U/L↑，TBiL 15.2μmol/L，2025-01-18 血常规+网织红细胞计数:Neut% 16.7%↓，Lymph% 71.5%↑，Mono% 10.3%↑，Neut# 1.28*109/L↓，Lymph# 5.53*109/L↑，Mono# 0.80*109/L↑，RBC 2.77*1012/L↓，Hb 110g/L↓，Hct 33.2%↓，MCV 119.9fL↑，MCH 39.7pg↑，RDW_SD 63.5↑，IRF 16.2%↑，LFR 83.8%↓，MFR 14.20%↑，WBC 7.7*109/L，PLT 241*109/L，2024-12-24 肾功三项:CRE 125.0μmol/L↑，BUN 9.0mmol/L，UA 378.2μmol/L，BUN/CRE 17.82，eGFR 47.1ml/min，2024-12-24 ★血常规(静脉血):Neut% 18.8%↓，Lymph% 67.1%↑，Mono% 12.0%↑，Neut# 1.79*109/L↓，Lymph# 6.37*109/L↑，Mono# 1.14*109/L↑，RBC 3.08*1012/L↓，Hb 122g/L↓，Hct 37.1%↓，MCV 120.5fL↑，MCH 39.6pg↑，RDW_SD 67.5↑，NRBC 0.10%↑，NRBC 0.01*109/L↑，WBC 9.5*109/L，PLT 286*109/L，2024-12-24 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):ALT 66U/L↑，AST 45U/L↑，GGT 119U/L↑，2024-11-22 外周血涂片:分叶核粒细胞 20%，嗜酸粒细胞 1%，嗜碱粒细胞 1%，淋巴细胞 64%，单核细胞 11%，异型淋巴细胞 3%，WBC形态 部分中性粒细胞浆中可见中毒性颗粒，颗粒淋巴细胞占15%,异型淋巴细胞占3%，RBC形态 RBC轻度大小不等，2024-11-22 肾功三项:CRE 118.0μmol/L↑，eGFR 50.5ml/min，2024-11-22 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):ALT 64U/L↑，AST 42U/L↑，GGT 112U/L↑，2024-11-22 电解质七项:-2024-11-22 血常规+网织红细胞计数:WBC 10.0*109/L↑，Neut% 18.1%↓，Lymph% 68.8%↑，Mono% 11.6%↑，Lymph# 6.89*109/L↑，Mono# 1.16*109/L↑，RBC 3.22*1012/L↓，Hb 124g/L↓，Hct 37.5%↓，MCV 116.5fL↑，MCH 38.5pg↑，RDW_SD 61.6↑，IRF 18.1%↑，LFR 81.9%↓，HFR 7.20%↑，RET% 1.97%↑，PLT 248*109/L， 2024-10-22 ★血常规(静脉血):Neut% 20.6%↓，Lymph% 64.2%↑，Mono% 12.6%↑，Neut# 1.76*109/L↓，Lymph# 5.47*109/L↑，Mono# 1.07*109/L↑，RBC 3.26*1012/L↓，Hb 128g/L↓，Hct 37.9%↓，MCV 116.3fL↑，MCH 39.3pg↑，RDW_SD 61.8↑，NRBC 0.10%↑，NRBC 0.01*109/L↑，WBC 8.5*109/L，PLT 250*109/L，2024-10-22 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT):ALP 125U/L↑，GGT 105U/L↑，2024-10-22 肾功三项:CRE 142.0μmol/L↑，eGFR 40.3ml/min，",
+            "诊断": "T-细胞大颗粒淋巴细胞白血病纯红细胞再生障碍性贫血慢性肾功能不全肺肾两虚证肝功能检查的异常结果",
+            "处理": "1. 血常规+网织红细胞计数^^ 肝功组合A(TBIL、DBIL、IBIL、TP、ALB、GLB、ALT、AST、ALP、GGT)^^ 肾功三项2. 环孢素软胶囊[25mg*48粒] X 2.00盒   用法：每次50mg  每日1次  口服  28天3. (集)甲泼尼龙片(国产)[4mg*24片] X 1.00盒   用法：每次4mg  每日1次  口服  2周4. (集)双环醇片[25mg*18片] X 5.00盒   用法：每次25mg  每日3次  口服  28天5. 苯溴马隆片[50mg*10片] X 3.00盒   用法：每次50mg  每日1次  口服  30天6. (集)金水宝片[0.42g*48片] X 7.00盒   用法：每次4片  每日3次  口服  28天7. (集)碳酸钙D3片(Ⅰ)[复方*60片] X 1.00瓶   用法：每次1片  每日1次  口服  1天",
+            "治疗处理意见": "观察病情变化：如有不适，随诊。",
+            "病人去向": "回家",
+            "医师签名": "刘泽林日期:2026年02月05日"
+          }
+        }
+      ]
+    }
+  ],
+  "program_checks": [
+    {
+      "check": "诊断编码映射校验",
+      "inputs_required": [
+        "院内诊断编码",
+        "医保标准诊断编码",
+        "慢性支气管炎标准编码列表",
+        "慢性肾功能不全标准编码列表"
+      ],
+      "reason": "确认院内使用的诊断编码是否因映射问题未被监管系统识别为限定的标准诊断。如果院内编码与标准编码存在对应关系但系统未匹配，可作为数据映射错误的申诉点。"
+    }
+  ]
+}

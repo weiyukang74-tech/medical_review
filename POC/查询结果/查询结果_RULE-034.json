@@ -1,0 +1,544 @@
+{
+  "rule_id": "RULE-034",
+  "mdtrt_id": "122144337",
+  "propositions": [
+    {
+      "proposition_id": "P01",
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "确诊为斑块状银屑病",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "data": [
+              {
+                "diseName": "化脓性汗腺炎"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "诊断分型",
+          "target_fact": "确诊为斑块状银屑病",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "122144337",
+                "recordId": null,
+                "recordType": "初诊病历记录",
+                "recordName": "初诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026年02月13日 14时43分是否外伤：",
+                  "主诉": "头皮、腋窝、股沟、面部、头皮、腋窝等红色丘疹伴疼痛多年",
+                  "现病史": "患者于主诉时间前发现以上部位反复出现红色毛囊性丘疹、脓肿，后形成窦道、并有脱发、形成瘢痕，曾口服维甲酸类，面部皮疹有一定疗效。",
+                  "既往史和其他病史": "既往体健，否认糖尿病、高血压、心脏病、肾病等疾病，否认乙肝、结核等传染病史。",
+                  "过敏史": "否认过敏史。",
+                  "体格检查": "一般情况可。专科检查：以上部位见红色脓丘疹、脓肿、窦道、瘢痕。",
+                  "辅助检查": "无",
+                  "诊断": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+                  "处理": "1. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  左侧2. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  右侧",
+                  "治疗处理意见": "1.应注意皮肤清洁卫生、防止外伤、挤捏。2.避免精神压力过大，保持心情舒畅、精神愉悦、作息规律，不熬夜、劳累。3.清淡饮食，饮食尽量避免食用辛辣、刺激食物及饮酒，避免高脂高热量饮食，多吃蔬菜、水果。              观察病情变化：如有不适，随诊。",
+                  "病人去向": "回家",
+                  "医师签名": "陆原日期：2026年02月13日",
+                  "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+                },
+                "updateTime": "2026-02-13 14:54:29"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "病情",
+          "二级证据标签": "严重程度",
+          "target_fact": "病情评估为中度至重度",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "122144337",
+                "recordId": null,
+                "recordType": "初诊病历记录",
+                "recordName": "初诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026年02月13日 14时43分是否外伤：",
+                  "主诉": "头皮、腋窝、股沟、面部、头皮、腋窝等红色丘疹伴疼痛多年",
+                  "现病史": "患者于主诉时间前发现以上部位反复出现红色毛囊性丘疹、脓肿，后形成窦道、并有脱发、形成瘢痕，曾口服维甲酸类，面部皮疹有一定疗效。",
+                  "既往史和其他病史": "既往体健，否认糖尿病、高血压、心脏病、肾病等疾病，否认乙肝、结核等传染病史。",
+                  "过敏史": "否认过敏史。",
+                  "体格检查": "一般情况可。专科检查：以上部位见红色脓丘疹、脓肿、窦道、瘢痕。",
+                  "辅助检查": "无",
+                  "诊断": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+                  "处理": "1. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  左侧2. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  右侧",
+                  "治疗处理意见": "1.应注意皮肤清洁卫生、防止外伤、挤捏。2.避免精神压力过大，保持心情舒畅、精神愉悦、作息规律，不熬夜、劳累。3.清淡饮食，饮食尽量避免食用辛辣、刺激食物及饮酒，避免高脂高热量饮食，多吃蔬菜、水果。              观察病情变化：如有不适，随诊。",
+                  "病人去向": "回家",
+                  "医师签名": "陆原日期：2026年02月13日",
+                  "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+                },
+                "updateTime": "2026-02-13 14:54:29"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "患者",
+          "二级证据标签": "年龄",
+          "target_fact": "患者年龄≥6岁",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-001 患者信息",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "medMdtrtType": "1",
+                "mdtrtId": "122144337",
+                "zycs": null,
+                "mdtrtNo": null,
+                "patnName": "陈佳钰",
+                "idNo": "210402199802212019",
+                "gend": "1",
+                "brdy": "1998-02-21",
+                "patnId": "210402199802212019",
+                "patientId": null,
+                "poolarea": null,
+                "wardareaCodg": null,
+                "wardno": null,
+                "bedno": null,
+                "admDate": "2026-02-13 14:48:53",
+                "dscgDate": null,
+                "dscgMainDiseCodg": null,
+                "dscgMainDiseName": null,
+                "drCodg": "101000",
+                "drName": "陆原",
+                "admDeptCodg": "NS1301.0010",
+                "admDeptName": "皮肤科门诊",
+                "admWardCodg": null,
+                "admWardName": null,
+                "dscgDeptCodg": null,
+                "dscgDeptName": null,
+                "dscgWardCodg": null,
+                "dscgWardName": null,
+                "currDeptCodg": "NS1301.0010",
+                "currDeptName": "皮肤科门诊",
+                "medType": null,
+                "matnStas": null,
+                "medfeeSumamt": null,
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "acctPayamt": null,
+                "maAmt": null,
+                "hifpPayamt": null,
+                "setlTotlnum": null,
+                "insutype": "310",
+                "reimFlag": null,
+                "outSetlFlag": null,
+                "clinicDiagnosis": null,
+                "admDiagnosisCode": null,
+                "admDiagnosis": null,
+                "dscgDiagnosisCode": null,
+                "dscgDiagnosis": null,
+                "opspDiseRgst": "2",
+                "opspDiseCodg": null,
+                "opspDiseName": null,
+                "outFlag": null,
+                "psnNo": "0020616582",
+                "edFlag": null,
+                "paadmAdmno": null,
+                "tcqh": null,
+                "brxzMc": null,
+                "ybpt_jzh": "44039100000995204998"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗",
+          "二级证据标签": "治疗方案",
+          "target_fact": "符合系统治疗或光疗指征的临床依据",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-007 会诊记录、DS-M-IP-009 术前小结、DS-M-IP-010 术前讨论记录、DS-M-IP-002 入院记录",
+            "data": []
+          }
+        },
+        {
+          "一级证据域": "评估",
+          "二级证据标签": "量表评分",
+          "target_fact": "银屑病面积与严重程度指数(PASI)等评分记录",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-OP-005 测评量表",
+            "data": []
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P02",
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "确诊为强直性脊柱炎",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "data": [
+              {
+                "diseName": "化脓性汗腺炎"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "患者",
+          "二级证据标签": "年龄",
+          "target_fact": "患者为成年人（通常≥18岁）",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-001 患者信息",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "medMdtrtType": "1",
+                "mdtrtId": "122144337",
+                "zycs": null,
+                "mdtrtNo": null,
+                "patnName": "陈佳钰",
+                "idNo": "210402199802212019",
+                "gend": "1",
+                "brdy": "1998-02-21",
+                "patnId": "210402199802212019",
+                "patientId": null,
+                "poolarea": null,
+                "wardareaCodg": null,
+                "wardno": null,
+                "bedno": null,
+                "admDate": "2026-02-13 14:48:53",
+                "dscgDate": null,
+                "dscgMainDiseCodg": null,
+                "dscgMainDiseName": null,
+                "drCodg": "101000",
+                "drName": "陆原",
+                "admDeptCodg": "NS1301.0010",
+                "admDeptName": "皮肤科门诊",
+                "admWardCodg": null,
+                "admWardName": null,
+                "dscgDeptCodg": null,
+                "dscgDeptName": null,
+                "dscgWardCodg": null,
+                "dscgWardName": null,
+                "currDeptCodg": "NS1301.0010",
+                "currDeptName": "皮肤科门诊",
+                "medType": null,
+                "matnStas": null,
+                "medfeeSumamt": null,
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "acctPayamt": null,
+                "maAmt": null,
+                "hifpPayamt": null,
+                "setlTotlnum": null,
+                "insutype": "310",
+                "reimFlag": null,
+                "outSetlFlag": null,
+                "clinicDiagnosis": null,
+                "admDiagnosisCode": null,
+                "admDiagnosis": null,
+                "dscgDiagnosisCode": null,
+                "dscgDiagnosis": null,
+                "opspDiseRgst": "2",
+                "opspDiseCodg": null,
+                "opspDiseName": null,
+                "outFlag": null,
+                "psnNo": "0020616582",
+                "edFlag": null,
+                "paadmAdmno": null,
+                "tcqh": null,
+                "brxzMc": null,
+                "ybpt_jzh": "44039100000995204998"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "既往治疗",
+          "target_fact": "接受过常规治疗（如NSAIDs等）的记录",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "122144337",
+                "recordId": null,
+                "recordType": "初诊病历记录",
+                "recordName": "初诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026年02月13日 14时43分是否外伤：",
+                  "主诉": "头皮、腋窝、股沟、面部、头皮、腋窝等红色丘疹伴疼痛多年",
+                  "现病史": "患者于主诉时间前发现以上部位反复出现红色毛囊性丘疹、脓肿，后形成窦道、并有脱发、形成瘢痕，曾口服维甲酸类，面部皮疹有一定疗效。",
+                  "既往史和其他病史": "既往体健，否认糖尿病、高血压、心脏病、肾病等疾病，否认乙肝、结核等传染病史。",
+                  "过敏史": "否认过敏史。",
+                  "体格检查": "一般情况可。专科检查：以上部位见红色脓丘疹、脓肿、窦道、瘢痕。",
+                  "辅助检查": "无",
+                  "诊断": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+                  "处理": "1. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  左侧2. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  右侧",
+                  "治疗处理意见": "1.应注意皮肤清洁卫生、防止外伤、挤捏。2.避免精神压力过大，保持心情舒畅、精神愉悦、作息规律，不熬夜、劳累。3.清淡饮食，饮食尽量避免食用辛辣、刺激食物及饮酒，避免高脂高热量饮食，多吃蔬菜、水果。              观察病情变化：如有不适，随诊。",
+                  "病人去向": "回家",
+                  "医师签名": "陆原日期：2026年02月13日",
+                  "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+                },
+                "updateTime": "2026-02-13 14:54:29"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗反应",
+          "target_fact": "常规治疗疗效欠佳的临床评估或记录",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "122144337",
+                "recordId": null,
+                "recordType": "初诊病历记录",
+                "recordName": "初诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026年02月13日 14时43分是否外伤：",
+                  "主诉": "头皮、腋窝、股沟、面部、头皮、腋窝等红色丘疹伴疼痛多年",
+                  "现病史": "患者于主诉时间前发现以上部位反复出现红色毛囊性丘疹、脓肿，后形成窦道、并有脱发、形成瘢痕，曾口服维甲酸类，面部皮疹有一定疗效。",
+                  "既往史和其他病史": "既往体健，否认糖尿病、高血压、心脏病、肾病等疾病，否认乙肝、结核等传染病史。",
+                  "过敏史": "否认过敏史。",
+                  "体格检查": "一般情况可。专科检查：以上部位见红色脓丘疹、脓肿、窦道、瘢痕。",
+                  "辅助检查": "无",
+                  "诊断": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+                  "处理": "1. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  左侧2. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  右侧",
+                  "治疗处理意见": "1.应注意皮肤清洁卫生、防止外伤、挤捏。2.避免精神压力过大，保持心情舒畅、精神愉悦、作息规律，不熬夜、劳累。3.清淡饮食，饮食尽量避免食用辛辣、刺激食物及饮酒，避免高脂高热量饮食，多吃蔬菜、水果。              观察病情变化：如有不适，随诊。",
+                  "病人去向": "回家",
+                  "医师签名": "陆原日期：2026年02月13日",
+                  "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+                },
+                "updateTime": "2026-02-13 14:54:29"
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "proposition_id": "P03",
+      "evidence": [
+        {
+          "一级证据域": "诊断",
+          "二级证据标签": "标准诊断",
+          "target_fact": "确诊为银屑病关节炎",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-003 诊断信息",
+            "data": [
+              {
+                "diseName": "化脓性汗腺炎"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "病情",
+          "二级证据标签": "活动进展",
+          "target_fact": "疾病处于活动期",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "122144337",
+                "recordId": null,
+                "recordType": "初诊病历记录",
+                "recordName": "初诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026年02月13日 14时43分是否外伤：",
+                  "主诉": "头皮、腋窝、股沟、面部、头皮、腋窝等红色丘疹伴疼痛多年",
+                  "现病史": "患者于主诉时间前发现以上部位反复出现红色毛囊性丘疹、脓肿，后形成窦道、并有脱发、形成瘢痕，曾口服维甲酸类，面部皮疹有一定疗效。",
+                  "既往史和其他病史": "既往体健，否认糖尿病、高血压、心脏病、肾病等疾病，否认乙肝、结核等传染病史。",
+                  "过敏史": "否认过敏史。",
+                  "体格检查": "一般情况可。专科检查：以上部位见红色脓丘疹、脓肿、窦道、瘢痕。",
+                  "辅助检查": "无",
+                  "诊断": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+                  "处理": "1. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  左侧2. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  右侧",
+                  "治疗处理意见": "1.应注意皮肤清洁卫生、防止外伤、挤捏。2.避免精神压力过大，保持心情舒畅、精神愉悦、作息规律，不熬夜、劳累。3.清淡饮食，饮食尽量避免食用辛辣、刺激食物及饮酒，避免高脂高热量饮食，多吃蔬菜、水果。              观察病情变化：如有不适，随诊。",
+                  "病人去向": "回家",
+                  "医师签名": "陆原日期：2026年02月13日",
+                  "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+                },
+                "updateTime": "2026-02-13 14:54:29"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "患者",
+          "二级证据标签": "年龄",
+          "target_fact": "患者为成年人",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-S-001 患者信息",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "medMdtrtType": "1",
+                "mdtrtId": "122144337",
+                "zycs": null,
+                "mdtrtNo": null,
+                "patnName": "陈佳钰",
+                "idNo": "210402199802212019",
+                "gend": "1",
+                "brdy": "1998-02-21",
+                "patnId": "210402199802212019",
+                "patientId": null,
+                "poolarea": null,
+                "wardareaCodg": null,
+                "wardno": null,
+                "bedno": null,
+                "admDate": "2026-02-13 14:48:53",
+                "dscgDate": null,
+                "dscgMainDiseCodg": null,
+                "dscgMainDiseName": null,
+                "drCodg": "101000",
+                "drName": "陆原",
+                "admDeptCodg": "NS1301.0010",
+                "admDeptName": "皮肤科门诊",
+                "admWardCodg": null,
+                "admWardName": null,
+                "dscgDeptCodg": null,
+                "dscgDeptName": null,
+                "dscgWardCodg": null,
+                "dscgWardName": null,
+                "currDeptCodg": "NS1301.0010",
+                "currDeptName": "皮肤科门诊",
+                "medType": null,
+                "matnStas": null,
+                "medfeeSumamt": null,
+                "ownpayAmt": null,
+                "selfpayAmt": null,
+                "acctPayamt": null,
+                "maAmt": null,
+                "hifpPayamt": null,
+                "setlTotlnum": null,
+                "insutype": "310",
+                "reimFlag": null,
+                "outSetlFlag": null,
+                "clinicDiagnosis": null,
+                "admDiagnosisCode": null,
+                "admDiagnosis": null,
+                "dscgDiagnosisCode": null,
+                "dscgDiagnosis": null,
+                "opspDiseRgst": "2",
+                "opspDiseCodg": null,
+                "opspDiseName": null,
+                "outFlag": null,
+                "psnNo": "0020616582",
+                "edFlag": null,
+                "paadmAdmno": null,
+                "tcqh": null,
+                "brxzMc": null,
+                "ybpt_jzh": "44039100000995204998"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "既往治疗",
+          "target_fact": "既往使用过传统改善病情抗风湿药(cDMARDs)的记录",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "122144337",
+                "recordId": null,
+                "recordType": "初诊病历记录",
+                "recordName": "初诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026年02月13日 14时43分是否外伤：",
+                  "主诉": "头皮、腋窝、股沟、面部、头皮、腋窝等红色丘疹伴疼痛多年",
+                  "现病史": "患者于主诉时间前发现以上部位反复出现红色毛囊性丘疹、脓肿，后形成窦道、并有脱发、形成瘢痕，曾口服维甲酸类，面部皮疹有一定疗效。",
+                  "既往史和其他病史": "既往体健，否认糖尿病、高血压、心脏病、肾病等疾病，否认乙肝、结核等传染病史。",
+                  "过敏史": "否认过敏史。",
+                  "体格检查": "一般情况可。专科检查：以上部位见红色脓丘疹、脓肿、窦道、瘢痕。",
+                  "辅助检查": "无",
+                  "诊断": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+                  "处理": "1. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  左侧2. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  右侧",
+                  "治疗处理意见": "1.应注意皮肤清洁卫生、防止外伤、挤捏。2.避免精神压力过大，保持心情舒畅、精神愉悦、作息规律，不熬夜、劳累。3.清淡饮食，饮食尽量避免食用辛辣、刺激食物及饮酒，避免高脂高热量饮食，多吃蔬菜、水果。              观察病情变化：如有不适，随诊。",
+                  "病人去向": "回家",
+                  "医师签名": "陆原日期：2026年02月13日",
+                  "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+                },
+                "updateTime": "2026-02-13 14:54:29"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗反应",
+          "target_fact": "cDMARDs疗效不佳的记录",
+          "query_result": {
+            "status": "RETRIEVED",
+            "source": "DS-M-OP-001 门诊病历",
+            "data": [
+              {
+                "medinsId": "H44030500096",
+                "mdtrtId": "122144337",
+                "recordId": null,
+                "recordType": "初诊病历记录",
+                "recordName": "初诊病历记录",
+                "recordContent": {
+                  "基本信息": "就诊时间：2026年02月13日 14时43分是否外伤：",
+                  "主诉": "头皮、腋窝、股沟、面部、头皮、腋窝等红色丘疹伴疼痛多年",
+                  "现病史": "患者于主诉时间前发现以上部位反复出现红色毛囊性丘疹、脓肿，后形成窦道、并有脱发、形成瘢痕，曾口服维甲酸类，面部皮疹有一定疗效。",
+                  "既往史和其他病史": "既往体健，否认糖尿病、高血压、心脏病、肾病等疾病，否认乙肝、结核等传染病史。",
+                  "过敏史": "否认过敏史。",
+                  "体格检查": "一般情况可。专科检查：以上部位见红色脓丘疹、脓肿、窦道、瘢痕。",
+                  "辅助检查": "无",
+                  "诊断": "化脓性汗腺炎(难治性、一般治疗抵抗)",
+                  "处理": "1. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  左侧2. [谈]司库奇尤单抗注射液(预装)[1ml:150mg] X 1.00支   用法：每次150mg  每周1次  皮下注射  7天  右侧",
+                  "治疗处理意见": "1.应注意皮肤清洁卫生、防止外伤、挤捏。2.避免精神压力过大，保持心情舒畅、精神愉悦、作息规律，不熬夜、劳累。3.清淡饮食，饮食尽量避免食用辛辣、刺激食物及饮酒，避免高脂高热量饮食，多吃蔬菜、水果。              观察病情变化：如有不适，随诊。",
+                  "病人去向": "回家",
+                  "医师签名": "陆原日期：2026年02月13日",
+                  "提醒": "此份病历只对本次就诊经历负责。请持此单的高血压、糖尿病患者到住所附近社康中心登记，社康中心将提供后续慢性病治疗管理服务。"
+                },
+                "updateTime": "2026-02-13 14:54:29"
+              }
+            ]
+          }
+        },
+        {
+          "一级证据域": "治疗史",
+          "二级证据标签": "治疗不适宜",
+          "target_fact": "对cDMARDs不耐受的记录（如不良反应）",
+          "query_result": {
+            "status": "NOT_RETRIEVED",
+            "source": "DS-M-IP-003 首次病程记录、DS-M-IP-004 日常病程记录、DS-M-IP-021 出院记录或出院小结、DS-M-IP-007 会诊记录",
+            "data": []
+          }
+        }
+      ]
+    }
+  ]
+}

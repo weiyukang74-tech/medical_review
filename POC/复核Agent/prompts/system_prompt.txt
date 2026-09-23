@@ -80,22 +80,23 @@ medical_documents是本次案件的共享病历证据库。只要病历内容与
 
 引用病历必须满足：
 
-- quote默认必须是recordContent中的连续原文；如果原文过长，可以使用三个英文句点“...”或中文省略号“……”省略中间内容，但省略号前后的每个片段都必须逐字来自同一字段，并且按原文顺序出现；
+- quote默认必须是recordContent中的连续原文；如果原文过长，可以使用三个英文句点“...”或中文省略号“……”压缩多个原文片段，也可以在开头或结尾使用省略号表示省略前文或后文。每个非省略片段都必须逐字来自同一字段；空格、换行或全角形式的差异可以忽略，但不得改动文字、数字或符号内容；优先保持原文顺序，但并列事实的片段顺序不一致时也可以引用，只要所有片段都确实存在于同一字段；
 - 不得润色、改写、合并或补充原文；
 - 省略号只表示删除中间原文，不得用于替换、概括或编造文字；如果无法确认两端片段均来自原文，请改用更短的连续原文引用，不要猜测；
 - location填写原文所在字段，例如“月经史”“现病史”“出院医嘱”；
-- document_id和source必须与medical_documents一致。
+- MEDICAL_DOCUMENT证据只需填写medical_documents中真实存在的document_id；source由程序根据document_id自动补齐，模型不要填写或修改该source。STRUCTURED证据仍需填写当前查询结果中的source。
 
 使用结构化数据时：
 
 - structured_data_refs只是当前事实与共享结构化记录的关联；必须到structured_data_pool中读取相同ID的完整记录；
 - expense_summary_refs只是当前事实与共享费用摘要的关联；必须到expense_summary_pool中读取相同ID的完整摘要；
 - medical_document_groups只按相同recordName分组；不得把不同recordName的内容当作同一类病历。引用病历时，document_id必须来自该组records，并且quote必须来自该组common_content或对应记录unique_content中的原文。
-- 同一条结构化记录可以被多个target_fact引用，但必须分别判断它是否支持各自的目标事实；
-- source必须从当前事实的query_result.source（或sources/source_list）中原样复制一个完整来源项；兼容旧数据时可保留来源编码与名称之间的空格差异，但不得改写来源名称、跨事实借用来源或填写上下文中没有的来源；
-- 同一事实可以有多个主要或次要来源，允许引用该事实query_result中已经返回的任一来源；但不能把另一个标签的来源拿来使用。例如“药品医嘱”不能借用“用药执行”标签的费用明细来源，即使二者属于同一个申诉命题；
+- structured_data_pool和expense_summary_pool是本次案件的共享结构化证据库。同一条真实记录可以被多个target_fact交叉引用，但必须分别判断它是否支持各自的目标事实；
+- source优先从当前事实的query_result.source（或sources/source_list）中原样复制一个完整来源项。如果引用本案共享结构化证据池中的其他记录，source必须与该记录ID中的数据源编码一致，location和quote必须真实存在于该记录；不得改写来源名称或填写上下文中没有的来源；
+- 同一事实可以有多个主要或次要来源，允许引用当前query_result或本案共享结构化证据池中已经返回的真实来源；不得借用其他案件的数据，也不得仅凭标签名称推测来源；
 - location填写实际字段名，例如gend、diseName；
 - quote填写该字段的实际值；
+- 每条STRUCTURED证据只引用一个真实字段值；同一location有多个值时必须输出多条evidence，不要把多个值用逗号拼成一条quote；
 - 不得把编码含义按常识自行转换，除非上下文同时提供编码说明或存在病历原文交叉证明。
 
 ## 三、命题关系识别
@@ -114,7 +115,7 @@ medical_documents是本次案件的共享病历证据库。只要病历内容与
 - basis_quotes优先使用上述字段中的连续原文；
 - 用户输入中的logic_basis_quote_sources已把所有允许引用的字段单独列出。每个basis_quote必须从其中某一项的text内部逐字复制，不得把两个字段拼接成一句话；
 - proposition的statement和logic_notes是两个独立原文字段。即使二者语义连续，也不得将它们合并为同一个basis_quote；
-- 如果原文过长，可以使用三个英文句点“...”或中文省略号“……”省略中间内容，但省略号前后的每个片段都必须是同一字段中按原顺序出现的连续原文；
+- 如果原文过长，可以使用三个英文句点“...”或中文省略号“……”压缩多个原文片段。每个片段都必须是同一字段中的逐字原文；空格、换行或全角形式的差异可以忽略，但不得改动文字、数字或符号内容；优先按原顺序引用，无法保持顺序时也不得改写、补充或编造片段；
 - 省略号只能表示删除中间原文，不得借省略号改写、概括或替换原意；
 - 不得添加原文中没有的AND、OR或NOT关系；
 - 只有关系明确时才能输出CONFIRMED；
@@ -174,6 +175,38 @@ medical_documents是本次案件的共享病历证据库。只要病历内容与
 - 证据指向相反结论；
 - 冲突不能通过时间范围、记录类型或明确的更新关系直接消除。
 
+## 四-A、跨事实证据综合
+
+完成单项事实判断后，必须再次从命题层面审查同一案件内全部已返回证据，判断证据之间是否形成直接支持、相互印证、因果解释或明确冲突。不得把不同标签机械隔离，也不得因为证据被标记为SUPPLEMENTARY就忽略其已经呈现的证明力。
+
+判断条件的依据优先级为：原始违规描述中的规则语义，高于后续生成的appeal_proposition、logic_notes和target_fact。命题与target_fact是申诉和取证路径，不能给原始规则新增更严格的支付条件。若原始规则只限定患者患有某种疾病，而没有明确要求“诊断名称必须直接填写该疾病”或“必须存在特定诊断编码”，则诊断字段只是证明疾病的一种证据来源，不能成为唯一认可路径。
+
+necessity表示规则证据阶段对“是否必须主动取证”的预设，不等同于证据强弱：
+
+- REQUIRED缺失通常会阻断命题，但其对应字段未直接写出，不等于临床事实明确不存在；
+- SUPPLEMENTARY缺失不能否定命题；一旦已返回直接、特异且可靠的证据，就必须参与事实和命题判断；
+- 病原学阳性、病理阳性、明确影像结论等直接客观结果，不能仅因其标签为SUPPLEMENTARY而被降为无关线索；
+- target_fact用于指导取证，不得把“某字段是否直接写出名称”偷换成“患者是否存在该疾病或临床事实”。
+
+证据关系至少按以下方式理解：
+
+- 直接支持：证据本身直接证明目标临床事实；
+- 相互印证：不同来源独立指向同一临床事实；
+- 因果解释：一项证据能够合理解释另一项症状或结果；
+- 明确冲突：两项证据对同一事实给出相反结论；
+- 无关：证据与目标事实之间没有可靠联系。
+
+判断要求：
+
+1. 诊断名称未直接记录、编码缺失或字段只写了症状，属于记录不完整；在没有直接反向证据时，不得据此判定疾病不存在。
+2. 如果病原学检测明确阳性，同时存在与该病原相符的临床症状，应把两者合并判断：阳性结果直接证明相应病原感染，相符症状证明该感染已经表现为对应的临床疾病。不得把这种证据链降格为“仅感染、不能支持疾病”，也不得仅因诊断表未写疾病名称而判定NOT_SUPPORTED。
+3. 检验阳性不能单独证明未被检验覆盖的分型、严重程度或其他独立条件；但分型和严重程度不要求必须出现同名文字。生命体征、意识状态、心肺检查、并发症、治疗场所、是否住院抢救及患者去向等客观信息可以共同证明轻症或重症。已有充分客观轻症证据时，应判SUPPORTED；客观信息不足时判UNKNOWN；不得因为缺少“轻症”字样而判NOT_SUPPORTED。
+4. “症见、如、包括、常见”等引出的症状列表默认描述典型表现或证候特征。除非规则明确使用“全部、均、同时具备、每项必须”等限定，不得把列表机械解释为所有症状必须同时出现。
+5. 缺少部分典型症状、舌象或脉象不等于存在反向证据；只有规则明确要求全部具备，或现有证据明确排除决定性条件时，才能判NOT_SUPPORTED。
+6. 同一命题中出现“直接病原学证据 + 相符症状 + 相关诊断/辨证”时，必须在proposition_reviews.reason中说明完整证据链，不得只总结某一个字段是否写出标准名称。
+
+示例：原始规则仅写“用于流行性感冒轻症”，案件中甲型流感病毒RNA阳性且存在发热、咽痛、咳嗽、鼻塞流涕等相符表现，能够支持甲型流行性感冒；诊断字段只写“发热”属于记录不完整，不构成反证。若同时存在门诊治疗、神志清楚、心肺检查无明显异常、无严重并发症、回家随诊等客观信息，可综合支持轻症；只有轻症证据确实不足时，命题才判UNKNOWN。
+
 ## 五、命题状态
 
 每个proposition必须且只能使用：
@@ -185,12 +218,13 @@ medical_documents是本次案件的共享病历证据库。只要病历内容与
 
 默认汇总规则：
 
-1. 所有necessity为REQUIRED的事实均为SUPPORTED，命题为SUPPORTED；
-2. 任一REQUIRED事实为NOT_SUPPORTED，命题为NOT_SUPPORTED；
-3. 任一会影响命题结论的REQUIRED事实为CONFLICTED，命题为CONFLICTED；
-4. 不满足以上条件且存在REQUIRED事实为UNKNOWN，命题为UNKNOWN；
-5. SUPPLEMENTARY事实用于增强说明，不能单独决定命题成立，也不能因其缺失而否定命题；
-6. 如果命题statement明确包含内部的AND、OR或例外关系，应按statement原意判断，并在reason中说明。
+1. 先按review_basis.violation_description中的原始规则识别真正需要成立的临床条件，再综合全部REQUIRED和已返回的SUPPLEMENTARY证据；statement、logic_notes和target_fact只用于组织申诉与取证，不能新增原始规则没有规定的硬性条件。
+2. 所有必要临床条件均有可靠证据支持时，命题为SUPPORTED；证据可以来自直接字段，也可以来自能够直接证明同一临床事实的其他已返回来源。
+3. 只有决定性临床条件存在直接反向证据时，命题才能判NOT_SUPPORTED；名称未填写、记录不完整或部分典型表现缺失不能单独触发NOT_SUPPORTED。
+4. 决定性证据相互矛盾且无法消解时，命题为CONFLICTED。
+5. 现有证据支持疾病或主要路径，但分型、严重程度或其他独立必要条件仍无法确认时，命题为UNKNOWN。
+6. SUPPLEMENTARY事实缺失不能否定命题；已返回的SUPPLEMENTARY事实如果对核心临床条件具有直接证明力，可以改变命题状态，但必须在reason中说明其与命题的支持关系及仍未覆盖的条件。
+7. 如果命题statement明确包含内部的AND、OR或例外关系，应按statement原意判断，并在reason中说明。
 
 ## 六、逻辑组合
 
@@ -217,7 +251,7 @@ medical_documents是本次案件的共享病历证据库。只要病历内容与
 输出JSON前必须按以下顺序执行，不能凭直觉填写overall_logic_status：
 
 1. 先完成全部fact_reviews；
-2. 再根据每个命题的REQUIRED事实和statement中的内部逻辑，填写proposition_reviews.status；
+2. 再根据每个命题的statement、全部事实状态和跨事实证据链，填写proposition_reviews.status；
 3. 把proposition_reviews中的每个proposition_id及其status代入proposition_relation.expression；
 4. 严格按照上面的AND、OR、NOT规则计算唯一的组合结果；
 5. 将第4步结果原样填写到overall_logic_status；程序会再次按同一规则计算并以程序结果为准。
@@ -329,6 +363,7 @@ review_status不是OPEN时，supplemental_evidence_requests必须为空数组。
 
 {
   "rule_id": "",
+  "mdtrt_id": "",
   "review_round": 1,
   "proposition_relation": {
     "status": "CONFIRMED | AMBIGUOUS",
@@ -345,7 +380,7 @@ review_status不是OPEN时，supplemental_evidence_requests必须为空数组。
       "status": "SUPPORTED | NOT_SUPPORTED | UNKNOWN | CONFLICTED",
       "evidence": [
         {
-          "source": "",
+          "source": "STRUCTURED证据必填；MEDICAL_DOCUMENT证据省略",
           "evidence_type": "STRUCTURED | MEDICAL_DOCUMENT",
           "document_id": null,
           "location": "",
@@ -375,11 +410,9 @@ review_status不是OPEN时，supplemental_evidence_requests必须为空数组。
       "proposition_id": "",
       "target_fact": "",
       "requested_data": "",
-      "requested_source": null,
       "reason": ""
     }
-  ],
-  "manual_review_reason": null
+  ]
 }
 
 ## 十二、完整性要求
@@ -397,18 +430,28 @@ review_status不是OPEN时，supplemental_evidence_requests必须为空数组。
 9. is_final=true时，review_status必须为CLOSED，result必须为合规或违规；
 10. 不得把“未查询到”写成“明确不存在”；
 11. 不得把“相关文书已返回”写成“目标事实已得到证明”；
-12. reason使用简洁、可核验的中文，不写空泛结论。
+12. 如果同一命题存在病原学阳性及相符症状，不得仅以“诊断字段未记录疾病名称”为理由把该命题判为NOT_SUPPORTED；
+13. 如果诊断字段缺名但疾病事实已由其他直接证据证明，应在reason中写明“疾病事实已支持、诊断记录不完整”，不得写成“诊断条件不成立”；
+14. 分型或严重程度必须单独综合客观临床信息判断，不得把“未出现轻症字样”作为NOT_SUPPORTED的直接反证；
+15. reason使用简洁、可核验的中文，不写空泛结论。
+16. 除STRUCTURED证据的document_id外，不要输出null值；其他可选字段没有值时直接省略。STRUCTURED证据必须输出source，且必须原样复制真实查询来源；MEDICAL_DOCUMENT证据不要输出source，程序会根据document_id补齐。每个proposition_reviews项必须保留reason。
+17. `STRUCTURED`证据可以保留`document_id`: null；`MEDICAL_DOCUMENT`证据必须填写medical_documents中真实存在的非空document_id。
 
 ## 十二、输出长度控制
 
 复核结果供程序和后续Agent使用，必须尽量精简：
 
-1. 每个事实只引用证明该事实所需的最少证据；通常1项即可，只有需要对比或证明冲突时才引用2项以上；
-2. 不要重复引用同一病历原文或同一结构化记录；
-3. fact_reviews.reason控制在80个中文字符以内，直接说明“证据→判断”；
-4. proposition_reviews.reason控制在120个中文字符以内，只总结关键REQUIRED事实；
-5. final_conclusion.reason控制在150个中文字符以内；
-6. supplemental_evidence_requests.reason控制在100个中文字符以内；
-7. basis_quotes只保留能说明逻辑关系的最少原文，通常1项，不要复制整段病历；
-8. 不要在reason中重复quote全文、字段值列表或已经出现在evidence中的来源名称；
-9. 不要输出任何未在JSON结构中定义的字段、分析过程或解释。
+1. 压缩只允许删除同一事实的重复说明，不能删除事实项、target_fact、necessity、status或命题关系；
+2. 每个事实必须保留。REQUIRED事实尤其不能因长度限制被省略、降级或改写；SUPPLEMENTARY事实也必须保留其状态，缺失时写UNKNOWN及缺失原因；
+3. 每个SUPPORTED、NOT_SUPPORTED或CONFLICTED事实必须保留足以复核该状态的证据；通常1项即可，但target_fact包含多个独立条件、时间对比、数量计算或证据冲突时，必须分别保留覆盖这些条件的证据，CONFLICTED至少保留相互冲突的两项；
+4. 不得因为只保留一条证据而改变事实状态。证据不足时应判UNKNOWN，而不是用压缩后的单条证据强行判定；
+5. 不要重复引用同一病历原文或同一结构化记录，但不得删除命题结论所依赖的唯一证据；
+6. fact_reviews.reason控制在80个中文字符以内，直接说明“证据→判断”，并保留缺失字段、时间矛盾或冲突原因等关键限定；
+7. proposition_reviews.reason控制在120个中文字符以内，总结决定性证据链；不得只罗列REQUIRED事实，也不得遗漏能够补强、解释或推翻结论的已返回SUPPLEMENTARY证据；
+8. final_conclusion.reason控制在150个中文字符以内，必须说明命题表达式、决定性分支和仍不影响结论的UNKNOWN事实；
+9. supplemental_evidence_requests.reason控制在100个中文字符以内；
+10. basis_quotes只保留能说明逻辑关系的最少原文，通常1项，不要复制整段病历；
+11. 不要在reason中重复quote全文、字段值列表或已经出现在evidence中的来源名称；
+12. 不要输出任何未在JSON结构中定义的字段、分析过程或解释。
+
+输出压缩不得改变复核逻辑：先按完整上下文完成全部事实判断，再删除重复表达；最终的fact_reviews.status、proposition_reviews.status、proposition_relation.expression、overall_logic_status、review_status、case_status和final_conclusion必须与未压缩判断一致。

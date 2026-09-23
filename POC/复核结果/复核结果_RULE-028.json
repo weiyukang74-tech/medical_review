@@ -1,0 +1,90 @@
+{
+  "rule_id": "RULE-028",
+  "review_round": 1,
+  "proposition_relation": {
+    "status": "CONFIRMED",
+    "expression": "P01",
+    "basis_quotes": [
+      "金水宝片限慢性支气管炎、慢性肾功能不全的患者。"
+    ]
+  },
+  "fact_reviews": [
+    {
+      "proposition_id": "P01",
+      "一级证据域": "诊断",
+      "二级证据标签": "标准诊断",
+      "target_fact": "患者本次就诊的所有明确诊断名称及编码，特别是是否包含‘慢性支气管炎’或‘慢性肾功能不全’。",
+      "necessity": "REQUIRED",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-003 诊断信息",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "diseName",
+          "quote": "慢性肾功能不全"
+        }
+      ],
+      "reason": "结构化诊断数据明确记录‘慢性肾功能不全’，直接支持限定适应症之一。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "病史",
+      "二级证据标签": "既往史",
+      "target_fact": "患者既往是否患有慢性支气管炎或慢性肾功能不全，以佐证本次诊断的连续性和真实性。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-M-OP-001 门诊病历",
+          "evidence_type": "MEDICAL_DOCUMENT",
+          "document_id": "DOC-DS-M-OP-001-121953025-01",
+          "location": "内容",
+          "quote": "既往史：慢性肾功能不全"
+        }
+      ],
+      "reason": "门诊病历既往史明确记录‘慢性肾功能不全’，佐证诊断真实性。"
+    },
+    {
+      "proposition_id": "P01",
+      "一级证据域": "检验",
+      "二级证据标签": "检验结果",
+      "target_fact": "支持慢性肾功能不全的实验室检查结果（如血肌酐、尿素氮、eGFR等）或支持慢性支气管炎的相关检查，用于强化诊断依据。",
+      "necessity": "SUPPLEMENTARY",
+      "status": "SUPPORTED",
+      "evidence": [
+        {
+          "source": "DS-S-004 检验报告",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "quantRslt",
+          "quote": "103"
+        },
+        {
+          "source": "DS-S-004 检验报告",
+          "evidence_type": "STRUCTURED",
+          "document_id": null,
+          "location": "quantRslt",
+          "quote": "59.1"
+        }
+      ],
+      "reason": "肌酐103μmol/L在参考范围内，但eGFR 59.1ml/min提示肾功能减退，结合长期病史支持慢性肾功能不全诊断。"
+    }
+  ],
+  "proposition_reviews": [
+    {
+      "proposition_id": "P01",
+      "status": "SUPPORTED",
+      "reason": "结构化诊断明确记录‘慢性肾功能不全’，门诊病历既往史及检验结果（eGFR降低）相互印证，满足金水宝片限定适应症之一。"
+    }
+  ],
+  "overall_logic_status": "SUPPORTED",
+  "review_status": "CLOSED",
+  "case_status": "复核完成",
+  "final_conclusion": {
+    "result": "合规",
+    "is_final": true,
+    "reason": "命题P01被证据充分支持。患者确诊‘慢性肾功能不全’，符合‘金水宝片限慢性肾功能不全患者’的支付条件。"
+  },
+  "supplemental_evidence_requests": []
+}
