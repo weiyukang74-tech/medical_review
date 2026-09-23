@@ -5,9 +5,14 @@ from pathlib import Path
 from typing import Any
 
 from .client import ModelClient
-from .prompt import build_repair_prompt, build_user_prompt, load_system_prompt
+from .prompt import build_user_prompt, load_system_prompt
 from .schema import load_schema
-from .validation import ReviewValidationError, validate_context, validate_result
+from .validation import (
+    ExpressionParser,
+    evaluate_expression,
+    validate_context,
+    validate_result,
+)
 
 
 class ReviewService:
@@ -40,23 +45,37 @@ class ReviewService:
             self.schema,
         )
         self._capture_metrics()
-        try:
-            validate_result(result, context, review_round)
-            return result
-        except ReviewValidationError as validation_error:
-            repaired_result = self.client.generate(
-                system_prompt,
-                build_repair_prompt(
-                    context,
-                    review_round,
-                    result,
-                    str(validation_error),
-                ),
-                self.schema,
-            )
-            self._capture_metrics()
-            validate_result(repaired_result, context, review_round)
-            return repaired_result
+        self._set_computed_overall_status(result)
+        validate_result(result, context, review_round)
+        return result
+
+    @staticmethod
+    def _set_computed_overall_status(result: dict[str, Any]) -> None:
+        """Use deterministic program logic for the overall proposition result."""
+        relation = result.get("proposition_relation")
+        if not isinstance(relation, dict):
+            return
+        if relation.get("status") != "CONFIRMED":
+            result["overall_logic_status"] = "UNKNOWN"
+            return
+        expression = relation.get("expression")
+        reviews = result.get("proposition_reviews")
+        if not isinstance(expression, str) or not isinstance(reviews, list):
+            return
+        proposition_statuses: dict[str, str] = {}
+        for review in reviews:
+            if not isinstance(review, dict):
+                return
+            proposition_id = review.get("proposition_id")
+            status = review.get("status")
+            if not isinstance(proposition_id, str) or not isinstance(status, str):
+                return
+            proposition_statuses[proposition_id] = status
+        parsed_expression = ExpressionParser(expression).parse()
+        result["overall_logic_status"] = evaluate_expression(
+            parsed_expression,
+            proposition_statuses,
+        )
 
     def _capture_metrics(self) -> None:
         metrics = getattr(self.client, "last_metrics", None)

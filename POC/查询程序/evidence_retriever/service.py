@@ -613,11 +613,9 @@ class RetrievalService:
 
         data: list[dict[str, object]] = []
         matched_by: dict[str, Any] | None = None
+
         for attempt in successful_attempts:
             route = attempt["route"]
-            if route.document_kind == "病历":
-                data.extend(attempt["records"])
-                continue
             formatted, current_match = self._format_structured_records(
                 route,
                 primary_domain,

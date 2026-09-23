@@ -3,10 +3,44 @@ from __future__ import annotations
 import hashlib
 import json
 from collections import defaultdict
+from pathlib import Path
 from typing import Any
+
+from .expense_summary import build_expense_summary, should_summarize
+from .field_dictionary import StandardViewFieldDictionary
+from .medical_compression import group_medical_documents
 
 
 TagKey = tuple[str, str, str]
+
+
+def _remove_empty_values(value: Any) -> Any:
+    """Remove empty values from review-context structured data only."""
+    if isinstance(value, dict):
+        cleaned: dict[str, Any] = {}
+        for key, item in value.items():
+            cleaned_item = _remove_empty_values(item)
+            if cleaned_item is None:
+                continue
+            if isinstance(cleaned_item, str) and not cleaned_item.strip():
+                continue
+            if isinstance(cleaned_item, (dict, list)) and not cleaned_item:
+                continue
+            cleaned[key] = cleaned_item
+        return cleaned
+    if isinstance(value, list):
+        cleaned_list: list[Any] = []
+        for item in value:
+            cleaned_item = _remove_empty_values(item)
+            if cleaned_item is None:
+                continue
+            if isinstance(cleaned_item, str) and not cleaned_item.strip():
+                continue
+            if isinstance(cleaned_item, (dict, list)) and not cleaned_item:
+                continue
+            cleaned_list.append(cleaned_item)
+        return cleaned_list
+    return value
 
 
 class MedicalDocumentCollector:
@@ -52,18 +86,51 @@ class StructuredDataCollector:
         self.record_ids: dict[str, str] = {}
 
     def add(self, source: str, record: dict[str, Any]) -> str:
-        identity = json.dumps(record, ensure_ascii=False, sort_keys=True)
+        compact_record = _remove_empty_values(record)
+        identity = json.dumps(compact_record, ensure_ascii=False, sort_keys=True)
         existing_id = self.record_ids.get(identity)
         if existing_id is not None:
             return existing_id
 
         source_code = source.strip().split(maxsplit=1)[0] if source.strip() else "UNKNOWN"
-        mdtrt_id = str(record.get("mdtrtId", record.get("mdtrt_id", "UNKNOWN")))
+        mdtrt_id = str(compact_record.get("mdtrtId", compact_record.get("mdtrt_id", "UNKNOWN")))
         digest = hashlib.sha256(identity.encode("utf-8")).hexdigest()[:12]
         record_id = f"SD-{source_code}-{mdtrt_id}-{digest}"
         self.record_ids[identity] = record_id
-        self.records[record_id] = record
+        self.records[record_id] = compact_record
         return record_id
+
+
+class ExpenseSummaryCollector:
+    def __init__(self) -> None:
+        self.summaries: dict[str, dict[str, Any]] = {}
+        self.summary_ids: dict[str, str] = {}
+
+    def add(
+        self,
+        source: str,
+        summary: dict[str, Any],
+        records: list[dict[str, Any]],
+    ) -> str:
+        canonical_summary = _remove_empty_values(summary)
+        canonical_summary.pop("target_fact", None)
+        identity = json.dumps(
+            {"source": source, "summary": canonical_summary},
+            ensure_ascii=False,
+            sort_keys=True,
+        )
+        existing_id = self.summary_ids.get(identity)
+        if existing_id is not None:
+            return existing_id
+        source_code = source.strip().split(maxsplit=1)[0] if source.strip() else "UNKNOWN"
+        mdtrt_id = str(records[0].get("mdtrtId", records[0].get("mdtrt_id", "UNKNOWN"))) if records else "UNKNOWN"
+        digest = hashlib.sha256(identity.encode("utf-8")).hexdigest()[:12]
+        summary_id = f"ES-{source_code}-{mdtrt_id}-{digest}"
+        stored_summary = _remove_empty_values(summary)
+        stored_summary.pop("target_fact", None)
+        self.summary_ids[identity] = summary_id
+        self.summaries[summary_id] = stored_summary
+        return summary_id
 
 
 def _select_record_source(source: str, record: dict[str, Any]) -> str:
@@ -112,10 +179,19 @@ def _source_is_medical_document(source: str | None) -> bool:
     return bool(source_codes) and all(code.startswith("DS-M-") for code in source_codes)
 
 
+def _source_contains_expense(source: str | None) -> bool:
+    if not source:
+        return False
+    return any(part.strip().startswith("DS-S-002") for part in source.split("、"))
+
+
 def _compact_query_result(
     query_result: dict[str, Any],
+    target_fact: str,
     document_collector: MedicalDocumentCollector,
     structured_collector: StructuredDataCollector,
+    summary_collector: ExpenseSummaryCollector,
+    field_dictionary: StandardViewFieldDictionary,
 ) -> dict[str, Any]:
     source = query_result.get("source")
     compact: dict[str, Any] = {
@@ -133,6 +209,23 @@ def _compact_query_result(
         if isinstance(record, dict) and "recordContent" in record
     ]
     structured_records = [record for record in records if record not in document_records]
+
+    if (
+        structured_records
+        and _source_contains_expense(str(source or ""))
+        and should_summarize(structured_records, target_fact)
+    ):
+        summary = build_expense_summary(
+            structured_records,
+            target_fact,
+            field_dictionary,
+        )
+        compact["expense_summary_refs"] = [
+            summary_collector.add(str(source or ""), summary, structured_records)
+        ]
+        compact["raw_record_count"] = len(structured_records)
+        compact["raw_data_in_query_result"] = True
+        structured_records = []
 
     if document_records:
         compact["document_refs"] = [
@@ -157,6 +250,7 @@ def _compact_query_result(
 def _build_rule_context(
     source_rule: dict[str, Any],
     query_rule: dict[str, Any],
+    field_dictionary: StandardViewFieldDictionary,
 ) -> dict[str, Any]:
     source_result = source_rule.get("result", {})
     source_propositions = {
@@ -165,6 +259,7 @@ def _build_rule_context(
     }
     document_collector = MedicalDocumentCollector()
     structured_collector = StructuredDataCollector()
+    summary_collector = ExpenseSummaryCollector()
     propositions: list[dict[str, Any]] = []
 
     for query_proposition in query_rule.get("propositions", []):
@@ -189,8 +284,11 @@ def _build_rule_context(
                     "necessity": metadata[key]["necessity"],
                     "query_result": _compact_query_result(
                         query_evidence.get("query_result", {}),
+                        key[2],
                         document_collector,
                         structured_collector,
+                        summary_collector,
+                        field_dictionary,
                     ),
                 }
             )
@@ -208,6 +306,9 @@ def _build_rule_context(
 
     source = source_result.get("source", {})
     regulatory_claim = source_result.get("regulatory_claim", {})
+    medical_documents, medical_document_groups = group_medical_documents(
+        document_collector.documents
+    )
     return {
         "rule_id": query_rule.get("rule_id"),
         "review_basis": {
@@ -218,7 +319,9 @@ def _build_rule_context(
         },
         "propositions": propositions,
         "structured_data_pool": structured_collector.records,
-        "medical_documents": document_collector.documents,
+        "expense_summary_pool": summary_collector.summaries,
+        "medical_documents": medical_documents,
+        "medical_document_groups": medical_document_groups,
         "program_checks": source_result.get("program_checks", []),
     }
 
@@ -226,6 +329,7 @@ def _build_rule_context(
 def build_review_context(
     rule_evidence: list[dict[str, Any]],
     query_result: dict[str, Any],
+    standard_view_dictionary_path: Path | None = None,
 ) -> dict[str, Any]:
     source_rules = {
         str(rule.get("rule_id", "")): rule
@@ -233,12 +337,13 @@ def build_review_context(
     }
     query_rules = query_result.get("rules", [query_result])
     contexts: list[dict[str, Any]] = []
+    field_dictionary = StandardViewFieldDictionary(standard_view_dictionary_path)
     for query_rule in query_rules:
         rule_id = str(query_rule.get("rule_id", ""))
         source_rule = source_rules.get(rule_id)
         if source_rule is None:
             raise ValueError(f"规则证据中不存在规则：{rule_id}")
-        contexts.append(_build_rule_context(source_rule, query_rule))
+        contexts.append(_build_rule_context(source_rule, query_rule, field_dictionary))
 
     if len(contexts) == 1:
         return contexts[0]

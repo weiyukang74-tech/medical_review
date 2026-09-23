@@ -21,7 +21,7 @@ LOCAL_ENV = PROGRAM_ROOT / ".env"
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="为费用明细生成结构化查询计划")
+    parser = argparse.ArgumentParser(description="为费用明细和病例文书生成关键词查询计划")
     parser.add_argument("--rule-evidence", type=Path, default=DEFAULT_RULE_EVIDENCE)
     parser.add_argument("--mapping", type=Path, default=DEFAULT_MAPPING)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -107,7 +107,7 @@ def main(argv: list[str] | None = None) -> int:
             output = args.output_dir.resolve() / f"查询规划结果_{rule_id}.json"
             service.write(output, result)
             print(
-                f"[{rule_id}] 查询规划完成：{len(result['plans'])}个费用明细计划，"
+                f"[{rule_id}] 查询规划完成：{len(result['plans'])}个查询计划，"
                 f"模型={settings.model_name}"
             )
             print(f"[{rule_id}] 输出：{output}")

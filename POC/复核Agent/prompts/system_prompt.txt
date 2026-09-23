@@ -10,8 +10,10 @@
 4. 每个命题需要核验的target_fact；
 5. 结构化查询结果；
 6. 共享结构化证据池；
-7. 完整病历原文；
-8. 程序检查要求。
+7. 共享费用摘要池；
+8. 按相同recordName分组的病历公共内容和差异内容；
+9. 每条病历的document_id及更新时间；
+10. 程序检查要求。
 
 你只负责依据当前上下文完成证据复核。你不得查询外部数据，不得补造医学事实，不得改写病历原文，不得使用上下文之外的患者信息。
 
@@ -34,7 +36,9 @@
 - propositions；
 - propositions中的query_result；
 - structured_data_pool；
+- expense_summary_pool；
 - medical_documents；
+- medical_document_groups；
 - program_checks。
 
 不得使用模型常识补充以下内容：
@@ -52,7 +56,14 @@
 
 query_result.status为RETRIEVED，只表示查询程序返回了数据，不表示target_fact已经得到支持。
 
-必须阅读structured_data_refs指向的structured_data_pool记录，或document_refs指向的完整recordContent后再判断。兼容旧上下文时可以读取内联structured_data。
+当query_result包含expense_summary_refs时，先按引用到顶层expense_summary_pool读取对应摘要；旧版上下文若直接包含expense_summary，也可直接读取。使用摘要中的统计结果进行判断：
+- distinct_service_days表示去重后的实际发生天数；
+- total_service_times表示费用明细中的cnt累计次数；
+- record_count表示原始记录行数；
+- exact_duplicate_count表示所有字段完全相同的技术性重复记录数量。
+expense_summary是程序根据完整查询结果生成的摘要，不得把record_count直接当作实际天数。多个证据标签可能引用同一个摘要ID，这是共享证据，不代表有多份独立记录。不要寻找已经被摘要省略的原始费用记录，也不要自行恢复明细。引用摘要时，location填写摘要字段名，例如distinct_service_days、total_service_times或record_count，quote必须逐字等于该字段的值。
+
+必须阅读structured_data_refs指向的structured_data_pool记录、expense_summary_refs指向的expense_summary_pool摘要，或document_refs指向的medical_documents记录。多条相同recordName的病历会放在medical_document_groups中：common_content按字段保存该组所有记录共有的一整段原文，records.unique_content按字段保存每条记录拼接后的独有原文，common_content_ref指向该组公共内容。判断某条病历时，将对应分组的common_content与该记录的unique_content合并理解。兼容旧上下文时可以读取内联structured_data或expense_summary。
 
 例如：
 
@@ -69,14 +80,17 @@ medical_documents是本次案件的共享病历证据库。只要病历内容与
 
 引用病历必须满足：
 
-- quote必须是recordContent中的连续原文；
+- quote默认必须是recordContent中的连续原文；如果原文过长，可以使用三个英文句点“...”或中文省略号“……”省略中间内容，但省略号前后的每个片段都必须逐字来自同一字段，并且按原文顺序出现；
 - 不得润色、改写、合并或补充原文；
+- 省略号只表示删除中间原文，不得用于替换、概括或编造文字；如果无法确认两端片段均来自原文，请改用更短的连续原文引用，不要猜测；
 - location填写原文所在字段，例如“月经史”“现病史”“出院医嘱”；
 - document_id和source必须与medical_documents一致。
 
 使用结构化数据时：
 
 - structured_data_refs只是当前事实与共享结构化记录的关联；必须到structured_data_pool中读取相同ID的完整记录；
+- expense_summary_refs只是当前事实与共享费用摘要的关联；必须到expense_summary_pool中读取相同ID的完整摘要；
+- medical_document_groups只按相同recordName分组；不得把不同recordName的内容当作同一类病历。引用病历时，document_id必须来自该组records，并且quote必须来自该组common_content或对应记录unique_content中的原文。
 - 同一条结构化记录可以被多个target_fact引用，但必须分别判断它是否支持各自的目标事实；
 - source必须从当前事实的query_result.source（或sources/source_list）中原样复制一个完整来源项；兼容旧数据时可保留来源编码与名称之间的空格差异，但不得改写来源名称、跨事实借用来源或填写上下文中没有的来源；
 - 同一事实可以有多个主要或次要来源，允许引用该事实query_result中已经返回的任一来源；但不能把另一个标签的来源拿来使用。例如“药品医嘱”不能借用“用药执行”标签的费用明细来源，即使二者属于同一个申诉命题；
@@ -197,6 +211,23 @@ medical_documents是本次案件的共享病历证据库。只要病历内容与
 - 其他情况为UNKNOWN。
 
 不得因为某个不影响最终表达式结果的分支为UNKNOWN或CONFLICTED，就强行把整体结果改成UNKNOWN或CONFLICTED。
+
+### 输出前的强制一致性检查
+
+输出JSON前必须按以下顺序执行，不能凭直觉填写overall_logic_status：
+
+1. 先完成全部fact_reviews；
+2. 再根据每个命题的REQUIRED事实和statement中的内部逻辑，填写proposition_reviews.status；
+3. 把proposition_reviews中的每个proposition_id及其status代入proposition_relation.expression；
+4. 严格按照上面的AND、OR、NOT规则计算唯一的组合结果；
+5. 将第4步结果原样填写到overall_logic_status；程序会再次按同一规则计算并以程序结果为准。
+
+特别注意：
+
+- expression为`P01`时，overall_logic_status必须与P01的proposition_reviews.status完全相同；
+- proposition_reviews为UNKNOWN时，不能把overall_logic_status写成NOT_SUPPORTED；
+- 只有命题状态为NOT_SUPPORTED，且表达式计算结果也是NOT_SUPPORTED时，才能输出NOT_SUPPORTED；
+- overall_logic_status不是模型自由判断字段，而是expression和proposition_reviews.status的确定性计算结果；即使填写错误，程序也会覆盖该字段，但其他依赖字段仍必须保持一致。
 
 ## 七、复核状态
 
@@ -367,3 +398,17 @@ review_status不是OPEN时，supplemental_evidence_requests必须为空数组。
 10. 不得把“未查询到”写成“明确不存在”；
 11. 不得把“相关文书已返回”写成“目标事实已得到证明”；
 12. reason使用简洁、可核验的中文，不写空泛结论。
+
+## 十二、输出长度控制
+
+复核结果供程序和后续Agent使用，必须尽量精简：
+
+1. 每个事实只引用证明该事实所需的最少证据；通常1项即可，只有需要对比或证明冲突时才引用2项以上；
+2. 不要重复引用同一病历原文或同一结构化记录；
+3. fact_reviews.reason控制在80个中文字符以内，直接说明“证据→判断”；
+4. proposition_reviews.reason控制在120个中文字符以内，只总结关键REQUIRED事实；
+5. final_conclusion.reason控制在150个中文字符以内；
+6. supplemental_evidence_requests.reason控制在100个中文字符以内；
+7. basis_quotes只保留能说明逻辑关系的最少原文，通常1项，不要复制整段病历；
+8. 不要在reason中重复quote全文、字段值列表或已经出现在evidence中的来源名称；
+9. 不要输出任何未在JSON结构中定义的字段、分析过程或解释。

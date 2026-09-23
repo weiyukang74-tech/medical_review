@@ -45,6 +45,7 @@ class OpenAICompatibleClient:
             "temperature": 0,
             "enable_thinking": False,
             "stream": True,
+            "max_tokens": self.settings.max_output_tokens,
             "messages": [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": user_prompt},

@@ -1,9 +1,19 @@
 from __future__ import annotations
 
 import re
+import sys
 import unicodedata
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Any
+
+_QUERY_PROGRAM_ROOT = Path(__file__).resolve().parents[2] / "查询程序"
+if str(_QUERY_PROGRAM_ROOT) not in sys.path:
+    sys.path.insert(0, str(_QUERY_PROGRAM_ROOT))
+from evidence_retriever.medical_compression import (
+    expand_group_document,
+    expand_medical_record_content,
+)
 
 
 FACT_STATUSES = {"SUPPORTED", "NOT_SUPPORTED", "UNKNOWN", "CONFLICTED"}
@@ -207,6 +217,7 @@ def validate_context(context: dict[str, Any]) -> None:
     proposition_ids: set[str] = set()
     fact_keys: set[tuple[str, str, str, str]] = set()
     all_document_refs: set[str] = set()
+    all_summary_refs: set[str] = set()
     all_structured_refs: set[str] = set()
     for index, raw_proposition in enumerate(propositions, start=1):
         proposition = _require_object(raw_proposition, f"propositions[{index}]")
@@ -234,6 +245,13 @@ def validate_context(context: dict[str, Any]) -> None:
             query_result = _require_object(evidence.get("query_result"), f"{key}.query_result")
             for document_ref in query_result.get("document_refs", []):
                 all_document_refs.add(_require_nonempty_string(document_ref, "document_ref"))
+            summary_refs = query_result.get("expense_summary_refs", [])
+            if not isinstance(summary_refs, list):
+                raise ReviewValidationError(f"{key}.query_result.expense_summary_refs必须是数组")
+            for summary_ref in summary_refs:
+                all_summary_refs.add(
+                    _require_nonempty_string(summary_ref, "expense_summary_ref")
+                )
             for structured_ref in query_result.get("structured_data_refs", []):
                 all_structured_refs.add(
                     _require_nonempty_string(structured_ref, "structured_data_ref")
@@ -251,6 +269,37 @@ def validate_context(context: dict[str, Any]) -> None:
         )
 
     documents = _require_list(context.get("medical_documents"), "medical_documents")
+    document_groups = _require_list(
+        context.get("medical_document_groups", []),
+        "medical_document_groups",
+    )
+    grouped_document_ids: set[str] = set()
+    for raw_group in document_groups:
+        group = _require_object(raw_group, "medical_document_groups项")
+        _require_nonempty_string(group.get("group_id"), "病历分组ID")
+        _require_nonempty_string(group.get("recordName"), "病历分组recordName")
+        common_content = group.get("common_content", {})
+        if not isinstance(common_content, (dict, list)):
+            raise ReviewValidationError("病历分组common_content必须是对象或数组")
+        records = _require_list(group.get("records"), "病历分组records")
+        for raw_record in records:
+            record = _require_object(raw_record, "病历分组records项")
+            document_id = _require_nonempty_string(
+                record.get("document_id"), "病历分组document_id"
+            )
+            if document_id in grouped_document_ids:
+                raise ReviewValidationError(f"病历分组document_id重复: {document_id}")
+            grouped_document_ids.add(document_id)
+            unique_content = record.get("unique_content", {})
+            if not isinstance(unique_content, (dict, list)):
+                raise ReviewValidationError("病历差异内容必须是对象或数组")
+    fragment_pool_raw = context.get("medical_fragment_pool", {})
+    fragment_pool = _require_object(fragment_pool_raw, "medical_fragment_pool")
+    for fragment_id, raw_fragment in fragment_pool.items():
+        _require_nonempty_string(fragment_id, "medical_fragment_pool片段ID")
+        fragment = _require_object(raw_fragment, f"medical_fragment_pool.{fragment_id}")
+        _require_nonempty_string(fragment.get("field"), "medical_fragment_pool.field")
+        _require_nonempty_string(fragment.get("text"), "medical_fragment_pool.text")
     document_ids: set[str] = set()
     for raw_document in documents:
         document = _require_object(raw_document, "medical_documents项")
@@ -259,15 +308,51 @@ def validate_context(context: dict[str, Any]) -> None:
             raise ReviewValidationError(f"document_id重复: {document_id}")
         document_ids.add(document_id)
         record_content = document.get("recordContent")
+        if record_content is None and document_id in grouped_document_ids:
+            continue
         if not isinstance(record_content, (dict, str)):
             raise ReviewValidationError(
                 f"{document_id}.recordContent必须是对象或字符串"
             )
+        if isinstance(record_content, dict) and record_content.get("__compressed__") is True:
+            fields = record_content.get("fields")
+            if not isinstance(fields, dict):
+                raise ReviewValidationError(f"{document_id}.recordContent.fields必须是对象")
+            for field_name, field_value in fields.items():
+                if not isinstance(field_value, dict):
+                    raise ReviewValidationError(
+                        f"{document_id}.recordContent.fields.{field_name}必须是对象"
+                    )
+                if "segments" in field_value:
+                    segments = field_value["segments"]
+                    if not isinstance(segments, list):
+                        raise ReviewValidationError(
+                            f"{document_id}.recordContent.fields.{field_name}.segments必须是数组"
+                        )
+                    for segment in segments:
+                        segment = _require_object(segment, "病历压缩片段")
+                        if "ref" in segment and str(segment["ref"]) not in fragment_pool:
+                            raise ReviewValidationError(
+                                f"病历压缩片段引用不存在: {segment['ref']}"
+                            )
+                        if "text" not in segment and "ref" not in segment:
+                            raise ReviewValidationError("病历压缩片段必须包含text或ref")
         if isinstance(record_content, str) and not record_content.strip():
             raise ReviewValidationError(f"{document_id}.recordContent不能为空")
     missing_documents = sorted(all_document_refs - document_ids)
     if missing_documents:
         raise ReviewValidationError(f"document_refs找不到对应病历: {missing_documents}")
+
+    summary_pool_raw = context.get("expense_summary_pool", {})
+    summary_pool = _require_object(summary_pool_raw, "expense_summary_pool")
+    for summary_id, raw_summary in summary_pool.items():
+        _require_nonempty_string(summary_id, "expense_summary_pool摘要ID")
+        _require_object(raw_summary, f"expense_summary_pool.{summary_id}")
+    missing_summaries = sorted(all_summary_refs - set(summary_pool))
+    if missing_summaries:
+        raise ReviewValidationError(
+            f"expense_summary_refs找不到对应摘要: {missing_summaries}"
+        )
 
     _require_list(context.get("program_checks"), "program_checks")
 
@@ -277,6 +362,8 @@ def _context_indexes(context: dict[str, Any]) -> tuple[
     dict[tuple[str, str, str, str], dict[str, Any]],
     dict[str, dict[str, Any]],
     dict[str, dict[str, Any]],
+    dict[str, dict[str, Any]],
+    dict[str, dict[str, str]],
 ]:
     propositions: dict[str, dict[str, Any]] = {}
     facts: dict[tuple[str, str, str, str], dict[str, Any]] = {}
@@ -289,8 +376,25 @@ def _context_indexes(context: dict[str, Any]) -> tuple[
         document["document_id"]: document
         for document in context["medical_documents"]
     }
+    groups = context.get("medical_document_groups", [])
+    groups_by_id = {
+        str(group.get("group_id")): group
+        for group in groups
+        if isinstance(group, dict)
+    }
+    for document_id, document in list(documents.items()):
+        if document.get("recordContent") is not None:
+            continue
+        group_id = document.get("group_id")
+        group = groups_by_id.get(str(group_id))
+        if group is not None:
+            expanded = expand_group_document(group, document_id)
+            if expanded is not None:
+                document["recordContent"] = expanded
     structured_pool = context.get("structured_data_pool", {})
-    return propositions, facts, documents, structured_pool
+    summary_pool = context.get("expense_summary_pool", {})
+    fragment_pool = context.get("medical_fragment_pool", {})
+    return propositions, facts, documents, structured_pool, summary_pool, fragment_pool
 
 
 def _logic_source_texts(context: dict[str, Any]) -> list[str]:
@@ -310,6 +414,28 @@ def _logic_source_texts(context: dict[str, Any]) -> list[str]:
 def _logic_quote_matches_source(quote: str, source_text: str) -> bool:
     if quote in source_text:
         return True
+    segments = [
+        segment.strip()
+        for segment in re.split(r"(?:\.\.\.|…+)", quote)
+        if segment.strip()
+    ]
+    if len(segments) < 2:
+        return False
+    position = 0
+    for segment in segments:
+        match_position = source_text.find(segment, position)
+        if match_position < 0:
+            return False
+        position = match_position + len(segment)
+    return True
+
+
+def _medical_quote_matches_source(quote: str, source_text: str) -> bool:
+    """Match an exact quote or ordered source fragments separated by ellipses."""
+    if quote in source_text:
+        return True
+    if not re.search(r"(?:\.\.\.|…+)", quote):
+        return False
     segments = [
         segment.strip()
         for segment in re.split(r"(?:\.\.\.|…+)", quote)
@@ -410,15 +536,29 @@ def _query_sources(query_result: dict[str, Any]) -> Any:
 def _structured_data(
     query_result: dict[str, Any],
     structured_pool: dict[str, dict[str, Any]],
+    summary_pool: dict[str, dict[str, Any]],
 ) -> Any:
-    """解析共享结构化数据引用，并兼容旧版内联记录。"""
+    """解析共享结构化数据、费用摘要引用，并兼容旧版内联记录。"""
+    data: list[Any] = []
     references = query_result.get("structured_data_refs")
     if isinstance(references, list):
-        return [
+        data.extend(
             structured_pool[reference]
             for reference in references
             if reference in structured_pool
-        ]
+        )
+    summary_references = query_result.get("expense_summary_refs")
+    if isinstance(summary_references, list):
+        data.extend(
+            summary_pool[reference]
+            for reference in summary_references
+            if reference in summary_pool
+        )
+    if data:
+        return data
+    expense_summary = query_result.get("expense_summary")
+    if isinstance(expense_summary, dict):
+        return [expense_summary]
     for key in ("structured_data", "data", "records"):
         value = query_result.get(key)
         if isinstance(value, (list, dict)):
@@ -431,6 +571,8 @@ def _validate_evidence_quote(
     fact_context: dict[str, Any],
     documents: dict[str, dict[str, Any]],
     structured_pool: dict[str, dict[str, Any]],
+    summary_pool: dict[str, dict[str, Any]],
+    fragment_pool: dict[str, dict[str, str]],
 ) -> None:
     source = _require_nonempty_string(evidence.get("source"), "evidence.source")
     evidence_type = evidence.get("evidence_type")
@@ -447,12 +589,18 @@ def _validate_evidence_quote(
             raise ReviewValidationError(f"引用了不存在的document_id: {document_id}")
         if not _source_matches(source, document.get("source")):
             raise ReviewValidationError(f"{document_id}的source与病历目录不一致")
-        record_content = document.get("recordContent")
+        record_content = expand_medical_record_content(
+            document.get("recordContent"),
+            fragment_pool,
+        )
         if isinstance(record_content, str):
             values = [record_content] if location in {"recordContent", "全文"} else []
         else:
             values = _find_location_values(record_content, location)
-        if not any(quote in str(value) for value in values):
+        if not any(
+            _medical_quote_matches_source(quote, str(value))
+            for value in values
+        ):
             raise ReviewValidationError(
                 f"病历原文中找不到引用: {document_id}/{location}/{quote}"
             )
@@ -471,7 +619,7 @@ def _validate_evidence_quote(
             f"{fact_label}的STRUCTURED证据source与查询结果不一致: "
             f"模型={source}，可用={available_sources}"
         )
-    structured_data = _structured_data(query_result, structured_pool)
+    structured_data = _structured_data(query_result, structured_pool, summary_pool)
     values = _find_location_values(structured_data, location)
     if not any(quote == str(value) for value in values):
         raise ReviewValidationError(
@@ -491,7 +639,14 @@ def validate_result(
     if result.get("review_round") != review_round:
         raise ReviewValidationError("模型输出review_round不正确")
 
-    propositions, facts, documents, structured_pool = _context_indexes(context)
+    (
+        propositions,
+        facts,
+        documents,
+        structured_pool,
+        summary_pool,
+        fragment_pool,
+    ) = _context_indexes(context)
     relation = _require_object(result.get("proposition_relation"), "proposition_relation")
     _require_exact_keys(relation, {"status", "expression", "basis_quotes"}, "proposition_relation")
     relation_status = relation.get("status")
@@ -562,6 +717,8 @@ def validate_result(
                 fact_context,
                 documents,
                 structured_pool,
+                summary_pool,
+                fragment_pool,
             )
         _require_nonempty_string(review.get("reason"), f"{key}.reason")
 
@@ -597,7 +754,10 @@ def validate_result(
         computed_status = evaluate_expression(parsed_expression, proposition_statuses)
         if overall_status != computed_status:
             raise ReviewValidationError(
-                f"overall_logic_status计算错误，模型={overall_status}，程序={computed_status}"
+                "overall_logic_status计算错误，"
+                f"expression={expression}，"
+                f"命题状态={proposition_statuses}，"
+                f"模型={overall_status}，程序={computed_status}"
             )
     elif overall_status != "UNKNOWN":
         raise ReviewValidationError("逻辑关系AMBIGUOUS时overall_logic_status必须为UNKNOWN")

@@ -22,6 +22,7 @@ DEFAULT_OUTPUT = POC_ROOT / "查询结果" / "查询结果.json"
 DEFAULT_REVIEW_CONTEXT_OUTPUT = POC_ROOT / "查询结果" / "复核上下文.json"
 DEFAULT_INDEX_OUTPUT = POC_ROOT / "查询结果" / "查询结果索引.json"
 DEFAULT_QUERY_PLAN_DIR = POC_ROOT / "查询规划结果"
+DEFAULT_STANDARD_VIEW_DICTIONARY = WORKSPACE_ROOT / "datat" / "标准病历视图.xlsx"
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -37,6 +38,12 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("--index-output", type=Path, default=DEFAULT_INDEX_OUTPUT)
     parser.add_argument("--query-plan-dir", type=Path, default=DEFAULT_QUERY_PLAN_DIR)
+    parser.add_argument(
+        "--standard-view-dictionary",
+        type=Path,
+        default=DEFAULT_STANDARD_VIEW_DICTIONARY,
+        help="标准病历视图字段字典Excel路径",
+    )
     parser.add_argument("--medins-id")
     parser.add_argument("--mdtrt-id")
     parser.add_argument("--rule-id")
@@ -185,7 +192,14 @@ def main(argv: list[str] | None = None) -> int:
                     else args.review_context_output.resolve()
                 )
                 _write_json(output_path, result)
-                _write_json(review_context_path, build_review_context(rule_evidence, result))
+                _write_json(
+                    review_context_path,
+                    build_review_context(
+                        rule_evidence,
+                        result,
+                        args.standard_view_dictionary.resolve(),
+                    ),
+                )
                 rules = result.get("rules", [result])
                 proposition_count = sum(len(rule["propositions"]) for rule in rules)
                 evidence_count = sum(

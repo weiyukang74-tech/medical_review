@@ -11,6 +11,8 @@
 - `temperature=0`；
 - JSON对象输出。
 
+默认最大输出为2400 tokens，可通过环境变量 `MODEL_MAX_OUTPUT_TOKENS` 调整。提示词要求证据和理由使用最小必要内容，以减少输出时间。
+
 程序优先读取当前目录的 `.env`。如果当前目录没有 `.env`，默认复用 `POC/规则证据Agent/.env`。也可以通过 `--env-file` 指定其他配置。
 
 ## 输入输出
@@ -70,4 +72,4 @@ C:\Users\weyk\anaconda3\python.exe -m review_agent `
 程序不会写死P01、P02、P03之间的关系。模型负责根据提示词输出通用逻辑表达式，程序只负责解析和计算。
 
 每次执行完成后，命令行会显示从发起模型调用到模型结果校验完成的整体输出时间。
-如果模型接口支持流式响应，还会显示每次模型调用的首Token耗时、Token/s、调用用时和输出Token数；接口未返回Token用量时，Token数和Token/s会标记为估算值。发生自动修复重试时，每次调用会分别显示。
+如果模型接口支持流式响应，还会显示模型调用的首Token耗时、Token/s、调用用时和输出Token数；接口未返回Token用量时，Token数和Token/s会标记为估算值。每次运行只执行一次逻辑上的模型生成。`overall_logic_status`由程序根据`expression`和`proposition_reviews`确定性计算并写入，不采用模型自行填写的值；如果其他字段未与计算结果保持一致，程序直接报错，不会再次调用模型自动修复。

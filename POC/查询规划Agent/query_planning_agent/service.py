@@ -81,7 +81,9 @@ class QueryPlanningService:
         candidate_facts: list[dict[str, Any]],
     ) -> dict[str, Any]:
         domain_facts = [
-            fact for fact in candidate_facts if fact.get("triggers_expense") is True
+            fact
+            for fact in candidate_facts
+            if fact.get("triggers_expense") is True
         ]
         if not domain_facts:
             return self.empty_plan(rule)
@@ -97,6 +99,7 @@ class QueryPlanningService:
             {
                 "fact_id": f"F{index:02d}",
                 **_copy_fact(fact),
+                "triggers_expense": fact.get("triggers_expense") is True,
             }
             for index, fact in enumerate(domain_facts, start=1)
         ]

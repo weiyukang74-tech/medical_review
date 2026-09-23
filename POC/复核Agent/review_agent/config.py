@@ -27,6 +27,7 @@ class Settings:
     enable_thinking: bool | None
     timeout_seconds: int
     max_retries: int
+    max_output_tokens: int
 
     @classmethod
     def from_env(cls) -> "Settings":
@@ -41,6 +42,7 @@ class Settings:
             enable_thinking=enable_thinking,
             timeout_seconds=int(os.getenv("MODEL_TIMEOUT_SECONDS", "120")),
             max_retries=int(os.getenv("MODEL_MAX_RETRIES", "2")),
+            max_output_tokens=int(os.getenv("MODEL_MAX_OUTPUT_TOKENS", "2400")),
         )
         settings.validate()
         return settings
@@ -52,5 +54,5 @@ class Settings:
             raise ValueError("MODEL_PARAM_SCALE 只能是 27B 或 32B")
         if self.response_format not in {"json_schema", "json_object", "prompt_only"}:
             raise ValueError("MODEL_RESPONSE_FORMAT 只能是 json_schema、json_object 或 prompt_only")
-        if self.timeout_seconds <= 0 or self.max_retries < 0:
-            raise ValueError("模型超时必须大于 0，重试次数不能小于 0")
+        if self.timeout_seconds <= 0 or self.max_retries < 0 or self.max_output_tokens <= 0:
+            raise ValueError("模型超时必须大于0，重试次数不能小于0，最大输出Token必须大于0")

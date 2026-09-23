@@ -87,6 +87,8 @@ def build_repair_prompt(
         + "不要解释错误，不要新增字段，不要改变输出结构。"
         + "basis_quotes只能从logic_basis_quote_sources某一项的text中逐字复制连续原文；"
         + "不得把statement与logic_notes拼接成新句子，也不得概括或添加连接语。\n"
+        + "病历证据quote默认逐字复制同一字段的连续原文；原文过长时可以用...或……省略中间内容，"
+        + "但省略号两侧的片段必须都来自同一字段且顺序一致，不得改写或猜测。\n"
         + "同一事实可以有多个主要或次要来源；如果该事实query_result.source（或sources/source_list）包含多个来源，"
         + "可以引用其中任意一个已经返回的完整来源项目，但不得改写来源名称。\n"
         + "每条证据只能使用同一proposition_id、一级证据域、二级证据标签和target_fact对应的来源；"
